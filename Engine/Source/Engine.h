@@ -3,12 +3,16 @@
 
 #include "App.h"
 
+#include "Graphics/Mesh.h"
+
 namespace Engine
 {
 	class Engine
 	{
 	private:
 		App::App app;
+
+		Mesh mesh;
 
 	public:
 		Engine(const App::AppData& appData);

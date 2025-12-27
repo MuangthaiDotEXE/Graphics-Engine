@@ -34,11 +34,9 @@ void App::App::Render()
 
 void App::App::Update()
 {
-	while (!window->ShouldClose() && running == true)
-	{
-		window->Update();
-		graphics.Update();
-	}
+	window->Update();
+	graphics.Update();
+	graphics.ViewportResize(window->GetWindow());
 }
 
 App::App& App::App::GetApplication()

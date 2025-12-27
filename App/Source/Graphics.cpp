@@ -27,3 +27,11 @@ void App::Graphics::Update()
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
+
+void App::Graphics::ViewportResize(GLFWwindow* window)
+{
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	glViewport(0, 0, width, height);
+}

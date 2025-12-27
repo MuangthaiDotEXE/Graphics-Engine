@@ -19,9 +19,10 @@ namespace App
 		Graphics();
 		virtual ~Graphics();
 
-		void LoadContexts();
 		void Render();
 		void Update();
+		void LoadContexts();
+		void ViewportResize(GLFWwindow* window);
 	};
 }
 

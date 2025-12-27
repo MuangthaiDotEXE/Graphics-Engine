@@ -4,11 +4,17 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <type_traits>
+#include <concepts>
 #include <string>
 #include <print>
+#include <format>
 #include <stdexcept>
 
 #include <glad/gl.h>
+
+template<typename T>
+concept string = std::is_same_v<T, std::string> || std::is_convertible_v<T, char*>;
 
 namespace Engine
 {

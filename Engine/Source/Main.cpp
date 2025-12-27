@@ -1,3 +1,6 @@
+#include <print>
+#include <stdexcept>
+
 #include "Engine.h"
 
 int main(int argc, char** argv)
@@ -7,7 +10,16 @@ int main(int argc, char** argv)
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 
-	Engine::Engine engine(engineData);
-	engine.Render();
-	engine.Update();
+	try
+	{
+		Engine::Engine engine(engineData);
+		engine.Render();
+		engine.Update();
+	}
+	catch (const std::exception& exception)
+	{
+		std::print("[Error] An exception was thrown: {}\n", exception.what());
+		
+		return 1;
+	}
 }

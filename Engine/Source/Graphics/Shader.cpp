@@ -5,7 +5,9 @@ std::string Engine::Shader::ReadFile(const std::string& path)
     std::ifstream file(path, std::ios::binary);
 
     if (!file)
-        throw std::exception("Failed to read file");
+    {
+        throw std::exception("Failed to open shader file");
+    }
 
     std::string content;
     file.seekg(0, std::ios::end);
@@ -16,7 +18,6 @@ std::string Engine::Shader::ReadFile(const std::string& path)
 
     return content;
 }
-
 
 Engine::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
