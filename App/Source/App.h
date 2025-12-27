@@ -31,6 +31,7 @@ namespace App
 		using durationMilliseconds = std::chrono::milliseconds;
 		*/
 
+	public:
 		std::unique_ptr<Window> window;
 		Graphics graphics;
 

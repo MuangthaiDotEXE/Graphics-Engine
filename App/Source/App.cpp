@@ -12,13 +12,15 @@ App::App::App(const AppData& appData = AppData())
 
 	window = std::make_unique<Window>(data.windowData);
 	graphics.LoadContexts();
+
+	running = true;
 }
 
 App::App::~App()
 {
 	running = false;
 
-	window->~Window();
+	window.reset();
 
 	app = nullptr;
 	free(app);

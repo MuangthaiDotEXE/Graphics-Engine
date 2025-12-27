@@ -1,4 +1,4 @@
-#include "App.h"
+#include "Engine.h"
 
 int main(int argc, char** argv)
 {
@@ -7,7 +7,7 @@ int main(int argc, char** argv)
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 
-	App::App engine(engineData);
+	Engine::Engine engine(engineData);
 	engine.Render();
 	engine.Update();
 }
