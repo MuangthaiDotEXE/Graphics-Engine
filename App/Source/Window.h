@@ -9,6 +9,7 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 
 namespace App
 {
@@ -31,11 +32,12 @@ namespace App
 		Window(const WindowData& windowData);
 		virtual ~Window();
 
-		void Render() const;
-		void Update() const;
+		void Render();
+		void Update();
 
 		[[nodiscard]] bool ShouldClose() const;
 		GLFWwindow* GetWindow() const;
+		glm::vec2 GetSize() const;
 	};
 }
 

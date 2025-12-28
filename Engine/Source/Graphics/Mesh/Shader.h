@@ -1,3 +1,5 @@
+#pragma once
+
 #ifndef SHADER_H
 #define SHADER_H
 
@@ -21,7 +23,8 @@ namespace Engine
 	class Shader
 	{
 	private:
-		std::string ReadFile(const std::string& path);
+		template<string T>
+		std::string ReadFile(const T& path);
 
 	public:
 		GLuint programID;

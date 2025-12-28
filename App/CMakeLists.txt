@@ -12,7 +12,10 @@ target_sources(App PRIVATE ${SOURCES})
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SOURCES})
 
-add_compile_definitions(GLFW_INCLUDE_NONE)
+add_compile_definitions(
+	GLFW_INCLUDE_NONE
+	GLM_ENABLE_EXPERIMENTAL
+)
 
 add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
 

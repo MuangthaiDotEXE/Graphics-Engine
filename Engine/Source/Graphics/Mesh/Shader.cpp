@@ -1,6 +1,7 @@
 #include "Shader.h"
 
-std::string Engine::Shader::ReadFile(const std::string& path)
+template<string T>
+std::string Engine::Shader::ReadFile(const T& path)
 {
     std::ifstream file(path, std::ios::binary);
 
@@ -30,15 +31,18 @@ Engine::Shader::Shader(const std::string& vertexPath, const std::string& fragmen
     GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexSource, NULL);
     glCompileShader(vertexShader);
+    Error(vertexShader, "Vertex Shader");
 
     GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentSource, NULL);
     glCompileShader(fragmentShader);
+    Error(fragmentShader, "Fragment Shader");
 
     programID = glCreateProgram();
     glAttachShader(programID, vertexShader);
     glAttachShader(programID, fragmentShader);
     glLinkProgram(programID);
+    Error(programID, "Shader Program");
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);

@@ -20,12 +20,12 @@ void App::Graphics::LoadContexts()
 
 void App::Graphics::Render()
 {
+	glEnable(GL_DEPTH_TEST);
 }
 
 void App::Graphics::Update()
 {
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void App::Graphics::ViewportResize(GLFWwindow* window)

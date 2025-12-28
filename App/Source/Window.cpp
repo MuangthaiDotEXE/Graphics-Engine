@@ -43,12 +43,12 @@ App::Window::~Window()
 	glfwTerminate();
 }
 
-void App::Window::Render() const
+void App::Window::Render()
 {
 	glfwShowWindow(window);
 }
 
-void App::Window::Update() const
+void App::Window::Update()
 {
 	glfwSwapBuffers(window);
 	glfwPollEvents();
@@ -67,4 +67,12 @@ GLFWwindow* App::Window::GetWindow() const
 	}
 
 	return this->window;
+}
+
+glm::vec2 App::Window::GetSize() const
+{
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+
+	return glm::vec2(width, height);
 }

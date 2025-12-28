@@ -5,7 +5,7 @@
 
 ### Features
 - Windowing system
-- OpenGL Graphics API rendering system
+- 3 Dimensional OpenGL Graphics API rendering system
 
 ### License
 For more information about license. Please refer to [LICENSE.txt](https://github.com/MuangthaiDotPNG/Graphics-Engine/blob/main/LICENSE.txt)
