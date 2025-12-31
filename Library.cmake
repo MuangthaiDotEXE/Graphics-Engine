@@ -22,6 +22,7 @@ endif()
 find_package(OpenGL REQUIRED)
 
 include_directories("Library/glad/include")
+include_directories("Library/stb")
 
 find_package(glm QUIET)
 if (NOT glm_FOUND)

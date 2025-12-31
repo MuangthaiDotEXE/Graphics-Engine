@@ -7,7 +7,7 @@
 
 #include "VBO.h"
 
-namespace Engine
+namespace App
 {
 	class VAO
 	{

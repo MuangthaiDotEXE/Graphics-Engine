@@ -5,6 +5,17 @@ set(SOURCES
 	 "Source/Window.cpp"
 	 "Source/Graphics.h" 
 	 "Source/Graphics.cpp"
+	 "Source/Shader.h"
+	 "Source/Shader.cpp"
+	 "Source/VAO.h"
+	 "Source/VAO.cpp"
+	 "Source/VBO.h"
+	 "Source/VBO.cpp"
+	 "Source/EBO.h"
+	 "Source/EBO.cpp"
+	 "Source/Texture.h"
+	 "Source/Texture.cpp"
+	 "Source/stb.cpp"
 )
 
 add_library(App STATIC)

@@ -2,15 +2,15 @@
 
 GLfloat vertices[] =
 {
-	// meshPosition        // meshColor
-	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,
-	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,
-	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,
-	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,
-	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,
-	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,
-	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,
-	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,
+	// meshPosition		   // meshColor			// meshTexture
+	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,	0.0f, 1.0f,
+	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,	1.0f, 0.0f,
+	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,	1.0f, 0.0f,
+	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,	0.0f, 0.0f,
+	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,	0.0f, 1.0f,
+	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,	1.0f, 1.0f,
+	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,	1.0f, 0.0f,
+	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,	0.0f, 0.0f
 };
 
 GLuint indices[] =
@@ -35,34 +35,44 @@ GLuint indices[] =
 	2, 7, 6
 };
 
+std::string textureImages[6] =
+{
+	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png"
+};
+
 Engine::Mesh::Mesh()
-	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"), vao(), vbo(vertices, sizeof(vertices)), ebo(indices, sizeof(indices))
+	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag")
+	, vao(), vbo(vertices, sizeof(vertices)), ebo(indices, sizeof(indices)), texture()
 {
 	vao.Bind();
 	vbo.Bind();
 	ebo.Bind();
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 6 * sizeof(float), (void*)0);
-	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
+	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 
 	vao.Unbind();
 	vbo.Unbind();
 	ebo.Unbind();
+
+	textures = texture.Initialize(textureImages, sizeof(textureImages) / sizeof(std::string), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	texture.textureUnit(shader, "textureSampler", 0);
 }
 
 Engine::Mesh::~Mesh()
 {
-	shader.Delete();
-	vao.~VAO();
-	vbo.~VBO();
-	ebo.~EBO();
 }
 
 void Engine::Mesh::Render()
 {
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::mat4 model = glm::mat4(1.0f);
-	model = glm::translate(model, position);
+	model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
 
 	shader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(model));
@@ -75,7 +85,12 @@ void Engine::Mesh::Render()
 void Engine::Mesh::Update()
 {
 	shader.Activate();
+	texture.Bind();
 	vao.Bind();
 
-	glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)0);
+	for (int i = 0; i < sizeof(textureImages) / sizeof(GLuint); i++)
+	{
+		glBindTexture(GL_TEXTURE_2D, textures[i]);
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(GLuint)));
+	}
 }

@@ -23,7 +23,7 @@ void Engine::Camera::UpdateMatrix(GLFWwindow* window, float fov, float nearPlane
 	cameraMatrix = projection * view;
 }
 
-void Engine::Camera::Matrix(const Shader& shader, const std::string& uniform)
+void Engine::Camera::Matrix(const App::Shader& shader, const std::string& uniform)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shader.programID, uniform.c_str()), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }

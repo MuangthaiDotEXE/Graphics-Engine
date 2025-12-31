@@ -1,7 +1,7 @@
 #include "Shader.h"
 
 template<string T>
-std::string Engine::Shader::ReadFile(const T& path)
+std::string App::Shader::ReadFile(const T& path)
 {
     std::ifstream file(path, std::ios::binary);
 
@@ -20,7 +20,7 @@ std::string Engine::Shader::ReadFile(const T& path)
     return content;
 }
 
-Engine::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
+App::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
     std::string vertexCode = ReadFile(vertexPath);
     std::string fragmentCode = ReadFile(fragmentPath);
@@ -48,22 +48,22 @@ Engine::Shader::Shader(const std::string& vertexPath, const std::string& fragmen
     glDeleteShader(fragmentShader);
 }
 
-Engine::Shader::~Shader()
+App::Shader::~Shader()
 {
     Delete();
 }
 
-void Engine::Shader::Activate()
+void App::Shader::Activate()
 {
     glUseProgram(programID);
 }
 
-void Engine::Shader::Delete()
+void App::Shader::Delete()
 {
     glDeleteProgram(programID);
 }
 
-void Engine::Shader::Error(GLuint shader, const std::string& type)
+void App::Shader::Error(GLuint shader, const std::string& type)
 {
     GLint compiled;
     char infoLog[1024];

@@ -4,8 +4,12 @@
 </div>
 
 ### Features
-- Windowing system
-- 3 Dimensional OpenGL Graphics API rendering system
+- Multi-platform windowing system
+- 3 Dimensional OpenGL graphics API rendering system with vertex and fragment shader
+- Image texture reading support
+
+### Credits
+- For more information about contributors and their roles. Please refer to [CREDITS.md](CREDITS.md)
 
 ### License
-For more information about license. Please refer to [LICENSE.txt](https://github.com/MuangthaiDotPNG/Graphics-Engine/blob/main/LICENSE.txt)
+- For more information about license. Please refer to [LICENSE.txt](LICENSE.txt)

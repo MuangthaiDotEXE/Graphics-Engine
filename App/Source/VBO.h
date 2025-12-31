@@ -5,7 +5,7 @@
 
 #include <glad/gl.h>
 
-namespace Engine
+namespace App
 {
 	class VBO
 	{

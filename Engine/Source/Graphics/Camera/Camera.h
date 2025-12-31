@@ -13,7 +13,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "../Mesh/Shader.h"
+#include "Shader.h"
 
 namespace Engine
 {
@@ -42,7 +42,7 @@ namespace Engine
 		virtual ~Camera();
 
 		void UpdateMatrix(GLFWwindow* window, float fov, float nearPlane, float farPlane);
-		void Matrix(const Shader& shader, const std::string& uniform);
+		void Matrix(const App::Shader& shader, const std::string& uniform);
 		void Inputs(GLFWwindow* window);	// Temporary input. Input class will be added later
 	};
 }

@@ -18,7 +18,7 @@
 template<typename T>
 concept string = std::is_same_v<T, std::string> || std::is_convertible_v<T, char*>;
 
-namespace Engine
+namespace App
 {
 	class Shader
 	{

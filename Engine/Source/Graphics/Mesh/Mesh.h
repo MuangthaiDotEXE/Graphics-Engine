@@ -12,18 +12,21 @@
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
+#include "Texture.h"
 
 namespace Engine
 {
 	class Mesh
 	{
 	public:
-		Shader shader;
+		App::Shader shader;
 
 	private:
-		VAO vao;
-		VBO vbo;
-		EBO ebo;
+		App::VAO vao;
+		App::VBO vbo;
+		App::EBO ebo;
+		App::Texture texture;
+		GLuint* textures;
 
 	public:
 		Mesh();
