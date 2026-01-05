@@ -14,7 +14,6 @@ void Engine::Camera::UpdateMatrix(GLFWwindow* window, float fov, float nearPlane
 	view = glm::mat4(1.0f);
 	projection = glm::mat4(1.0f);
 
-	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 
 	view = glm::lookAt(position, position + orientation, up);
