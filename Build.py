@@ -23,10 +23,10 @@ def main() -> None:
 if __name__ == "__main__":
     start_time: float = time.perf_counter()
 
-    print(f" --- Building project '{os.path.basename(os.getcwd())}' with Python {platform.python_version()} --- \n")
+    print(f"\n --- Building project '{os.path.basename(os.getcwd())}' with Python {platform.python_version()} --- \n")
     main()
 
     end_time: float = time.perf_counter()
     elapsed_time = end_time - start_time
 
-    print(f"\n --- Build completed with the time of {elapsed_time:.4f} seconds --- ")
+    print(f"\n --- Build completed with the time of {elapsed_time:.3f} seconds --- \0")

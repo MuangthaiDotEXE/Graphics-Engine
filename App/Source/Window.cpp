@@ -6,7 +6,7 @@ App::Window::Window(const WindowData& windowData = WindowData())
 	glfwInit();
 	if (!glfwInit())
 	{
-		throw std::exception("Failed to initialize window");
+		throw std::exception("Failed to initialize window (GLFW windowing API)");
 	}
 
 	glfwDefaultWindowHints();
@@ -24,12 +24,14 @@ App::Window::Window(const WindowData& windowData = WindowData())
 	window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
 	if (window == nullptr || !window)
 	{
-		throw std::exception("Failed to create window");
+		throw std::exception("Failed to create window (GLFW windowing API)");
 	}
 
 	glfwMakeContextCurrent(window);
 
 	glfwSwapInterval(data.vSync);
+
+	SetCenter();
 
 	if (glfwRawMouseMotionSupported())
 		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
@@ -63,7 +65,7 @@ GLFWwindow* App::Window::GetWindow() const
 {
 	if (window == nullptr || !window)
 	{
-		throw std::exception("Unable to return window because window does not exist.");
+		throw std::exception("Unable to return window because window does not exist (GLFW windowing API)");
 	}
 
 	return this->window;
@@ -75,4 +77,57 @@ glm::vec2 App::Window::GetSize() const
 	glfwGetWindowSize(window, &width, &height);
 
 	return glm::vec2(width, height);
+}
+
+void App::Window::SetCenter()
+{
+	int windowX, windowY;
+	glfwGetWindowPos(window, &windowX, &windowY);
+
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
+	windowWidth *= 0.5;
+	windowHeight *= 0.5;
+
+	windowX += windowWidth;
+	windowY += windowHeight;
+
+	int monitorsLength;
+	GLFWmonitor** monitors = glfwGetMonitors(&monitorsLength);
+	if (monitors == nullptr)
+		return;
+
+	GLFWmonitor* monitor = nullptr;
+	int monitorX, monitorY, monitorWidth, monitorHeight;
+
+	for (int i = 0; i < monitorsLength; i++)
+	{
+		int monitorsX, monitorsY;
+		glfwGetMonitorPos(monitors[i], &monitorsX, &monitorsY);
+
+		int monitorsWidth, monitorsHeight;
+		GLFWvidmode* monitorVideoMode = (GLFWvidmode*)glfwGetVideoMode(monitors[i]);
+		if (monitorVideoMode == nullptr)
+			continue;
+		else
+		{
+			monitorsWidth = monitorVideoMode->width;
+			monitorsHeight = monitorVideoMode->height;
+		}
+
+		if ((windowX > monitorsX && windowX < (monitorsX + monitorsWidth)) && (windowY > monitorsY && windowY < (monitorsY + monitorsHeight)))
+		{
+			monitor = monitors[i];
+
+			monitorX = monitorsX;
+			monitorY = monitorsY;
+
+			monitorWidth = monitorsWidth;
+			monitorHeight = monitorsHeight;
+		}
+	}
+
+	if (monitor != nullptr)
+		glfwSetWindowPos(window, monitorX + (monitorWidth * 0.5) - windowWidth, monitorY + (monitorHeight * 0.5) - windowHeight);
 }

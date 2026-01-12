@@ -38,6 +38,7 @@ namespace App
 		[[nodiscard]] bool ShouldClose() const;
 		GLFWwindow* GetWindow() const;
 		glm::vec2 GetSize() const;
+		void SetCenter();
 	};
 }
 

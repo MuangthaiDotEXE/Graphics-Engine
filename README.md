@@ -5,7 +5,7 @@
 
 ### Features
 - Multi-platform windowing system
-- 3 Dimensional OpenGL graphics API rendering system with vertex and fragment shader
+- 3 Dimensional OpenGL graphics API rendering system with vertex shader and fragment shader
 - Image texture reading support
 
 ### Credits

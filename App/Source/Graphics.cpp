@@ -14,7 +14,7 @@ void App::Graphics::LoadContexts()
 
 	if (version == 0)
 	{
-		throw std::exception("Failed to load OpenGL contexts");
+		throw std::exception("Failed to load OpenGL contexts (OpenGL graphics API)");
 	}
 }
 
