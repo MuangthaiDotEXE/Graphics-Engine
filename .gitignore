@@ -4,6 +4,9 @@
 # Visual Studio Code
 .vscode/
 
+# JetBrains
+.idea/
+
 # CMake
 CMakeLists.txt.user
 CMakeCache.txt

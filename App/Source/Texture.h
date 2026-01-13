@@ -3,6 +3,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+#include <iostream>
+#include <filesystem>
 #include <string>
 
 #include <glad/gl.h>

@@ -28,6 +28,20 @@ void App::Graphics::Update()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void App::Graphics::Framerate()
+{
+	double currentTime = glfwGetTime();
+	frameCount++;
+
+	if (currentTime - previousTime >= 1.0)
+	{
+		std::print("FPS: {}\n", frameCount);
+
+		frameCount = 0;
+		previousTime = currentTime;
+	}
+}
+
 void App::Graphics::ViewportResize(GLFWwindow* window)
 {
 	int width, height;

@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine::Engine(const App::AppData& appData)
-	: app(appData), mesh(), camera(app.window->GetSize(), glm::vec3(0.0f, 0.0f, 5.0f))
+	: app(appData), mesh(), camera(app.window->GetFramebufferSize(), glm::vec3(0.0f, 0.0f, 5.0f))
 {
 }
 

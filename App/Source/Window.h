@@ -28,17 +28,25 @@ namespace App
 		GLFWwindow* window;
 		WindowData data;
 
+		double toggleTime = 0.0;
+		const double debounceTime = 0.15;
+
 	public:
 		Window(const WindowData& windowData);
 		virtual ~Window();
 
+		void Input();
 		void Render();
 		void Update();
 
 		[[nodiscard]] bool ShouldClose() const;
 		GLFWwindow* GetWindow() const;
-		glm::vec2 GetSize() const;
+		glm::vec2 GetWindowSize() const;
+		glm::vec2 GetFramebufferSize() const;
+
+	private:
 		void SetCenter();
+		void Fullscreen();
 	};
 }
 

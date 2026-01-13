@@ -2,52 +2,78 @@
 
 GLfloat vertices[] =
 {
-	// meshPosition		   // meshColor			// meshTexture
-	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,	0.0f, 1.0f,
-	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,	1.0f, 0.0f,
-	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,	1.0f, 0.0f,
-	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,	0.0f, 0.0f,
-	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,	0.0f, 1.0f,
-	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,	1.0f, 1.0f,
-	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,	1.0f, 0.0f,
-	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,	0.0f, 0.0f
+	// meshPosition		   // meshColor		   // meshTexture
+	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Front face top left vertex
+	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // Front face top right vertex
+	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Front face bottom right vertex
+	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // Front face bottom left vertex
+
+	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Right face top left vertex
+	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // Right face top right vertex
+	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // Right face bottom right vertex
+	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // Right face bottom left vertex
+
+	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,   // Back face top left vertex
+	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // Back face top right vertex
+	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // Back face bottom right vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // Back face bottom left vertex
+
+	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // Left face top left vertex
+	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Left face top right vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Left face bottom right vertex
+	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // Left face bottom left vertex
+
+	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Top face top left vertex
+	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Top face top right vertex
+	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // Top face bottom right vertex
+	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Top face bottom left vertex
+
+	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // Bottom face top left vertex
+	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Bottom face top right vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Bottom face bottom right vertex
+	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f    // Bottom face bottom left vertex
 };
 
 GLuint indices[] =
 {
 	// Front face
-	0, 1, 3,
-	1, 2, 3,
+	 0,  1,  3,
+	 1,  2,  3,
+
 	// Right face
-	1, 4, 2,
-	4, 7, 2,
-	//Back face
-	4, 5, 7,
-	5, 6, 7,
+	 4,  5,  7,
+	 5,  6,  7,
+
+	// Back face
+	 8,  9, 11,
+	 9, 10, 11,
+
 	// Left face
-	5, 0, 6,
-	0, 3, 6,
+	12, 13, 15,
+	13, 14, 15,
+
 	// Top face
-	5, 4, 0,
-	4, 1, 0,
+	16, 17, 19,
+	17, 18, 19,
+
 	// Bottom face
-	3, 2, 6,
-	2, 7, 6
+	20, 21, 23,
+	21, 22, 23
 };
 
-std::string textureImages[6] =
+std::string textureImages[] =
 {
-	ProjectDirectory "/Asset/Texture/Texture.png"
-	ProjectDirectory "/Asset/Texture/Texture.png"
-	ProjectDirectory "/Asset/Texture/Texture.png"
-	ProjectDirectory "/Asset/Texture/Texture.png"
-	ProjectDirectory "/Asset/Texture/Texture.png"
+	ProjectDirectory "/Asset/Texture/Texture.png",
+	ProjectDirectory "/Asset/Texture/Texture.png",
+	ProjectDirectory "/Asset/Texture/Texture.png",
+	ProjectDirectory "/Asset/Texture/Texture.png",
+	ProjectDirectory "/Asset/Texture/Texture.png",
 	ProjectDirectory "/Asset/Texture/Texture.png"
 };
 
 Engine::Mesh::Mesh()
-	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag")
-	, vao(), vbo(vertices, sizeof(vertices)), ebo(indices, sizeof(indices)), texture()
+	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"), 
+	vao(), vbo(vertices, sizeof(vertices)), ebo(indices, sizeof(indices)), texture()
 {
 	vao.Bind();
 	vbo.Bind();
@@ -88,9 +114,9 @@ void Engine::Mesh::Update()
 	texture.Bind();
 	vao.Bind();
 
-	for (int i = 0; i < sizeof(textureImages) / sizeof(GLuint); i++)
+	for (int i = 0; i < sizeof(textureImages) / sizeof(std::string); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(GLuint)));
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(unsigned int)));
 	}
 }

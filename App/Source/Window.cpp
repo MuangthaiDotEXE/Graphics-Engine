@@ -24,6 +24,7 @@ App::Window::Window(const WindowData& windowData = WindowData())
 	window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
 	if (window == nullptr || !window)
 	{
+		glfwTerminate();
 		throw std::exception("Failed to create window (GLFW windowing API)");
 	}
 
@@ -43,6 +44,33 @@ App::Window::~Window()
 		glfwDestroyWindow(window);
 
 	glfwTerminate();
+}
+
+void App::Window::Input()
+{
+	// Mouse
+	{
+		
+	}
+
+	// Keyboard
+	{
+		double currentTime = glfwGetTime();
+
+		if (currentTime - toggleTime > debounceTime)
+		{
+			if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
+			{
+				Fullscreen();
+				toggleTime = currentTime;
+			}
+			if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+			{
+				glfwSetWindowShouldClose(window, true);
+				toggleTime = currentTime;
+			}
+		}
+	}
 }
 
 void App::Window::Render()
@@ -71,10 +99,18 @@ GLFWwindow* App::Window::GetWindow() const
 	return this->window;
 }
 
-glm::vec2 App::Window::GetSize() const
+glm::vec2 App::Window::GetWindowSize() const
 {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
+
+	return glm::vec2(width, height);
+}
+
+glm::vec2 App::Window::GetFramebufferSize() const
+{
+	int width, height;
+	glfwGetFramebufferSize(window, &width, &height);
 
 	return glm::vec2(width, height);
 }
@@ -130,4 +166,23 @@ void App::Window::SetCenter()
 
 	if (monitor != nullptr)
 		glfwSetWindowPos(window, monitorX + (monitorWidth * 0.5) - windowWidth, monitorY + (monitorHeight * 0.5) - windowHeight);
+}
+
+void App::Window::Fullscreen()
+{
+	if (glfwGetWindowMonitor(window) == nullptr)
+	{
+		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* videoMode = (GLFWvidmode*)glfwGetVideoMode(monitor);
+		glfwSetWindowMonitor(window, monitor, 0, 0, videoMode->width, videoMode->height, videoMode->refreshRate);
+
+		glfwSwapBuffers(window);
+	}
+	else
+	{
+		glfwSetWindowMonitor(window, nullptr, 0, 0, data.width, data.height, 0);
+		Window::SetCenter();
+
+		glfwSwapBuffers(window);
+	}
 }

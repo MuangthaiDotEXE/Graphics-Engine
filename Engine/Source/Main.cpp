@@ -9,6 +9,7 @@ int main(int argc, char** argv)
 	engineData.name = "Graphics Engine";
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
+	engineData.windowData.vSync = true;
 
 	try
 	{
