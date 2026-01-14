@@ -37,7 +37,6 @@ void App::App::Update()
 	window->Input();
 	window->Update();
 	graphics.Update();
-	graphics.Framerate();
 	graphics.ViewportResize(window->GetWindow());
 }
 

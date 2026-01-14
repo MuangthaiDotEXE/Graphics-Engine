@@ -7,6 +7,7 @@ int main(int argc, char** argv)
 {
 	App::AppData engineData {};
 	engineData.name = "Graphics Engine";
+	engineData.version = { 1, 0, 0 };
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.vSync = true;

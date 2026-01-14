@@ -117,6 +117,6 @@ void Engine::Mesh::Update()
 	for (int i = 0; i < sizeof(textureImages) / sizeof(std::string); i++)
 	{
 		glBindTexture(GL_TEXTURE_2D, textures[i]);
-		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(unsigned int)));
+		glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(GLuint), GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(GLuint)));
 	}
 }

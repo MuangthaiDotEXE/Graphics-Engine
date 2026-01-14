@@ -30,8 +30,21 @@ void Engine::Camera::Matrix(const App::Shader& shader, const std::string& unifor
 	glUniformMatrix4fv(glGetUniformLocation(shader.programID, uniform.c_str()), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-void Engine::Camera::Inputs(GLFWwindow* window)
+void Engine::Camera::Framerate()
 {
+	double currentFrame = glfwGetTime();
+
+	deltaTime = currentFrame - previousFrame;
+	previousFrame = currentFrame;
+
+	fps = 1.0f / deltaTime;
+}
+
+void Engine::Camera::Inputs(GLFWwindow* window, App::Graphics& graphics)
+{
+	Framerate();
+	speed = walkSpeed * deltaTime * (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? sprintSpeed : 1.0f);
+
 	// Keyboard
 	{
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
@@ -57,14 +70,6 @@ void Engine::Camera::Inputs(GLFWwindow* window)
 		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
 		{
 			position -= speed * up;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
-		{
-			speed = sprintSpeed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
-		{
-			speed = walkSpeed;
 		}
 	}
 

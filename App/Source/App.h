@@ -3,6 +3,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include <array>
 #include <memory>
 #include <assert.h>
 #include <chrono>
@@ -16,20 +17,15 @@ namespace App
 	struct AppData
 	{
 		std::string name = "App";
+		std::array<int, 3> version;
 		WindowData windowData;
 	};
-
+	
 	class App
 	{
 	private:
 		AppData data;
 		bool running;
-
-		/* TODO: Add FPS system
-		using clock = std::chrono::steady_clock;
-		using timePoint = clock::time_point;
-		using durationMilliseconds = std::chrono::milliseconds;
-		*/
 
 	public:
 		std::unique_ptr<Window> window;

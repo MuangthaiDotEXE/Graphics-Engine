@@ -20,16 +20,12 @@ namespace App
 	private:
 		int version;
 
-		double previousTime = glfwGetTime();
-		int frameCount = 0;
-
 	public:
 		Graphics();
 		virtual ~Graphics();
 
 		void Render();
 		void Update();
-		void Framerate();
 		void LoadContexts();
 		void ViewportResize(GLFWwindow* window);
 	};

@@ -28,7 +28,7 @@ void Engine::Engine::Update()
 
 		mesh.Update();
 
-		camera.Inputs(app.window->GetWindow());
+		camera.Inputs(app.window->GetWindow(), app.graphics);
 		camera.UpdateMatrix(app.window->GetWindow(), 70.0f, 0.0001f, 100.0f);
 		camera.Matrix(mesh.shader, "cameraMatrix");
 	}

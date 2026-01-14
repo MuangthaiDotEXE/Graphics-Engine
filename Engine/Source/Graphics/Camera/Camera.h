@@ -3,6 +3,7 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
+#include <print>
 #include <string>
 
 #include <glad/gl.h>
@@ -13,6 +14,7 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
+#include "Graphics.h"
 #include "Shader.h"
 
 namespace Engine
@@ -32,10 +34,14 @@ namespace Engine
 
 		int width, height;
 
-		float walkSpeed = 0.1f;
-		float sprintSpeed = walkSpeed * 2.5f;
 		float speed;
+		const float walkSpeed = 10.0f;
+		const float sprintSpeed = 2.5f;
 		float sensitivity = 100.0f;
+
+		float previousFrame;
+		float deltaTime = 0.0f;
+		double fps;
 
 	public:
 		Camera(glm::vec2 size, glm::vec3 position);
@@ -43,7 +49,10 @@ namespace Engine
 
 		void UpdateMatrix(GLFWwindow* window, float fov, float nearPlane, float farPlane);
 		void Matrix(const App::Shader& shader, const std::string& uniform);
-		void Inputs(GLFWwindow* window);	// Temporary input. Input class will be added later
+		void Inputs(GLFWwindow* window, App::Graphics& graphics);	// Temporary input. Input class will be added later
+		
+	private:
+		void Framerate();
 	};
 }
 
