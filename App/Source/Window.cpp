@@ -50,7 +50,7 @@ void App::Window::Input()
 {
 	// Mouse
 	{
-		
+		// Empty for now
 	}
 
 	// Keyboard

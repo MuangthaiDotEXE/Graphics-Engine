@@ -3,34 +3,34 @@
 GLfloat vertices[] =
 {
 	// meshPosition		   // meshColor		   // meshTexture
-	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Front face top left vertex
+	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // Front face top left vertex
 	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // Front face top right vertex
-	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Front face bottom right vertex
-	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // Front face bottom left vertex
+	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,   1.0f, 0.0f,   // Front face bottom right vertex
+	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Front face bottom left vertex
 
-	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Right face top left vertex
-	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // Right face top right vertex
-	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // Right face bottom right vertex
+	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // Right face top left vertex
+	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   1.0f, 1.0f,   // Right face top right vertex
+	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   1.0f, 0.0f,   // Right face bottom right vertex
 	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // Right face bottom left vertex
 
-	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   0.0f, 1.0f,   // Back face top left vertex
-	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // Back face top right vertex
+	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // Back face top left vertex
+	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Back face top right vertex
 	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // Back face bottom right vertex
-	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // Back face bottom left vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   0.0f, 0.0f,   // Back face bottom left vertex
 
 	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // Left face top left vertex
-	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Left face top right vertex
-	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Left face bottom right vertex
-	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 0.0f,   // Left face bottom left vertex
+	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Left face top right vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // Left face bottom right vertex
+	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Left face bottom left vertex
 
-	-1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Top face top left vertex
-	 1.0f,  1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f,   // Top face top right vertex
+	-1.0f,  1.0f, -1.0f,   0.0f, 1.0f, 0.0f,   0.0f, 1.0f,   // Top face top left vertex
+	 1.0f,  1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Top face top right vertex
 	 1.0f,  1.0f,  1.0f,   1.0f, 1.0f, 1.0f,   1.0f, 0.0f,   // Top face bottom right vertex
-	-1.0f,  1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f,   // Top face bottom left vertex
+	-1.0f,  1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 0.0f,   // Top face bottom left vertex
 
-	-1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 1.0f,   0.0f, 1.0f,   // Bottom face top left vertex
-	 1.0f, -1.0f,  1.0f,   0.0f, 1.0f, 0.0f,   1.0f, 1.0f,   // Bottom face top right vertex
-	 1.0f, -1.0f, -1.0f,   1.0f, 1.0f, 0.0f,   1.0f, 0.0f,   // Bottom face bottom right vertex
+	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,   // Bottom face top left vertex
+	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,   1.0f, 1.0f,   // Bottom face top right vertex
+	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,   // Bottom face bottom right vertex
 	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f    // Bottom face bottom left vertex
 };
 

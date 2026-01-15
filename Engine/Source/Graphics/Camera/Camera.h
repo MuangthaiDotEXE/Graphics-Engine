@@ -3,7 +3,6 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include <print>
 #include <string>
 
 #include <glad/gl.h>
