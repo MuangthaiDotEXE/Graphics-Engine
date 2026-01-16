@@ -7,8 +7,13 @@ App::App::App(const AppData& appData = AppData())
 {
 	app = this;
 
-	if (data.windowData.title.empty() || !data.name.empty())
-		data.windowData.title = data.name;
+	// version system: major, minor, patch
+	std::string version = std::format("v{}.{}.{}", appData.version[0], appData.version[1], appData.version[2]);
+
+	if (data.windowData.title.empty() || (!data.name.empty() || !data.version.empty()))
+	{
+		data.windowData.title = data.name + " " + version;
+	}
 
 	window = std::make_unique<Window>(data.windowData);
 	graphics.LoadContexts();

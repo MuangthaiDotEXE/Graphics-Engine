@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <chrono>
 #include <string>
+#include <format>
 
 #include "Window.h"
 #include "Graphics.h"
@@ -17,7 +18,7 @@ namespace App
 	struct AppData
 	{
 		std::string name = "App";
-		std::array<int, 3> version;
+		std::array<int, 3> version = { 0, 0, 0 };
 		WindowData windowData;
 	};
 	

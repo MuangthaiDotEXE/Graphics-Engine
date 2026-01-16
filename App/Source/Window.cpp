@@ -1,9 +1,17 @@
 #include "Window.h"
 
+static void ErrorCallback(int error, const char* description)
+{
+	fprintf(stderr, "Error: %s\n", description);
+}
+
 App::Window::Window(const WindowData& windowData = WindowData())
 	: data(windowData)
 {
 	glfwInit();
+
+	glfwSetErrorCallback(ErrorCallback);
+
 	if (!glfwInit())
 	{
 		throw std::exception("Failed to initialize window (GLFW windowing API)");
@@ -33,7 +41,7 @@ App::Window::Window(const WindowData& windowData = WindowData())
 	glfwSwapInterval(data.vSync);
 
 	SetCenter();
-
+	
 	if (glfwRawMouseMotionSupported())
 		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 }
