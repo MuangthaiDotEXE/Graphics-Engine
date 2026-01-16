@@ -7,21 +7,19 @@
 
 #include "App.h"
 
-#include "Graphics/Mesh/Mesh.h"
-#include "Graphics/Camera/Camera.h"
+#include "Graphics/World.h"
 
 namespace Engine
 {
 	class Engine
 	{
 	private:
-		App::App app;
+		Core::App app;
 
-		Mesh mesh;
-		Camera camera;
+		World world;
 
 	public:
-		Engine(const App::AppData& appData);
+		Engine(const Core::AppData& appData);
 		virtual ~Engine();
 
 		void Render();

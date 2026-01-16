@@ -5,7 +5,7 @@
 
 int main(int argc, char** argv)
 {
-	App::AppData engineData {};
+	Core::AppData engineData {};
 	engineData.name = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
 	engineData.windowData.width = 854u;

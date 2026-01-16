@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-App::Texture::Texture(const std::string& texture, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
+Core::Texture::Texture(const std::string& texture, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
 	: type(type)
 {
 	int width, height, colorChannels;
@@ -27,12 +27,12 @@ App::Texture::Texture(const std::string& texture, GLenum type, GLenum slot, GLen
 	glBindTexture(type, 0);
 }
 
-App::Texture::~Texture()
+Core::Texture::~Texture()
 {
 	Delete();
 }
 
-GLuint* App::Texture::Initialize(const std::string textures[], GLsizei count, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
+GLuint* Core::Texture::Initialize(const std::string textures[], GLsizei count, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
 {
 	this->type = type; 
 	this->texturesID = new GLuint[count];
@@ -67,24 +67,24 @@ GLuint* App::Texture::Initialize(const std::string textures[], GLsizei count, GL
 	return texturesID;
 }
 
-void App::Texture::textureUnit(Shader& shader, std::string uniform, GLuint unit)
+void Core::Texture::textureUnit(Shader& shader, std::string uniform, GLuint unit)
 {
 	GLuint textureUniform = glGetUniformLocation(shader.programID, uniform.c_str());
 	shader.Activate();
 	glUniform1i(textureUniform, unit);
 }
 
-void App::Texture::Bind()
+void Core::Texture::Bind()
 {
 	glBindTexture(type, textureID);
 }
 
-void App::Texture::Unbind()
+void Core::Texture::Unbind()
 {
 	glBindTexture(type, 0);
 }
 
-void App::Texture::Delete()
+void Core::Texture::Delete()
 {
 	glDeleteTextures(1, &textureID);
 }

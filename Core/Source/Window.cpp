@@ -5,7 +5,7 @@ static void ErrorCallback(int error, const char* description)
 	fprintf(stderr, "Error: %s\n", description);
 }
 
-App::Window::Window(const WindowData& windowData = WindowData())
+Core::Window::Window(const WindowData& windowData = WindowData())
 	: data(windowData)
 {
 	glfwInit();
@@ -46,7 +46,7 @@ App::Window::Window(const WindowData& windowData = WindowData())
 		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
 }
 
-App::Window::~Window()
+Core::Window::~Window()
 {
 	if (window != nullptr || window)
 		glfwDestroyWindow(window);
@@ -54,7 +54,7 @@ App::Window::~Window()
 	glfwTerminate();
 }
 
-void App::Window::Input()
+void Core::Window::Input()
 {
 	// Mouse
 	{
@@ -81,23 +81,23 @@ void App::Window::Input()
 	}
 }
 
-void App::Window::Render()
+void Core::Window::Render()
 {
 	glfwShowWindow(window);
 }
 
-void App::Window::Update()
+void Core::Window::Update()
 {
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }
 
-bool App::Window::ShouldClose() const
+bool Core::Window::ShouldClose() const
 {
 	return glfwWindowShouldClose(window);
 }
 
-GLFWwindow* App::Window::GetWindow() const
+GLFWwindow* Core::Window::GetWindow() const
 {
 	if (window == nullptr || !window)
 	{
@@ -107,7 +107,7 @@ GLFWwindow* App::Window::GetWindow() const
 	return this->window;
 }
 
-glm::vec2 App::Window::GetWindowSize() const
+glm::vec2 Core::Window::GetWindowSize() const
 {
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
@@ -115,7 +115,7 @@ glm::vec2 App::Window::GetWindowSize() const
 	return glm::vec2(width, height);
 }
 
-glm::vec2 App::Window::GetFramebufferSize() const
+glm::vec2 Core::Window::GetFramebufferSize() const
 {
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);
@@ -123,7 +123,7 @@ glm::vec2 App::Window::GetFramebufferSize() const
 	return glm::vec2(width, height);
 }
 
-void App::Window::SetCenter()
+void Core::Window::SetCenter()
 {
 	int windowX, windowY;
 	glfwGetWindowPos(window, &windowX, &windowY);
@@ -176,7 +176,7 @@ void App::Window::SetCenter()
 		glfwSetWindowPos(window, monitorX + (monitorWidth * 0.5) - windowWidth, monitorY + (monitorHeight * 0.5) - windowHeight);
 }
 
-void App::Window::Fullscreen()
+void Core::Window::Fullscreen()
 {
 	if (glfwGetWindowMonitor(window) == nullptr)
 	{

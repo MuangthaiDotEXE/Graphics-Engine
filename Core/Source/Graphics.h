@@ -13,7 +13,7 @@
 
 #include "Window.h"
 
-namespace App
+namespace Core
 {
 	class Graphics
 	{

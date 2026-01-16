@@ -1,13 +1,13 @@
 #include "Shader.h"
 
 template<string T>
-std::string App::Shader::ReadFile(const T& path)
+std::string Core::Shader::ReadFile(const T& path)
 {
     std::ifstream file(path, std::ios::binary);
 
     if (!file)
     {
-        throw std::exception("Failed to open shader file");
+        throw std::exception("Failed to open and read the file (Input/Output)");
     }
 
     std::string content;
@@ -20,7 +20,7 @@ std::string App::Shader::ReadFile(const T& path)
     return content;
 }
 
-App::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
+Core::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
     std::string vertexCode = ReadFile(vertexPath);
     std::string fragmentCode = ReadFile(fragmentPath);
@@ -48,22 +48,22 @@ App::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPa
     glDeleteShader(fragmentShader);
 }
 
-App::Shader::~Shader()
+Core::Shader::~Shader()
 {
     Delete();
 }
 
-void App::Shader::Activate()
+void Core::Shader::Activate()
 {
     glUseProgram(programID);
 }
 
-void App::Shader::Delete()
+void Core::Shader::Delete()
 {
     glDeleteProgram(programID);
 }
 
-void App::Shader::Error(GLuint shader, const std::string& type)
+void Core::Shader::Error(GLuint shader, const std::string& type)
 {
     GLint compiled;
     char infoLog[1024];

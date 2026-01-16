@@ -11,7 +11,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
-namespace App
+namespace Core
 {
 	struct WindowData
 	{

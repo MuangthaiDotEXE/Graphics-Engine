@@ -10,7 +10,7 @@
 
 #include "Shader.h"
 
-namespace App
+namespace Core
 {
 	class Texture
 	{

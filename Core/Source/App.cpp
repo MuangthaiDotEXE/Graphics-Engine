@@ -1,8 +1,8 @@
 #include "App.h"
 
-static App::App* app = nullptr;
+static Core::App* app = nullptr;
 
-App::App::App(const AppData& appData = AppData())
+Core::App::App(const AppData& appData = AppData())
 	: data(appData), running(true)
 {
 	app = this;
@@ -21,7 +21,7 @@ App::App::App(const AppData& appData = AppData())
 	running = true;
 }
 
-App::App::~App()
+Core::App::~App()
 {
 	running = false;
 
@@ -31,13 +31,13 @@ App::App::~App()
 	free(app);
 }
 
-void App::App::Render()
+void Core::App::Render()
 {
 	window->Render();
 	graphics.Render();
 }
 
-void App::App::Update()
+void Core::App::Update()
 {
 	window->Input();
 	window->Update();
@@ -45,7 +45,7 @@ void App::App::Update()
 	graphics.ViewportResize(window->GetWindow());
 }
 
-App::App& App::App::GetApplication()
+Core::App& Core::App::GetApplication()
 {
 	assert(app);
 

@@ -25,7 +25,7 @@ void Engine::Camera::UpdateMatrix(GLFWwindow* window, float fov, float nearPlane
 	cameraMatrix = projection * view;
 }
 
-void Engine::Camera::Matrix(const App::Shader& shader, const std::string& uniform)
+void Engine::Camera::Matrix(const Core::Shader& shader, const std::string& uniform)
 {
 	glUniformMatrix4fv(glGetUniformLocation(shader.programID, uniform.c_str()), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
@@ -40,7 +40,7 @@ void Engine::Camera::Framerate()
 	fps = 1.0f / deltaTime;
 }
 
-void Engine::Camera::Inputs(GLFWwindow* window, App::Graphics& graphics)
+void Engine::Camera::Inputs(GLFWwindow* window, Core::Graphics& graphics)
 {
 	Framerate();
 	speed = walkSpeed * deltaTime * (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? sprintSpeed : 1.0f);

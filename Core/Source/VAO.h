@@ -7,7 +7,7 @@
 
 #include "VBO.h"
 
-namespace App
+namespace Core
 {
 	class VAO
 	{

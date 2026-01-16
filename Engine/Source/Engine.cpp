@@ -1,22 +1,19 @@
 #include "Engine.h"
 
-Engine::Engine::Engine(const App::AppData& appData)
-	: app(appData), mesh(), camera(app.window->GetFramebufferSize(), glm::vec3(0.0f, 0.0f, 5.0f))
+Engine::Engine::Engine(const Core::AppData& appData)
+	: app(appData), world(app)
 {
 }
 
 Engine::Engine::~Engine()
 {
-	mesh.~Mesh();
-
-	app.~App();
 }
 
 void Engine::Engine::Render()
 {
 	app.Render();
 
-	mesh.Render();
+	world.Render();
 }
 
 void Engine::Engine::Update()
@@ -26,10 +23,6 @@ void Engine::Engine::Update()
 		app.Update();
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-		mesh.Update();
-
-		camera.UpdateMatrix(app.window->GetWindow(), 70.0f, 0.0001f, 100.0f);
-		camera.Matrix(mesh.shader, "cameraMatrix");
-		camera.Inputs(app.window->GetWindow(), app.graphics);
+		world.Update();
 	}
 }

@@ -13,7 +13,7 @@
 #include "Window.h"
 #include "Graphics.h"
 
-namespace App
+namespace Core
 {
 	struct AppData
 	{

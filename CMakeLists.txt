@@ -11,5 +11,5 @@ project(GraphicsEngine
 
 include("Library.cmake")
 
-add_subdirectory(App)
+add_subdirectory(Core)
 add_subdirectory(Engine)

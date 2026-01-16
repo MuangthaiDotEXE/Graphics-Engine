@@ -2,10 +2,14 @@ set(SOURCES
 	"Source/Main.cpp"
 	"Source/Engine.h"
 	"Source/Engine.cpp"
+	"Source/Graphics/World.h"
+	"Source/Graphics/World.cpp"
 	"Source/Graphics/Mesh/Mesh.h"
 	"Source/Graphics/Mesh/Mesh.cpp"
 	"Source/Graphics/Camera/Camera.h"
 	"Source/Graphics/Camera/Camera.cpp"
+	"Source/Graphics/Light/Light.h"
+	"Source/Graphics/Light/Light.cpp"
 )
 
 add_executable(Engine)
@@ -20,7 +24,7 @@ add_compile_definitions(
 	GLM_ENABLE_EXPERIMENTAL
 )
 
-target_link_libraries(Engine App)
+target_link_libraries(Engine Core)
 
 target_include_directories(Engine PRIVATE "Source")
 

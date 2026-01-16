@@ -18,8 +18,8 @@ set(SOURCES
 	 "Source/stb.cpp"
 )
 
-add_library(App STATIC)
-target_sources(App PRIVATE ${SOURCES})
+add_library(Core STATIC)
+target_sources(Core PRIVATE ${SOURCES})
 
 source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SOURCES})
 
@@ -30,9 +30,9 @@ add_compile_definitions(
 
 add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
 
-target_link_libraries(App glfw)
-target_link_libraries(App OpenGL::GL)
-target_link_libraries(App glad)
-target_link_libraries(App glm)
+target_link_libraries(Core glfw)
+target_link_libraries(Core OpenGL::GL)
+target_link_libraries(Core glad)
+target_link_libraries(Core glm)
 
-target_include_directories(App PUBLIC "Source") 
+target_include_directories(Core PUBLIC "Source") 

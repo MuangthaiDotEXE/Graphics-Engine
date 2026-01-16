@@ -3,9 +3,10 @@ import platform
 import subprocess
 import time
 
-cmake_lists_file: str = os.getcwd() + "/CMakeLists.txt"
-batch_file: str = os.getcwd() + "/Build.bat"
-shell_file: str = os.getcwd() + "/Build.sh"
+working_directory: str = os.getcwd()
+cmake_lists_file: str = "CMakeLists.txt"
+batch_file: str = "Build.bat"
+shell_file: str = "Build.sh"
 
 def main() -> None:
     if not os.path.exists(cmake_lists_file):
@@ -16,9 +17,9 @@ def main() -> None:
         raise FileNotFoundError(f"Failed to find '{shell_file}' in the current project")
 
     if platform.system() == "Windows":
-        subprocess.run([batch_file], shell=True)
+        subprocess.run([f"{working_directory}/{batch_file}"], shell=True)
     elif platform.system() == "Linux" or platform.system() == "Darwin":
-        subprocess.run([shell_file], shell=True)
+        subprocess.run([f"{working_directory}/{shell_file}"], shell=True)
 
 if __name__ == "__main__":
     start_time: float = time.perf_counter()

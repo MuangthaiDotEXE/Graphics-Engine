@@ -1,14 +1,14 @@
 #include "Graphics.h"
 
-App::Graphics::Graphics()
+Core::Graphics::Graphics()
 {
 }
 
-App::Graphics::~Graphics()
+Core::Graphics::~Graphics()
 {
 }
 
-void App::Graphics::LoadContexts()
+void Core::Graphics::LoadContexts()
 {
 	version = gladLoadGL(glfwGetProcAddress);
 
@@ -18,17 +18,17 @@ void App::Graphics::LoadContexts()
 	}
 }
 
-void App::Graphics::Render()
+void Core::Graphics::Render()
 {
 	glEnable(GL_DEPTH_TEST);
 }
 
-void App::Graphics::Update()
+void Core::Graphics::Update()
 {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void App::Graphics::ViewportResize(GLFWwindow* window)
+void Core::Graphics::ViewportResize(GLFWwindow* window)
 {
 	int width, height;
 	glfwGetFramebufferSize(window, &width, &height);

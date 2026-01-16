@@ -1,22 +1,18 @@
 #pragma once
 
-#ifndef MESH_H
-#define MESH_H
+#ifndef LIGHT_H
+#define LIGHT_H
 
 #include <glad/gl.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
 #include "VAO.h"
 #include "VBO.h"
 #include "EBO.h"
-#include "Texture.h"
 
 namespace Engine
 {
-	class Mesh
+	class Light
 	{
 	public:
 		Core::Shader shader;
@@ -25,12 +21,10 @@ namespace Engine
 		Core::VAO vao;
 		Core::VBO vbo;
 		Core::EBO ebo;
-		Core::Texture texture;
-		GLuint* textures;
 
 	public:
-		Mesh();
-		virtual ~Mesh();
+		Light();
+		virtual ~Light();
 
 		void Render();
 		void Update();

@@ -5,7 +5,7 @@
 
 #include <glad/gl.h>
 
-namespace App
+namespace Core
 {
 	class EBO
 	{
