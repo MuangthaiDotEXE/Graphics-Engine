@@ -71,9 +71,22 @@ std::string textureImages[] =
 	ProjectDirectory "/Asset/Texture/Brick_Texture.png"
 };
 
+std::string specularImages[] =
+{
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png"
+};
+
 Engine::Mesh::Mesh()
 	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"), 
-	vao(), vbo(meshVertices, sizeof(meshVertices)), ebo(meshIndices, sizeof(meshIndices)), texture()
+	vao(), vbo(meshVertices, sizeof(meshVertices)), ebo(meshIndices, sizeof(meshIndices)), 
+	texture(), specularMap(), 
+	textures(texture.Initialize(textureImages, sizeof(textureImages) / sizeof(std::string), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE)), 
+	specularMaps(specularMap.Initialize(specularImages, sizeof(specularImages) / sizeof(std::string), GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE))
 {
 	vao.Bind();
 	vbo.Bind();
@@ -88,8 +101,8 @@ Engine::Mesh::Mesh()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	textures = texture.Initialize(textureImages, sizeof(textureImages) / sizeof(std::string), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	texture.textureUnit(shader, "textureSampler", 0);
+	specularMap.textureUnit(shader, "specularMapSampler", 1);
 }
 
 Engine::Mesh::~Mesh()
@@ -109,6 +122,7 @@ void Engine::Mesh::Update()
 {
 	shader.Activate();
 	texture.Bind();
+	specularMap.Bind();
 	vao.Bind();
 
 	for (size_t i = 0; i < sizeof(textureImages) / sizeof(std::string); i++)

@@ -8,6 +8,7 @@ in vec3 normal;
 in vec3 currentPosition;
 
 uniform sampler2D textureSampler;
+uniform sampler2D specularMapSampler;
 uniform vec4 lightColor;
 uniform vec3 lightPosition;
 uniform float lightIntensity;
@@ -30,6 +31,6 @@ void main()
 
 	vec4 light = lightColor * lightIntensity;
 
-	//fragColor = vec4(color, 1.0f) * light * (diffuse + ambient + specular);
-	fragColor = texture(textureSampler, textureCoordinate) * light * (diffuse + ambient + specular);
+	//fragColor = vec4(color, 1.0f) * light * (diffuse + ambient) + texture(specularMapSampler, textureCoordinate) * specular;
+	fragColor = texture(textureSampler, textureCoordinate) * light * (diffuse + ambient) + texture(specularMapSampler, textureCoordinate) * specular;
 }

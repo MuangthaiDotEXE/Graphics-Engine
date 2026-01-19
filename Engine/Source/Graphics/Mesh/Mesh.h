@@ -26,7 +26,9 @@ namespace Engine
 		Core::VBO vbo;
 		Core::EBO ebo;
 		Core::Texture texture;
+		Core::Texture specularMap;
 		GLuint* textures;
+		GLuint* specularMaps;
 
 	public:
 		Mesh();
