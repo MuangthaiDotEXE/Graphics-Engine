@@ -16,6 +16,8 @@ set(SOURCES
 	 "Source/Texture.h"
 	 "Source/Texture.cpp"
 	 "Source/stb.cpp"
+	 "Source/UserInterface.h"
+	 "Source/UserInterface.cpp"
 )
 
 add_library(Core STATIC)

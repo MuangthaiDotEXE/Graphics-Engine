@@ -9,17 +9,19 @@
 #include <chrono>
 #include <string>
 #include <format>
+#include <optional>
 
 #include "Window.h"
 #include "Graphics.h"
+#include "UserInterface.h"
 
 namespace Core
 {
 	struct AppData
 	{
+		WindowData windowData;
 		std::string name = "App";
 		std::array<int, 3> version = { 0, 0, 0 };
-		WindowData windowData;
 	};
 	
 	class App
@@ -31,6 +33,7 @@ namespace Core
 	public:
 		std::unique_ptr<Window> window;
 		Graphics graphics;
+		std::optional<UserInterface> ui;
 
 	public:
 		App(const AppData& appData);

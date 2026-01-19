@@ -2,15 +2,15 @@
 
 static void ErrorCallback(int error, const char* description)
 {
-	fprintf(stderr, "Error: %s\n", description);
+	std::fprintf(stderr, "GLFW error %d: %s\n", error, description);
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData())
 	: data(windowData)
 {
-	glfwInit();
-
 	glfwSetErrorCallback(ErrorCallback);
+
+	glfwInit();
 
 	if (!glfwInit())
 	{

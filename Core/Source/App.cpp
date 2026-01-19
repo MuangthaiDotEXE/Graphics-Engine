@@ -3,7 +3,7 @@
 static Core::App* app = nullptr;
 
 Core::App::App(const AppData& appData = AppData())
-	: data(appData), running(true)
+	: data(appData), running(true), ui()
 {
 	app = this;
 
@@ -17,6 +17,7 @@ Core::App::App(const AppData& appData = AppData())
 
 	window = std::make_unique<Window>(data.windowData);
 	graphics.LoadContexts();
+	ui.emplace(window->GetWindow());
 
 	running = true;
 }
@@ -35,6 +36,7 @@ void Core::App::Render()
 {
 	window->Render();
 	graphics.Render();
+	ui->Render();
 }
 
 void Core::App::Update()
@@ -43,6 +45,7 @@ void Core::App::Update()
 	window->Update();
 	graphics.Update();
 	graphics.ViewportResize(window->GetWindow());
+	ui->Update();
 }
 
 Core::App& Core::App::GetApplication()

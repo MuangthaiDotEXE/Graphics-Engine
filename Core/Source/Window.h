@@ -3,6 +3,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <cstdio>
 #include <cstdint>
 #include <string>
 #include <stdexcept>
@@ -15,8 +16,8 @@ namespace Core
 {
 	struct WindowData
 	{
-		uint32_t width = 640u, height = 480u;
 		std::string title = "App";
+		uint32_t width = 640u, height = 480u;
 		bool vSync = true;
 		bool resizable = true;
 		bool decorated = true;
