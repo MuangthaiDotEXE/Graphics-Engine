@@ -40,7 +40,7 @@ void Engine::Camera::Framerate()
 	fps = 1.0f / deltaTime;
 }
 
-void Engine::Camera::Inputs(GLFWwindow* window, Core::Graphics& graphics)
+void Engine::Camera::Inputs(GLFWwindow* window)
 {
 	Framerate();
 	speed = walkSpeed * deltaTime * (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? sprintSpeed : 1.0f);

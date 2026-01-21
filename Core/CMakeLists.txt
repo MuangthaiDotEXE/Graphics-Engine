@@ -5,6 +5,10 @@ set(SOURCES
 	 "Source/Window.cpp"
 	 "Source/Graphics.h" 
 	 "Source/Graphics.cpp"
+	 "Source/OpenGL.h" 
+	 "Source/OpenGL.cpp"
+	 "Source/Vulkan.h" 
+	 "Source/Vulkan.cpp"
 	 "Source/Shader.h"
 	 "Source/Shader.cpp"
 	 "Source/VAO.h"
@@ -30,10 +34,11 @@ add_compile_definitions(
 	GLM_ENABLE_EXPERIMENTAL
 )
 
-add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
+add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c" "${CMAKE_SOURCE_DIR}/Library/glad/src/vulkan.c")
 
 target_link_libraries(Core glfw)
 target_link_libraries(Core OpenGL::GL)
+target_link_libraries(Core Vulkan::Vulkan)
 target_link_libraries(Core glad)
 target_link_libraries(Core glm)
 

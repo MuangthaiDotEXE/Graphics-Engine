@@ -20,6 +20,7 @@ if (NOT glfw3_FOUND)
 endif()
 
 find_package(OpenGL REQUIRED)
+find_package(Vulkan REQUIRED)
 
 include_directories("Library/glad/include")
 include_directories("Library/stb")

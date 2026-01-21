@@ -7,17 +7,46 @@ Core::App::App(const AppData& appData = AppData())
 {
 	app = this;
 
-	// version system: major, minor, patch
-	std::string version = std::format("v{}.{}.{}", appData.version[0], appData.version[1], appData.version[2]);
+	std::string title = "";
+	std::string version = "";
+	std::string api = "";
 
 	if (data.windowData.title.empty() || (!data.name.empty() || !data.version.empty()))
 	{
 		data.windowData.title = data.name + " " + version;
+		title = data.name;
+	}
+
+	// version system: major, minor, patch
+	if (!appData.version.empty())
+	{
+		version = std::format("v{}.{}.{}", appData.version[0], appData.version[1], appData.version[2]);
 	}
 
 	window = std::make_unique<Window>(data.windowData);
-	graphics.LoadContexts();
+
+	switch (appData.graphicsAPI) 
+	{
+	case GraphicsAPI::OPENGL:
+		graphics = std::make_unique<OpenGL>();
+		api = "OpenGL";
+
+		break;
+
+	case GraphicsAPI::VULKAN:
+		graphics = std::make_unique<Vulkan>();
+		api = "Vulkan";
+
+		break;
+
+	default:
+		return;
+	}
+
 	ui.emplace(window->GetWindow());
+
+	std::print("{} {}\n", title, version);
+	std::print("Graphics API: {}\n", api);
 
 	running = true;
 }
@@ -35,7 +64,7 @@ Core::App::~App()
 void Core::App::Render()
 {
 	window->Render();
-	graphics.Render();
+	graphics->Render();
 	ui->Render();
 }
 
@@ -43,8 +72,8 @@ void Core::App::Update()
 {
 	window->Input();
 	window->Update();
-	graphics.Update();
-	graphics.ViewportResize(window->GetWindow());
+	graphics->Update();
+	graphics->ViewportResize(window->GetWindow());
 	ui->Update();
 }
 

@@ -42,7 +42,7 @@ void Engine::World::Update()
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 	camera.UpdateMatrix(app.window->GetWindow(), 70.0f, 0.001f, 1000.0f);
-	camera.Inputs(app.window->GetWindow(), app.graphics);
+	camera.Inputs(app.window->GetWindow());
 	
 	mesh.Update();
 	glUniform3f(glGetUniformLocation(mesh.shader.programID, "cameraPosition"), camera.position.x, camera.position.y, camera.position.z);

@@ -13,6 +13,8 @@
 
 #include "Window.h"
 #include "Graphics.h"
+#include "OpenGL.h"
+#include "Vulkan.h"
 #include "UserInterface.h"
 
 namespace Core
@@ -20,8 +22,9 @@ namespace Core
 	struct AppData
 	{
 		WindowData windowData;
+		GraphicsAPI graphicsAPI;
 		std::string name = "App";
-		std::array<int, 3> version = { 0, 0, 0 };
+		std::array<int, 3> version;
 	};
 	
 	class App
@@ -32,7 +35,7 @@ namespace Core
 
 	public:
 		std::unique_ptr<Window> window;
-		Graphics graphics;
+		std::unique_ptr<Graphics> graphics;
 		std::optional<UserInterface> ui;
 
 	public:

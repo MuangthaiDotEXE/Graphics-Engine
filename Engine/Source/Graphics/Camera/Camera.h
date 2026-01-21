@@ -50,7 +50,7 @@ namespace Engine
 
 		void UpdateMatrix(GLFWwindow* window, float fov, float nearPlane, float farPlane);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
-		void Inputs(GLFWwindow* window, Core::Graphics& graphics);	// Temporary input. Input class will be added later
+		void Inputs(GLFWwindow* window);	// Temporary input. Input class will be added later
 		
 	private:
 		void Framerate();

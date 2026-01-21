@@ -15,19 +15,21 @@
 
 namespace Core
 {
+	enum class GraphicsAPI
+	{
+		OPENGL,
+		VULKAN
+	};
+
 	class Graphics
 	{
-	private:
-		int version;
-
 	public:
 		Graphics();
-		virtual ~Graphics();
+		virtual ~Graphics() = default;
 
-		void Render();
-		void Update();
-		void LoadContexts();
-		void ViewportResize(GLFWwindow* window);
+		virtual void Render() = 0;
+		virtual void Update() = 0;
+		virtual void ViewportResize(GLFWwindow* window) = 0;
 	};
 }
 
