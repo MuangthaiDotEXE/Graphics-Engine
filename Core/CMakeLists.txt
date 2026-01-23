@@ -34,7 +34,7 @@ add_compile_definitions(
 	GLM_ENABLE_EXPERIMENTAL
 )
 
-add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c" "${CMAKE_SOURCE_DIR}/Library/glad/src/vulkan.c")
+add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
 
 target_link_libraries(Core glfw)
 target_link_libraries(Core OpenGL::GL)

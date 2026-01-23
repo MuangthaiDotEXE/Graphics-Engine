@@ -3,6 +3,7 @@
 #ifndef VULKAN_H
 #define VULKAN_H
 
+#include <vulkan/vulkan.hpp>
 #include <GLFW/glfw3.h>
 
 #include "Graphics.h"
@@ -12,6 +13,7 @@ namespace Core
 	class Vulkan final : public Graphics
 	{
 	private:
+		VkInstance instance;
 
 	public:
 		Vulkan();
