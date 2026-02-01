@@ -17,11 +17,13 @@ namespace Core
 
 	public:
 		Vulkan();
-		virtual ~Vulkan() = default;
+		virtual ~Vulkan();
 
 		void Render() override;
 		void Update() override;
 		void ViewportResize(GLFWwindow* window) override;
+
+		void CreateInstance();
 	};
 }
 
