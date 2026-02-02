@@ -40,13 +40,16 @@ Core::App::App(const AppData& appData = AppData())
 		break;
 
 	default:
-		return;
+		graphics = std::make_unique<OpenGL>();
+		api = "OpenGL";
+
+		break;
 	}
 
 	ui.emplace(window->GetWindow());
 
 	std::print("{} {}\n", title, version);
-	std::print("Graphics API: {}\n", api);
+	std::print("Graphics API: {} API\n", api);
 
 	running = true;
 }
