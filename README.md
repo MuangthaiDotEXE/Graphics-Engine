@@ -5,7 +5,7 @@
 
 ### Features
 - Multi-platform windowing system
-- 3 Dimensional OpenGL graphics API rendering system with simple lighting
+- 3 Dimensional OpenGL/Vulkan graphics API rendering system with simple lighting
 - Image texture support
 
 ### Credits
