@@ -63,11 +63,11 @@ void Engine::Camera::Inputs(GLFWwindow* window)
 		{
 			position += speed * glm::normalize(glm::cross(orientation, up));
 		}
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		{
 			position += speed * up;
 		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 		{
 			position -= speed * up;
 		}

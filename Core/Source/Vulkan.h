@@ -3,6 +3,8 @@
 #ifndef VULKAN_H
 #define VULKAN_H
 
+#include <stdexcept>
+
 #include <vulkan/vulkan.hpp>
 #include <GLFW/glfw3.h>
 
@@ -23,7 +25,10 @@ namespace Core
 		void Update() override;
 		void ViewportResize(GLFWwindow* window) override;
 
+		void Initialize();
 		void CreateInstance();
+		void MainLoop();
+		void Cleanup();
 	};
 }
 

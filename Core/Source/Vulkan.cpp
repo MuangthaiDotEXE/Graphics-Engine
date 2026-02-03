@@ -2,11 +2,12 @@
 
 Core::Vulkan::Vulkan()
 {
+	Initialize();
 }
 
 Core::Vulkan::~Vulkan()
 {
-	vkDestroyInstance(instance, nullptr);
+	Cleanup();
 }
 
 void Core::Vulkan::Render()
@@ -19,6 +20,12 @@ void Core::Vulkan::Update()
 
 void Core::Vulkan::ViewportResize(GLFWwindow* window)
 {
+}
+
+
+void Core::Vulkan::Initialize()
+{
+	CreateInstance();
 }
 
 void Core::Vulkan::CreateInstance()
@@ -34,4 +41,27 @@ void Core::Vulkan::CreateInstance()
 	VkInstanceCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 	createInfo.pApplicationInfo = &appInfo;
+
+	uint32_t glfwExtensionCount = 0;
+	const char** glfwExtensions;
+	glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+	createInfo.enabledExtensionCount = glfwExtensionCount;
+	createInfo.ppEnabledExtensionNames = glfwExtensions;
+	createInfo.enabledLayerCount = 0;
+
+	VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
+	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+	{
+		throw std::exception("Vulkan graphics API failed to create instance");
+	}
+}
+
+void Core::Vulkan::MainLoop()
+{
+}
+
+void Core::Vulkan::Cleanup()
+{
+	vkDestroyInstance(instance, nullptr);
 }

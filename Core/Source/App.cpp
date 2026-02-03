@@ -50,6 +50,7 @@ Core::App::App(const AppData& appData = AppData())
 
 	std::print("{} {}\n", title, version);
 	std::print("Graphics API: {} API\n", api);
+	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently not stable. Please avoid using it if possible\n");
 
 	running = true;
 }
