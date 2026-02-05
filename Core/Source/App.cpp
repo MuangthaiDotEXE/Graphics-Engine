@@ -23,7 +23,7 @@ Core::App::App(const AppData& appData = AppData())
 		version = std::format("v{}.{}.{}", appData.version[0], appData.version[1], appData.version[2]);
 	}
 
-	window = std::make_unique<Window>(data.windowData);
+	window = std::make_unique<Window>(data.windowData, appData.graphicsAPI);
 
 	switch (appData.graphicsAPI) 
 	{
@@ -51,6 +51,11 @@ Core::App::App(const AppData& appData = AppData())
 	std::print("{} {}\n", title, version);
 	std::print("Graphics API: {} API\n", api);
 	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently not stable. Please avoid using it if possible\n");
+#ifdef NDEBUG
+	std::print("Configuration: Release\n");
+#else
+	std::print("Configuration: Debug\n");
+#endif
 
 	running = true;
 }
@@ -62,7 +67,6 @@ Core::App::~App()
 	window.reset();
 
 	app = nullptr;
-	free(app);
 }
 
 void Core::App::Render()

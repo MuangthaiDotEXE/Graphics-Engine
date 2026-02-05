@@ -12,6 +12,8 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
+#include "Graphics.h"
+
 namespace Core
 {
 	struct WindowData
@@ -33,7 +35,7 @@ namespace Core
 		const double debounceTime = 0.15;
 
 	public:
-		Window(const WindowData& windowData);
+		Window(const WindowData& windowData, GraphicsAPI graphicsAPI);
 		virtual ~Window();
 
 		void Input();

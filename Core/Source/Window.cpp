@@ -5,7 +5,7 @@ static void ErrorCallback(int error, const char* description)
 	std::fprintf(stderr, "GLFW error %d: %s\n", error, description);
 }
 
-Core::Window::Window(const WindowData& windowData = WindowData())
+Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
 	: data(windowData)
 {
 	glfwSetErrorCallback(ErrorCallback);
@@ -17,12 +17,19 @@ Core::Window::Window(const WindowData& windowData = WindowData())
 		throw std::exception("Failed to initialize window (GLFW windowing API)");
 	}
 
-	glfwDefaultWindowHints();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	if (graphicsAPI == GraphicsAPI::OPENGL)
+	{
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	}
+	else
+	{
+		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+	}
 #ifdef __APPLE__
+	}
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
@@ -43,7 +50,9 @@ Core::Window::Window(const WindowData& windowData = WindowData())
 	SetCenter();
 	
 	if (glfwRawMouseMotionSupported())
+	{
 		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+	}
 }
 
 Core::Window::~Window()

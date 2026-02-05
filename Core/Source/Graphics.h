@@ -3,15 +3,7 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include <print>
-#include <memory>
-#include <stdexcept>
-
-#include <glad/gl.h>
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-
-#include "Window.h"
 
 namespace Core
 {

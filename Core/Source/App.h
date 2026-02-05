@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <chrono>
 #include <string>
+#include <print>
 #include <format>
 #include <optional>
 
