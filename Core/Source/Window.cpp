@@ -14,7 +14,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 	if (!glfwInit())
 	{
-		throw std::exception("Failed to initialize window (GLFW windowing API)");
+		throw std::exception("Failed to initialize window (GLFW windowing API)\n");
 	}
 
 	if (graphicsAPI == GraphicsAPI::OPENGL)
@@ -24,8 +24,14 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	}
-	else
+	else if (graphicsAPI == GraphicsAPI::VULKAN)
 	{
+		if (!glfwVulkanSupported())
+		{
+			glfwTerminate();
+			throw std::exception("Vulkan graphics API is not supported (GLFW windowing API)\n");
+		}
+
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	}
 #ifdef __APPLE__
@@ -40,12 +46,15 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	if (window == nullptr || !window)
 	{
 		glfwTerminate();
-		throw std::exception("Failed to create window (GLFW windowing API)");
+		throw std::exception("Failed to create window (GLFW windowing API)\n");
 	}
 
-	glfwMakeContextCurrent(window);
+	if (graphicsAPI == GraphicsAPI::OPENGL)
+	{
+		glfwMakeContextCurrent(window);
 
-	glfwSwapInterval(data.vSync);
+		glfwSwapInterval(data.vSync);
+	}
 
 	SetCenter();
 	

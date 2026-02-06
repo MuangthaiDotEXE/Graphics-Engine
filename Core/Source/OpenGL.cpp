@@ -5,7 +5,7 @@ Core::OpenGL::OpenGL()
 {
 	if (version == 0)
 	{
-		throw std::exception("Failed to load OpenGL contexts (OpenGL graphics API)");
+		throw std::exception("Failed to load OpenGL contexts (OpenGL graphics API)\n");
 	}
 }
 

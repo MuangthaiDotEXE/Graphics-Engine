@@ -53,7 +53,7 @@ void Core::Vulkan::CreateInstance()
 	VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
 	{
-		throw std::exception("Vulkan graphics API failed to create instance");
+		throw std::exception("Vulkan graphics API failed to create instance (Vulkan graphics API)\n");
 	}
 }
 
