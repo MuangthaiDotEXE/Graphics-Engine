@@ -19,7 +19,6 @@ void Engine::World::Render()
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 lightPosition = glm::vec3(2.5f, 2.5f, 2.5f);
 	glm::mat4 lightModel = glm::mat4(1.0f);
-	GLfloat lightIntensity = 2.0f;
 	lightModel = glm::translate(lightModel, lightPosition);
 	lightModel = glm::scale(lightModel, glm::vec3(0.25f));
 
@@ -27,7 +26,6 @@ void Engine::World::Render()
 	glUniformMatrix4fv(glGetUniformLocation(mesh.shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(meshModel));
 	glUniform4f(glGetUniformLocation(mesh.shader.programID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 	glUniform3f(glGetUniformLocation(mesh.shader.programID, "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
-	glUniform1f(glGetUniformLocation(mesh.shader.programID, "lightIntensity"), lightIntensity);
 
 	light.shader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(light.shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(lightModel));

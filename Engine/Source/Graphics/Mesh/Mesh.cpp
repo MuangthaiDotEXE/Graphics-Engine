@@ -85,8 +85,8 @@ Engine::Mesh::Mesh()
 	: shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"), 
 	vao(), vbo(meshVertices, sizeof(meshVertices)), ebo(meshIndices, sizeof(meshIndices)), 
 	texture(), specularMap(), 
-	textures(texture.Initialize(textureImages, sizeof(textureImages) / sizeof(std::string), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE)), 
-	specularMaps(specularMap.Initialize(specularImages, sizeof(specularImages) / sizeof(std::string), GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE))
+	textures(texture.Initialize(textureImages, GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE)), 
+	specularMaps(specularMap.Initialize(specularImages, GL_TEXTURE_2D, 1, GL_RED, GL_UNSIGNED_BYTE))
 {
 	vao.Bind();
 	vbo.Bind();

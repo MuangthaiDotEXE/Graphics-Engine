@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Core::Texture::Texture(const std::string& texture, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
+Core::Texture::Texture(const std::string& texture, GLenum type, GLuint slot, GLenum format, GLenum pixelType)
 	: type(type)
 {
 	int width, height, colorChannels;
@@ -10,7 +10,8 @@ Core::Texture::Texture(const std::string& texture, GLenum type, GLenum slot, GLe
 	unsigned char* bytes = stbi_load(texture.c_str(), &width, &height, &colorChannels, 0);
 
 	glGenTextures(1, &textureID);
-	glActiveTexture(slot);
+	glActiveTexture(GL_TEXTURE0 + slot);
+	unit = slot;
 	glBindTexture(type, textureID);
 
 	glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
@@ -32,8 +33,10 @@ Core::Texture::~Texture()
 	Delete();
 }
 
-GLuint* Core::Texture::Initialize(const std::string textures[], GLsizei count, GLenum type, GLenum slot, GLenum format, GLenum pixelType)
+GLuint* Core::Texture::Initialize(const std::string textures[], GLenum type, GLuint slot, GLenum format, GLenum pixelType)
 {
+	size_t count = textures->size() / sizeof(std::string);
+
 	this->type = type; 
 	this->texturesID = new GLuint[count];
 	glGenTextures(count, texturesID);
@@ -46,7 +49,8 @@ GLuint* Core::Texture::Initialize(const std::string textures[], GLsizei count, G
 
 		unsigned char* bytes = stbi_load((textures[i]).c_str(), &width, &height, &colorChannels, 0);
 
-		glActiveTexture(slot);
+		glActiveTexture(GL_TEXTURE0 + slot);
+		unit = slot;
 		glBindTexture(type, texturesID[i]);
 
 		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
@@ -76,6 +80,7 @@ void Core::Texture::textureUnit(Shader& shader, std::string uniform, GLuint unit
 
 void Core::Texture::Bind()
 {
+	glActiveTexture(GL_TEXTURE0 + unit);
 	glBindTexture(type, textureID);
 }
 
