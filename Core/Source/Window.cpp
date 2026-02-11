@@ -23,6 +23,9 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_OPENGL_API);
 		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+#endif
 	}
 	else if (graphicsAPI == GraphicsAPI::VULKAN)
 	{
@@ -34,10 +37,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
 	}
-#ifdef __APPLE__
-	}
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
-#endif
+
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
 	glfwWindowHint(GLFW_RESIZABLE, data.resizable);
 	glfwWindowHint(GLFW_DECORATED, data.decorated);
@@ -54,6 +54,28 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwMakeContextCurrent(window);
 
 		glfwSwapInterval(data.vSync);
+	}
+
+	if (!data.icon.empty())
+	{
+		GLFWimage icon[1];
+		int width, height, channels;
+
+		icon[0].pixels = stbi_load(data.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+		if (icon[0].pixels != nullptr)
+		{
+			icon[0].width = width;
+			icon[0].height = height;
+
+			glfwSetWindowIcon(window, 1, icon);
+
+			stbi_image_free(icon[0].pixels);
+		}
+		else
+		{
+			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", data.icon);
+		}
 	}
 
 	SetCenter();

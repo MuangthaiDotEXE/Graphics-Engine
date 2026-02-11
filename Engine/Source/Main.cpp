@@ -11,6 +11,7 @@ int main(int argc, char** argv)
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.vSync = true;
+	engineData.windowData.icon = ProjectDirectory "/Icon.png";
 	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
 
 	try

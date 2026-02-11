@@ -3,6 +3,7 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <print>
 #include <cstdio>
 #include <cstdint>
 #include <string>
@@ -11,6 +12,7 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <stb_image.h>
 
 #include "Graphics.h"
 
@@ -19,6 +21,7 @@ namespace Core
 	struct WindowData
 	{
 		std::string title = "App";
+		std::string icon = "";
 		uint32_t width = 640u, height = 480u;
 		bool vSync = true;
 		bool resizable = true;
