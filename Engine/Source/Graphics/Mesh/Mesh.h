@@ -3,10 +3,9 @@
 #ifndef MESH_H
 #define MESH_H
 
+#include <memory>
+
 #include <glad/gl.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 
 #include "Shader.h"
 #include "VAO.h"
@@ -18,24 +17,22 @@ namespace Engine
 {
 	class Mesh
 	{
-	public:
-		Core::Shader shader;
+	protected:
+		std::unique_ptr<Core::Shader> shader;
+		std::unique_ptr<Core::VAO> vao;
+		std::unique_ptr<Core::VBO> vbo;
+		std::unique_ptr<Core::EBO> ebo;
 
-	private:
-		Core::VAO vao;
-		Core::VBO vbo;
-		Core::EBO ebo;
-		Core::Texture texture;
-		Core::Texture specularMap;
-		GLuint* textures;
-		GLuint* specularMaps;
-
+		std::vector<vertex> vertices;
+		std::vector<GLuint> indices;
+		std::vector<Core::Texture> textures;
+		
 	public:
 		Mesh();
-		virtual ~Mesh();
+		virtual ~Mesh() = default;
 
-		void Render();
-		void Update();
+		virtual void Render() = 0;
+		virtual void Update() = 0;
 	};
 }
 

@@ -3,6 +3,8 @@
 	<p> Graphics Engine in C++ using GLFW, OpenGL, stb image and GLM </p>
 </div>
 
+![Icon](Icon.png)
+
 ### Features
 - Multi-platform windowing system
 - 3 Dimensional OpenGL/Vulkan graphics API rendering system with simple lighting (Directional light, spot light and point light) 

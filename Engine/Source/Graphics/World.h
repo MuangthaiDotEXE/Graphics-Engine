@@ -9,7 +9,7 @@
 
 #include "App.h"
 
-#include "Mesh/Mesh.h"
+#include "Mesh/Object.h"
 #include "Light/Light.h"
 #include "Camera/Camera.h"
 
@@ -20,7 +20,7 @@ namespace Engine
 	private:
 		Core::App& app;
 
-		Mesh mesh;
+		Object mesh;
 		Light light;
 		Camera camera;
 

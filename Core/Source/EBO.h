@@ -3,6 +3,8 @@
 #ifndef EBO_H
 #define EBO_H
 
+#include <vector>
+
 #include <glad/gl.h>
 
 namespace Core
@@ -14,6 +16,7 @@ namespace Core
 
 	public:
 		EBO(GLuint* indices, GLsizeiptr size);
+		EBO(std::vector<GLuint>& indices);
 		virtual ~EBO();
 
 		void Bind();

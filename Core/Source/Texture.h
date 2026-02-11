@@ -17,15 +17,15 @@ namespace Core
 	private:
 		GLuint textureID;
 		GLuint* texturesID;
-		GLenum type;
+		const char* type;
 		GLuint unit;
 
 	public:
 		Texture() = default;
-		Texture(const std::string& texture, GLenum type, GLuint slot, GLenum format, GLenum pixelType);
+		Texture(const std::string& texture, const char* type, GLuint slot, GLenum format, GLenum pixelType);
 		virtual ~Texture();
 
-		GLuint* Initialize(const std::string textures[], GLenum type, GLuint slot, GLenum format, GLenum pixelType);
+		GLuint* Initialize(const std::string textures[], const char* type, GLuint slot, GLenum format, GLenum pixelType);
 		void textureUnit(Shader& shader, std::string uniform, GLuint unit);
 		void Bind();
 		void Unbind();

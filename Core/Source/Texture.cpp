@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-Core::Texture::Texture(const std::string& texture, GLenum type, GLuint slot, GLenum format, GLenum pixelType)
+Core::Texture::Texture(const std::string& texture, const char* type, GLuint slot, GLenum format, GLenum pixelType)
 	: type(type)
 {
 	int width, height, colorChannels;
@@ -12,20 +12,20 @@ Core::Texture::Texture(const std::string& texture, GLenum type, GLuint slot, GLe
 	glGenTextures(1, &textureID);
 	glActiveTexture(GL_TEXTURE0 + slot);
 	unit = slot;
-	glBindTexture(type, textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 
-	glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-	glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-	glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexImage2D(type, 0, GL_RGBA, width, height, 0, format, pixelType, bytes);
-	glGenerateMipmap(type);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, pixelType, bytes);
+	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(bytes);
 
-	glBindTexture(type, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 Core::Texture::~Texture()
@@ -33,12 +33,12 @@ Core::Texture::~Texture()
 	Delete();
 }
 
-GLuint* Core::Texture::Initialize(const std::string textures[], GLenum type, GLuint slot, GLenum format, GLenum pixelType)
+GLuint* Core::Texture::Initialize(const std::string textures[], const char* type, GLuint slot, GLenum format, GLenum pixelType)
 {
 	size_t count = textures->size() / sizeof(std::string);
 
-	this->type = type; 
-	this->texturesID = new GLuint[count];
+	type = type; 
+	texturesID = new GLuint[count];
 	glGenTextures(count, texturesID);
 
 	for (size_t i = 0; i < count; i++)
@@ -51,20 +51,20 @@ GLuint* Core::Texture::Initialize(const std::string textures[], GLenum type, GLu
 
 		glActiveTexture(GL_TEXTURE0 + slot);
 		unit = slot;
-		glBindTexture(type, texturesID[i]);
+		glBindTexture(GL_TEXTURE_2D, texturesID[i]);
 
-		glTexParameteri(type, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-		glTexParameteri(type, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-		glTexParameteri(type, GL_TEXTURE_WRAP_S, GL_REPEAT);
-		glTexParameteri(type, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-		glTexImage2D(type, 0, GL_RGBA, width, height, 0, format, pixelType, bytes);
-		glGenerateMipmap(type);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, format, pixelType, bytes);
+		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(bytes);
 
-		glBindTexture(type, 0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
 	this->textureID = *texturesID;
@@ -81,12 +81,12 @@ void Core::Texture::textureUnit(Shader& shader, std::string uniform, GLuint unit
 void Core::Texture::Bind()
 {
 	glActiveTexture(GL_TEXTURE0 + unit);
-	glBindTexture(type, textureID);
+	glBindTexture(GL_TEXTURE_2D, textureID);
 }
 
 void Core::Texture::Unbind()
 {
-	glBindTexture(type, 0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
 void Core::Texture::Delete()
