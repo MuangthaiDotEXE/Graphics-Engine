@@ -7,9 +7,9 @@
 
 ### Features
 - Multi-platform windowing system
-- 3 Dimensional OpenGL/Vulkan graphics API rendering system with simple lighting (Directional light, spot light and point light) 
+- 3 dimensional OpenGL/Vulkan graphics API rendering system with simple lighting (Directional light, spot light and point light) 
 - Image texture support
-- Basic 3D camera system with perspective projection
+- Basic 3 dimensional camera system with perspective projection
 - Basic input system for controlling window and graphics rendering
 
 ### Credits
