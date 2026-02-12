@@ -1,6 +1,6 @@
 <div align="center">
 	<h1> Graphics Engine </h1>
-	<p> Graphics Engine in C++ using GLFW, OpenGL, stb image and GLM </p>
+	<p> Graphics Engine written in C++ using GLFW, OpenGL, STB image and GLM </p>
 </div>
 
 ![Icon](Icon.png)
@@ -9,6 +9,8 @@
 - Multi-platform windowing system
 - 3 Dimensional OpenGL/Vulkan graphics API rendering system with simple lighting (Directional light, spot light and point light) 
 - Image texture support
+- Basic 3D camera system with perspective projection
+- Basic input system for controlling window and graphics rendering
 
 ### Credits
 - For more information about contributors and their roles. Please refer to [CREDITS.md](CREDITS.md)
