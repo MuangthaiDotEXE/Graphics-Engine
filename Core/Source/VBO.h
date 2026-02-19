@@ -11,9 +11,9 @@
 struct vertex
 {
 	glm::vec3 position;
-	glm::vec3 normal;
 	glm::vec3 color;
 	glm::vec2 textureUV;
+	glm::vec3 normal;
 };
 
 namespace Core

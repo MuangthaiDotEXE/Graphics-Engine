@@ -49,6 +49,7 @@ namespace Core
 		GLFWwindow* GetWindow() const;
 		glm::vec2 GetWindowSize() const;
 		glm::vec2 GetFramebufferSize() const;
+		glm::vec2 GetPosition() const;
 
 	private:
 		void SetCenter();

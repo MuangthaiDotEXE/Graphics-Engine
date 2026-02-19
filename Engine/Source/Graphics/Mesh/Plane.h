@@ -3,11 +3,17 @@
 #ifndef PLANE_H
 #define PLANE_H
 
+#include <vector>
+#include <string>
+
+#include <glad/gl.h>
+#include <glm/glm.hpp>
+
 #include "Mesh.h"
 
 namespace Engine
 {
-	class Plane final : public Mesh
+	class Plane : public Mesh
 	{
 	public:
 		Plane();

@@ -3,11 +3,17 @@
 #ifndef CUBE_H
 #define CUBE_H
 
+#include <vector>
+#include <string>
+
+#include <glad/gl.h>
+#include <glm/glm.hpp>
+
 #include "Mesh.h"
 
 namespace Engine
 {
-	class Cube final : public Mesh
+	class Cube : public Mesh
 	{
 	public:
 		Cube();

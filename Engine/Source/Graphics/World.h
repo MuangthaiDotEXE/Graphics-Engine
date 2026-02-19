@@ -3,13 +3,18 @@
 #ifndef WORLD_H
 #define WORLD_H
 
+#include <vector>
+#include <memory>
+
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 
 #include "App.h"
 
-#include "Mesh/Object.h"
+#include "Mesh/Mesh.h"
+#include "Mesh/Cube.h"
+#include "Mesh/Plane.h"
 #include "Light/Light.h"
 #include "Camera/Camera.h"
 
@@ -20,7 +25,7 @@ namespace Engine
 	private:
 		Core::App& app;
 
-		Object mesh;
+		std::vector<std::unique_ptr<Mesh>> object;
 		Light light;
 		Camera camera;
 

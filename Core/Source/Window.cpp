@@ -163,6 +163,14 @@ glm::vec2 Core::Window::GetFramebufferSize() const
 	return glm::vec2(width, height);
 }
 
+glm::vec2 Core::Window::GetPosition() const
+{
+	int x, y;
+	glfwGetWindowPos(window, &x, &y);
+
+	return glm::vec2(x, y);
+}
+
 void Core::Window::SetCenter()
 {
 	int windowX, windowY;

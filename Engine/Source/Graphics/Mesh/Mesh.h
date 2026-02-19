@@ -3,7 +3,7 @@
 #ifndef MESH_H
 #define MESH_H
 
-#include <memory>
+#include <string>
 
 #include <glad/gl.h>
 
@@ -17,20 +17,16 @@ namespace Engine
 {
 	class Mesh
 	{
-	protected:
-		std::unique_ptr<Core::Shader> shader;
-		std::unique_ptr<Core::VAO> vao;
-		std::unique_ptr<Core::VBO> vbo;
-		std::unique_ptr<Core::EBO> ebo;
-
-		std::vector<vertex> vertices;
-		std::vector<GLuint> indices;
-		std::vector<Core::Texture> textures;
-		
 	public:
-		Mesh();
+		Core::Shader shader;
+		Core::VAO vao;
+		Core::VBO vbo;
+		Core::EBO ebo;
+		
+		Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<vertex>& vertices, std::vector<GLuint>& indices);
 		virtual ~Mesh() = default;
 
+	public:
 		virtual void Render() = 0;
 		virtual void Update() = 0;
 	};
