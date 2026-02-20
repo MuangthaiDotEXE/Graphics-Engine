@@ -3,7 +3,10 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
+#include <vector>
+
 #include <glad/gl.h>
+#include <glm/glm.hpp>
 
 #include "Shader.h"
 #include "VAO.h"

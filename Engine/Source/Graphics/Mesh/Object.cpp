@@ -31,7 +31,7 @@ GLfloat objectVertices[] =
 	-1.0f, -1.0f,  1.0f,   0.0f, 0.0f, 1.0f,   0.0f, 1.0f,    0.0f, -1.0f,  0.0f,   // Bottom face top left vertex
 	 1.0f, -1.0f,  1.0f,   1.0f, 0.0f, 1.0f,   1.0f, 1.0f,    0.0f, -1.0f,  0.0f,   // Bottom face top right vertex
 	 1.0f, -1.0f, -1.0f,   1.0f, 0.0f, 0.0f,   1.0f, 0.0f,    0.0f, -1.0f,  0.0f,   // Bottom face bottom right vertex
-	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f,    0.0f, -1.0f,  0.0f   // Bottom face bottom left vertex
+	-1.0f, -1.0f, -1.0f,   0.0f, 0.0f, 0.0f,   0.0f, 0.0f,    0.0f, -1.0f,  0.0f    // Bottom face bottom left vertex
 };
 
 GLuint objectIndices[] =
