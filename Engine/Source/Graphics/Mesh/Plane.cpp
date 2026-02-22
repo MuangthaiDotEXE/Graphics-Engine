@@ -17,7 +17,7 @@ GLuint planeIndices[] =
 };
 
 std::string planeTexture = ProjectDirectory "/Asset/Texture/Brick_Texture.png";
-std::string planeSpecular = ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png";
+std::string planeSpecular = ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png";
 
 std::vector<vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(vertex));
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));

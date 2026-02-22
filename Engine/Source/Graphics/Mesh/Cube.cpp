@@ -73,12 +73,12 @@ static const std::array<std::string, 6> cubeTexture
 
 static const std::array<std::string, 6> cubeSpecular
 {
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",   // Front face
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Right face
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Back face
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Left face
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Top face
-	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Bottom face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",  // Front face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Right face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Back face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Left face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Top face
+	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Bottom face
 };
 
 std::vector<vertex> cubeVerts(cubeVertices, cubeVertices + sizeof(cubeVertices) / sizeof(vertex));
