@@ -19,18 +19,23 @@ GLuint lightIndices[] =
 	// Front face
 	0, 1, 2,
 	0, 2, 3,
+
 	// Back face
 	4, 5, 6,
 	4, 6, 7,
+
 	// Right face
 	1, 4, 7,
 	1, 7, 2,
+
 	// Left face
 	5, 0, 3,
 	5, 3, 6,
+
 	// Top face
 	5, 4, 1,
 	5, 1, 0,
+
 	// Bottom face
 	3, 2, 7,
 	3, 7, 6

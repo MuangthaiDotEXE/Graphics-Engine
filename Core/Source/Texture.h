@@ -4,6 +4,9 @@
 #define TEXTURE_H
 
 #include <string>
+#include <format>
+#include <vector>
+#include <stdexcept>
 
 #include <glad/gl.h>
 #include <stb_image.h>
@@ -15,21 +18,26 @@ namespace Core
 	class Texture
 	{
 	private:
-		GLuint textureID;
-		GLuint* texturesID;
-		const char* type;
+		std::vector<GLuint> textureID;
+		std::string type;
 		GLuint unit;
 
 	public:
 		Texture() = default;
-		Texture(const std::string& texture, const char* type, GLuint slot, GLenum format, GLenum pixelType);
 		virtual ~Texture();
 
-		GLuint* Initialize(const std::string textures[], const char* type, GLuint slot, GLenum format, GLenum pixelType);
-		void textureUnit(Shader& shader, std::string uniform, GLuint unit);
-		void Bind();
+		void LoadSingle(const std::string& texture, std::string type, GLuint slot, GLenum format, GLenum pixelType);
+		void LoadMultiple(const std::vector<std::string>& textures, std::string type, GLuint slot, GLenum format, GLenum pixelType);
+		void SetUnit(Shader& shader, std::string uniform, GLuint unit);
+		void Bind(size_t index);
 		void Unbind();
 		void Delete();
+
+		GLuint GetID(size_t index) const;
+		size_t GetSize() const;
+
+	private:
+		static GLuint LoadTexture(const std::string& path, GLuint slot, GLenum format, GLenum pixelType);
 	};
 }
 

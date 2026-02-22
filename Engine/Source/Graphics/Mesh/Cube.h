@@ -3,8 +3,9 @@
 #ifndef CUBE_H
 #define CUBE_H
 
-#include <vector>
 #include <string>
+#include <array>
+#include <vector>
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>

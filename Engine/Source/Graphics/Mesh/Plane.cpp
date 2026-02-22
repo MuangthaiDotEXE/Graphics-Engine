@@ -16,12 +16,15 @@ GLuint planeIndices[] =
 	1, 2, 3
 };
 
+std::string planeTexture = ProjectDirectory "/Asset/Texture/Brick_Texture.png";
+std::string planeSpecular = ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png";
+
 std::vector<vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(vertex));
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
 
 Engine::Plane::Plane()
 	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", 
-		planeVerts, planeInds)
+		planeVerts, planeInds, Core::Texture(), Core::Texture())
 {
 	vao.Bind();
 	vbo.Bind();
@@ -35,6 +38,12 @@ Engine::Plane::Plane()
 	vao.Unbind();
 	vbo.Unbind();
 	ebo.Unbind();
+
+	texture.LoadSingle(planeTexture, "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE);
+	specular.LoadSingle(planeSpecular, "Specular", 1, GL_RED, GL_UNSIGNED_BYTE);
+
+	texture.SetUnit(shader, "textureSampler", 0);
+	specular.SetUnit(shader, "specularSampler", 1);
 }
 
 Engine::Plane::~Plane()
@@ -54,6 +63,12 @@ void Engine::Plane::Update()
 {
 	shader.Activate();
 	vao.Bind();
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture.GetID(0));
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
 
 	glDrawElements(GL_TRIANGLES, planeInds.size(), GL_UNSIGNED_INT, 0);
 }

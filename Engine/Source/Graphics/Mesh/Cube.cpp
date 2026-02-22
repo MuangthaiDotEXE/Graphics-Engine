@@ -61,12 +61,32 @@ GLuint cubeIndices[] =
 	21, 22, 23
 };
 
+static const std::array<std::string, 6> cubeTexture
+{
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Front face
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Right face
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Back face
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Left face
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Top face
+	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Bottom face
+};
+
+static const std::array<std::string, 6> cubeSpecular
+{
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",   // Front face
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Right face
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Back face
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Left face
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Top face
+	ProjectDirectory "/Asset/Texture/Brick_Texture_specular.png",	// Bottom face
+};
+
 std::vector<vertex> cubeVerts(cubeVertices, cubeVertices + sizeof(cubeVertices) / sizeof(vertex));
 std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / sizeof(GLuint));
 
 Engine::Cube::Cube()
 	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag", 
-		cubeVerts, cubeInds)
+		cubeVerts, cubeInds, Core::Texture(), Core::Texture())
 {
 	vao.Bind();
 	vbo.Bind();
@@ -80,6 +100,12 @@ Engine::Cube::Cube()
 	vao.Unbind();
 	vbo.Unbind();
 	ebo.Unbind();
+
+	texture.LoadMultiple({ cubeTexture.begin(), cubeTexture.end() }, "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE);
+	specular.LoadMultiple({ cubeSpecular.begin(), cubeSpecular.end() }, "Specular", 1, GL_RED, GL_UNSIGNED_BYTE);
+
+	texture.SetUnit(shader, "textureSampler", 0);
+	specular.SetUnit(shader, "specularSampler", 1);
 }
 
 Engine::Cube::~Cube()
@@ -100,5 +126,14 @@ void Engine::Cube::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glDrawElements(GL_TRIANGLES, cubeInds.size(), GL_UNSIGNED_INT, 0);
+	for (size_t i = 0; i < 6; i++)
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture.GetID(i));
+
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
+
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(GLuint)));
+	}
 }

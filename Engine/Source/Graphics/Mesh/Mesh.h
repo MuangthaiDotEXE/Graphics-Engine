@@ -22,8 +22,10 @@ namespace Engine
 		Core::VAO vao;
 		Core::VBO vbo;
 		Core::EBO ebo;
+		Core::Texture texture;
+		Core::Texture specular;
 		
-		Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<vertex>& vertices, std::vector<GLuint>& indices);
+		Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& texture, const Core::Texture specular);
 		virtual ~Mesh() = default;
 
 	public:
