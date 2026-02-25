@@ -10,6 +10,8 @@ set(SOURCES
 	"Source/Graphics/Mesh/Cube.cpp"
 	"Source/Graphics/Mesh/Plane.h"
 	"Source/Graphics/Mesh/Plane.cpp"
+	"Source/Graphics/Mesh/Model.h"
+	"Source/Graphics/Mesh/Model.cpp"
 	"Source/Graphics/Camera/Camera.h"
 	"Source/Graphics/Camera/Camera.cpp"
 	"Source/Graphics/Light/Light.h"

@@ -24,7 +24,7 @@ def main() -> None:
 if __name__ == "__main__":
     start_time: float = time.perf_counter()
 
-    print(f"\n --- Building project '{os.path.basename(os.getcwd())}' with Python {platform.python_version()} --- \n")
+    print(f"\n --- Building project '{os.path.basename(os.getcwd())}' with Python {platform.python_version()} build script and CMake --- \n")
     main()
 
     end_time: float = time.perf_counter()

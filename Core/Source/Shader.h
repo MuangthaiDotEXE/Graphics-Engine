@@ -21,10 +21,6 @@ namespace Core
 {
 	class Shader
 	{
-	private:
-		template<string T>
-		std::string ReadFile(const T& path);
-
 	public:
 		GLuint programID;
 
@@ -35,6 +31,9 @@ namespace Core
 		void Delete();
 
 	private:
+		template<string T>
+		std::string ReadFile(const T& path);
+
 		void Error(GLuint shader, const std::string& type);
 	};
 }
