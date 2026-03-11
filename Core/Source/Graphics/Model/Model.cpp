@@ -1,22 +1,41 @@
 #include "Model.h"
 
-Engine::Model::Model(const std::string& file)
-    : file(file)
+Core::Model::Model(const std::string& file)
+    : file(file), texture()
 {
 	std::string text = ReadFile(file);
     json = JSON::parse(text);
     data = GetData();
 }
 
-void Engine::Model::Render()
+void Core::Model::Render()
 {
 }
 
-void Engine::Model::Update()
+void Core::Model::Update()
 {
 }
 
-std::vector<unsigned char> Engine::Model::GetData()
+void Core::Model::loadMesh(unsigned int indicesMesh)
+{
+    unsigned int positionAccessorsIndices = json["meshes"][indicesMesh]["primitives"][0]["attributes"]["POSITION"];
+    unsigned int normalAccessorsIndices = json["meshes"][indicesMesh]["primitives"][0]["attributes"]["NORMAL"];
+    unsigned int textureAccessorsIndices = json["meshes"][indicesMesh]["primitives"][0]["attributes"]["TEXCOORD_0"];
+    unsigned int indicesAccessorsIndices = json["meshes"][indicesMesh]["primitives"][0]["indices"];
+
+    std::vector<float> positionVector = GetFloats(json["accessors"][positionAccessorsIndices]);
+    std::vector<glm::vec3> positions = GroupFloatsVector3(positionVector);
+    std::vector<float> normalVector = GetFloats(json["accessors"][normalAccessorsIndices]);
+    std::vector<glm::vec3> normals = GroupFloatsVector3(normalVector);
+    std::vector<float> textureVector = GetFloats(json["accessors"][textureAccessorsIndices]);
+    std::vector<glm::vec2> textureUVs = GroupFloatsVector2(textureVector);
+
+    std::vector<vertex> vertices = AssembleVertices(positions, normals, textureUVs);
+    std::vector<GLuint> indices = GetIndices(json["accessors"][indicesAccessorsIndices]);
+    std::vector<Texture> textures = GetTextures();
+}
+
+std::vector<unsigned char> Core::Model::GetData()
 {
     std::string byteText;
     std::string uri = json["buffers"][0]["uri"];
@@ -29,7 +48,7 @@ std::vector<unsigned char> Engine::Model::GetData()
     return data;
 }
 
-std::vector<float> Engine::Model::GetFloats(JSON accessor)
+std::vector<float> Core::Model::GetFloats(JSON accessor)
 {
     std::vector<float> floatVector;
 
@@ -62,7 +81,7 @@ std::vector<float> Engine::Model::GetFloats(JSON accessor)
     return floatVector;
 }
 
-std::vector<GLuint> Engine::Model::GetIndices(JSON accessor)
+std::vector<GLuint> Core::Model::GetIndices(JSON accessor)
 {
     std::vector<GLuint> indices;
 
@@ -112,7 +131,52 @@ std::vector<GLuint> Engine::Model::GetIndices(JSON accessor)
     return indices;
 }
 
-std::vector<glm::vec2> Engine::Model::GroupFloatsVector2(std::vector<float> floatVector)
+std::vector<Core::Texture> Core::Model::GetTextures()
+{
+    std::vector<Texture> textures;
+
+    std::string fileString = std::string(file);
+    std::string directory = fileString.substr(0, fileString.find_last_of("/") + 1);
+
+    for (unsigned int i = 0; i < json["images"].size(); i++)
+    {
+        std::string texturePath = json["images"][i]["uri"];
+
+        bool skip = false;
+        for (unsigned int j = 0; j < loadedTextureName.size(); j++)
+        {
+            if (loadedTextureName[j] == texturePath)
+            {
+                textures.emplace_back(loadedTexture[j]);
+                skip = true;
+
+                break;
+            }
+        }
+
+        if (!skip)
+        {
+            if (texturePath.find("baseColor") != std::string::npos)
+            {
+                Texture diffuse = Texture(directory + texturePath, "diffuse", loadedTexture.size());
+                textures.emplace_back(diffuse);
+                loadedTexture.emplace_back(diffuse);
+                loadedTextureName.emplace_back(texturePath);
+            }
+            else if (texturePath.find("metallicRoughness") != std::string::npos)
+            {
+                Texture specular = Texture(directory + texturePath, "specular", loadedTexture.size());
+                textures.emplace_back(specular);
+                loadedTexture.emplace_back(specular);
+                loadedTextureName.emplace_back(texturePath);
+            }
+        }
+    }
+    
+    return textures;
+}
+
+std::vector<glm::vec2> Core::Model::GroupFloatsVector2(std::vector<float> floatVector)
 {
     std::vector<glm::vec2> vector;
 
@@ -129,7 +193,7 @@ std::vector<glm::vec2> Engine::Model::GroupFloatsVector2(std::vector<float> floa
     return vector;
 }
 
-std::vector<glm::vec3> Engine::Model::GroupFloatsVector3(std::vector<float> floatVector)
+std::vector<glm::vec3> Core::Model::GroupFloatsVector3(std::vector<float> floatVector)
 {
     std::vector<glm::vec3> vector;
 
@@ -146,7 +210,7 @@ std::vector<glm::vec3> Engine::Model::GroupFloatsVector3(std::vector<float> floa
     return vector;
 }
 
-std::vector<glm::vec4> Engine::Model::GroupFloatsVector4(std::vector<float> floatVector)
+std::vector<glm::vec4> Core::Model::GroupFloatsVector4(std::vector<float> floatVector)
 {
     std::vector<glm::vec4> vector;
 
@@ -163,7 +227,7 @@ std::vector<glm::vec4> Engine::Model::GroupFloatsVector4(std::vector<float> floa
     return vector;
 }
 
-std::vector<vertex> Engine::Model::assembleVertices(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec2> textureUVs)
+std::vector<vertex> Core::Model::AssembleVertices(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec2> textureUVs)
 {
     std::vector<vertex> vertices;
 
@@ -182,24 +246,4 @@ std::vector<vertex> Engine::Model::assembleVertices(std::vector<glm::vec3> posit
     }
 
     return vertices;
-}
-
-template<string T>
-std::string Engine::Model::ReadFile(const T& path)
-{
-    std::ifstream file(path, std::ios::binary);
-
-    if (!file)
-    {
-        throw std::exception("Failed to open and read the file (Input/Output)");
-    }
-
-    std::string content;
-    file.seekg(0, std::ios::end);
-    content.resize(file.tellg());
-    file.seekg(0, std::ios::beg);
-    file.read(&content[0], content.size());
-    file.close();
-
-    return content;
 }

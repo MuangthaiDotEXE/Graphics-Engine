@@ -79,7 +79,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	}
 
 	SetCenter();
-	
+
 	if (glfwRawMouseMotionSupported())
 	{
 		glfwSetInputMode(window, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);

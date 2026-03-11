@@ -8,10 +8,10 @@
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 
-#include "Shader.h"
-#include "VAO.h"
-#include "VBO.h"
-#include "EBO.h"
+#include "Graphics/Shader/Shader.h"
+#include "Graphics/Shader/VAO.h"
+#include "Graphics/Shader/VBO.h"
+#include "Graphics/Shader/EBO.h"
 
 namespace Engine
 {

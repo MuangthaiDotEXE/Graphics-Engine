@@ -45,4 +45,5 @@ if (NOT glm_FOUND)
 endif()
 set_target_properties(glm PROPERTIES FOLDER "Library")
 
+include_directories("Library/imgui" "Library/imgui/backends")
 include_directories("Library/nlohmann/include")

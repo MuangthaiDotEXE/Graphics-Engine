@@ -85,7 +85,7 @@ std::vector<vertex> cubeVerts(cubeVertices, cubeVertices + sizeof(cubeVertices) 
 std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / sizeof(GLuint));
 
 Engine::Cube::Cube()
-	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag", 
+	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag",
 		cubeVerts, cubeInds, Core::Texture(), Core::Texture())
 {
 	vao.Bind();
@@ -101,10 +101,10 @@ Engine::Cube::Cube()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	texture.LoadMultiple({ cubeTexture.begin(), cubeTexture.end() }, "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE);
-	specular.LoadMultiple({ cubeSpecular.begin(), cubeSpecular.end() }, "Specular", 1, GL_RED, GL_UNSIGNED_BYTE);
+	diffuse.LoadMultiple({ cubeTexture.begin(), cubeTexture.end() }, "diffuse", 0);
+	specular.LoadMultiple({ cubeSpecular.begin(), cubeSpecular.end() }, "specular", 1);
 
-	texture.SetUnit(shader, "textureSampler", 0);
+	diffuse.SetUnit(shader, "diffuseSampler", 0);
 	specular.SetUnit(shader, "specularSampler", 1);
 }
 
@@ -129,7 +129,7 @@ void Engine::Cube::Update()
 	for (size_t i = 0; i < 6; i++)
 	{
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture.GetID(i));
+		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
 
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specular.GetID(i));

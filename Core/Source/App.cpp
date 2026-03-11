@@ -10,6 +10,9 @@ Core::App::App(const AppData& appData = AppData())
 	std::string title = "";
 	std::string version = "";
 	std::string api = "";
+	const unsigned char* graphicsVersion;
+	const unsigned char* graphicsRenderer;
+	const unsigned char* graphicsVendor;
 
 	if (data.windowData.title.empty() || (!data.name.empty() || !data.version.empty()))
 	{
@@ -20,7 +23,7 @@ Core::App::App(const AppData& appData = AppData())
 	// version system: major, minor, patch
 	if (!appData.version.empty())
 	{
-		version = std::format("v{}.{}.{}", appData.version[0], appData.version[1], appData.version[2]);
+		version = std::format("v{}.{}.{}{} build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, appData.buildNumber);
 	}
 
 	window = std::make_unique<Window>(data.windowData, appData.graphicsAPI);
@@ -40,7 +43,7 @@ Core::App::App(const AppData& appData = AppData())
 		break;
 
 	default:
-		graphics = std::make_unique<OpenGL>();
+		graphics = std::make_unique<OpenGL>(); // Default to OpenGL graphics API
 		api = "OpenGL";
 
 		break;
@@ -50,12 +53,18 @@ Core::App::App(const AppData& appData = AppData())
 
 	std::print("{} {}\n", title, version);
 	std::print("Graphics API: {} API\n", api);
-	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently not stable. Please avoid using it if possible\n");
+	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently unstable. Please avoid using it if possible (Vulkan graphics API)\n");
 #ifdef NDEBUG
 	std::print("Build: Release\n");
 #else
 	std::print("Build: Debug\n");
 #endif
+
+	std::print("\n");
+	std::print("Window size (default): {}x{}\n", data.windowData.width, data.windowData.height);
+	std::print("Window monitor synchronization (V-Sync): {}\n", data.windowData.vSync);
+	std::print("Window resizable: {}\n", data.windowData.resizable);
+	std::print("Window decorated: {}\n", data.windowData.decorated);
 
 	running = true;
 }
@@ -63,7 +72,6 @@ Core::App::App(const AppData& appData = AppData())
 Core::App::~App()
 {
 	running = false;
-
 	window.reset();
 
 	app = nullptr;

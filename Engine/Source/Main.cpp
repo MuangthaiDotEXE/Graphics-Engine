@@ -8,6 +8,7 @@ int main(int argc, char** argv)
 	Core::AppData engineData {};
 	engineData.name = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
+	engineData.buildNumber = 1;
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.vSync = true;

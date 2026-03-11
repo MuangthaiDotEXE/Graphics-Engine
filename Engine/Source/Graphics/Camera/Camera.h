@@ -13,8 +13,8 @@
 #include <glm/gtx/rotate_vector.hpp>
 #include <glm/gtx/vector_angle.hpp>
 
-#include "Graphics.h"
-#include "Shader.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/Shader/Shader.h"
 
 namespace Engine
 {

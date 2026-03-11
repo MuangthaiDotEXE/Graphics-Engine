@@ -39,10 +39,10 @@ Engine::Plane::Plane()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	texture.LoadSingle(planeTexture, "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE);
-	specular.LoadSingle(planeSpecular, "Specular", 1, GL_RED, GL_UNSIGNED_BYTE);
+	diffuse.LoadSingle(planeTexture, "diffuse", 0);
+	specular.LoadSingle(planeSpecular, "specular", 1);
 
-	texture.SetUnit(shader, "textureSampler", 0);
+	diffuse.SetUnit(shader, "diffuseSampler", 0);
 	specular.SetUnit(shader, "specularSampler", 1);
 }
 
@@ -65,7 +65,7 @@ void Engine::Plane::Update()
 	vao.Bind();
 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture.GetID(0));
+	glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
 
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, specular.GetID(0));

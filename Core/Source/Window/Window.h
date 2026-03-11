@@ -14,7 +14,7 @@
 #include <glm/glm.hpp>
 #include <stb_image.h>
 
-#include "Graphics.h"
+#include "../Graphics/Graphics.h"
 
 namespace Core
 {

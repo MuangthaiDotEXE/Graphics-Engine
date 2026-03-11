@@ -14,8 +14,7 @@
 
 #include <glad/gl.h>
 
-template<typename T>
-concept string = std::is_same_v<T, std::string> || std::is_convertible_v<T, char*>;
+#include "Utility/Utility.h"
 
 namespace Core
 {
@@ -31,9 +30,6 @@ namespace Core
 		void Delete();
 
 	private:
-		template<string T>
-		std::string ReadFile(const T& path);
-
 		void Error(GLuint shader, const std::string& type);
 	};
 }

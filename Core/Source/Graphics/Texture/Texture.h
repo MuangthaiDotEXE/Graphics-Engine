@@ -11,7 +11,7 @@
 #include <glad/gl.h>
 #include <stb_image.h>
 
-#include "Shader.h"
+#include "Graphics/Shader/Shader.h"
 
 namespace Core
 {
@@ -24,10 +24,12 @@ namespace Core
 
 	public:
 		Texture() = default;
+		Texture(const std::string& texture, std::string type, GLuint slot);
+		Texture(const std::vector<std::string>& textures, std::string type, GLuint slot);
 		virtual ~Texture();
 
-		void LoadSingle(const std::string& texture, std::string type, GLuint slot, GLenum format, GLenum pixelType);
-		void LoadMultiple(const std::vector<std::string>& textures, std::string type, GLuint slot, GLenum format, GLenum pixelType);
+		void LoadSingle(const std::string& texture, std::string type, GLuint slot);
+		void LoadMultiple(const std::vector<std::string>& textures, std::string type, GLuint slot);
 		void SetUnit(Shader& shader, std::string uniform, GLuint unit);
 		void Bind(size_t index);
 		void Unbind();
@@ -37,7 +39,7 @@ namespace Core
 		size_t GetSize() const;
 
 	private:
-		static GLuint LoadTexture(const std::string& path, GLuint slot, GLenum format, GLenum pixelType);
+		static GLuint LoadTexture(const std::string& path, GLuint slot);
 	};
 }
 

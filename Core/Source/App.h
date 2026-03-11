@@ -12,11 +12,13 @@
 #include <format>
 #include <optional>
 
-#include "Window.h"
-#include "Graphics.h"
-#include "OpenGL.h"
-#include "Vulkan.h"
-#include "UserInterface.h"
+#include <glad/gl.h>
+
+#include "Window/Window.h"
+#include "Graphics/Graphics.h"
+#include "Graphics/OpenGL.h"
+#include "Graphics/Vulkan.h"
+#include "UserInterface/UserInterface.h"
 
 namespace Core
 {
@@ -24,8 +26,10 @@ namespace Core
 	{
 		WindowData windowData;
 		GraphicsAPI graphicsAPI;
+		int buildNumber = 1;
 		std::string name = "App";
-		std::array<int, 3> version;
+		std::string subVersion = "";
+		std::array<unsigned int, 3> version;
 	};
 	
 	class App

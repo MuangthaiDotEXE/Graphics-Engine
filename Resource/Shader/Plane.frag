@@ -7,13 +7,13 @@ in vec2 textureCoordinate;
 in vec3 normal;
 in vec3 currentPosition;
 
-uniform sampler2D textureSampler;
+uniform sampler2D diffuseSampler;
 uniform sampler2D specularSampler;
 uniform vec4 lightColor;
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 
-vec4 directLight()
+vec4 directionalLight()
 {
 	float ambient = 0.2f;
 
@@ -82,5 +82,5 @@ vec4 spotLight()
 void main()
 {
 	//fragColor = vec4(color, 1.0f) * pointLight();
-	fragColor = texture(textureSampler, textureCoordinate) * pointLight();
+	fragColor = texture(diffuseSampler, textureCoordinate) * pointLight();
 }
