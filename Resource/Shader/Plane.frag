@@ -13,6 +13,9 @@ uniform vec4 lightColor;
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 
+float near = 0.001f;
+float far = 1000.0f;
+
 vec4 directionalLight()
 {
 	float ambient = 0.2f;
@@ -77,6 +80,18 @@ vec4 spotLight()
 	float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
 	return ((diffuse * intensity + ambient) + texture(specularSampler, textureCoordinate).r * specular * intensity) * lightColor;
+}
+
+float linearizeDepth(float depth)
+{
+	return (2.0f * near * far) / (far + near - (depth * 2.0f - 1.0f) * (far - near));
+}
+
+float logisticDepth(float depth, float steepness, float offset)
+{
+	float zValue = linearizeDepth(depth);
+
+	return (1 / (1 + exp(-steepness * (zValue - offset))));
 }
 
 void main()

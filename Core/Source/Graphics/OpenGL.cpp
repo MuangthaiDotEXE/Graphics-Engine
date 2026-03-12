@@ -12,6 +12,7 @@ Core::OpenGL::OpenGL()
 void Core::OpenGL::Render()
 {
 	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 }
 
 void Core::OpenGL::Update()
