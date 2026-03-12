@@ -1,7 +1,7 @@
 <div align="center">
 	<h1> Graphics Engine </h1>
 	<p> Graphics Engine written in C++ using GLFW, OpenGL, STB image and GLM </p>
-	![Icon](Icon.png)
+	<img src="Icon.png" alt="Icon">
 </div>
 
 ### Features
