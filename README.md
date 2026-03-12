@@ -11,11 +11,12 @@
 - Basic 3 dimensional camera system with perspective projection
 - Basic input system for controlling window and graphics rendering
 
-### Plans
+### Future Plans
 - Add advanced OpenGL graphics API rendering
 - Update Vulkan graphics API rendering
 - Add simple/advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
+- Add audio system using openAL
 - Fully automate libraries package finding and installation with CMake
 
 ### Credits
