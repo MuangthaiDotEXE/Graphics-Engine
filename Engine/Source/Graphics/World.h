@@ -29,6 +29,8 @@ namespace Engine
 		Light light;
 		Camera camera;
 
+		float nearPlane = 0.001f, farPlane = 1000.0f;
+
 	public:
 		World(Core::App& app);
 		virtual ~World();

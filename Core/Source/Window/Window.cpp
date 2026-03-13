@@ -88,7 +88,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 Core::Window::~Window()
 {
-	if (window != nullptr || window)
+	if (window != nullptr || !window)
 		glfwDestroyWindow(window);
 
 	glfwTerminate();

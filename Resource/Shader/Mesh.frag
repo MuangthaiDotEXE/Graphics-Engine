@@ -13,8 +13,8 @@ uniform vec4 lightColor;
 uniform vec3 lightPosition;
 uniform vec3 cameraPosition;
 
-float near = 0.001f;
-float far = 1000.0f;
+uniform float nearPlane;
+uniform float farPlane;
 
 vec4 directionalLight()
 {
@@ -84,7 +84,7 @@ vec4 spotLight()
 
 float linearizeDepth(float depth)
 {
-	return (2.0f * near * far) / (far + near - (depth * 2.0f - 1.0f) * (far - near));
+	return (2.0f * nearPlane * farPlane) / (farPlane + nearPlane - (depth * 2.0f - 1.0f) * (farPlane - nearPlane));
 }
 
 float logisticDepth(float depth, float steepness, float offset)

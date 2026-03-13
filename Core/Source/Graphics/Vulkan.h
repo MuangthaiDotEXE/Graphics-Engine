@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef VULKAN_H
-#define VULKAN_H
+#ifndef VULKAN_API_H
+#define VULKAN_API_H
 
 #include <stdexcept>
 

@@ -35,6 +35,8 @@ void Engine::World::Render()
 		glUniformMatrix4fv(glGetUniformLocation(mesh->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(meshModel));
 		glUniform4f(glGetUniformLocation(mesh->shader.programID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 		glUniform3f(glGetUniformLocation(mesh->shader.programID, "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
+		glUniform1f(glGetUniformLocation(mesh->shader.programID, "nearPlane"), nearPlane);
+		glUniform1f(glGetUniformLocation(mesh->shader.programID, "farPlane"), farPlane);
 
 		mesh->Render();
 	}
@@ -44,7 +46,7 @@ void Engine::World::Update()
 {
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
-	camera.UpdateMatrix(app.window->GetWindow(), 70.0f, 0.001f, 1000.0f);
+	camera.UpdateMatrix(app.window->GetWindow(), 70.0f, nearPlane, farPlane);
 	camera.Inputs(app.window->GetWindow());
 
 	light.Update();
