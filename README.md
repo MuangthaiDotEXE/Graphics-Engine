@@ -7,16 +7,18 @@
 ### Features
 - Multi-platform windowing system
 - 3 dimensional OpenGL/Vulkan graphics API rendering system with simple lighting (Directional light, spot light and point light) 
-- Image texture support (Nearest filter)
+- Simple Image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective projection
+- Multiple meshes support (Cube, plane)
 - Basic input system for controlling window and graphics rendering
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
 - Update Vulkan graphics API rendering
+- Add more meshes support (Sphere, etc)
 - Add simple/advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
-- Add audio system using openAL
+- Add audio system using openAL audio API
 - Fully automate libraries package finding and installation with CMake
 
 ### Credits
