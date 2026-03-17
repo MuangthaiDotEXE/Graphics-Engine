@@ -56,21 +56,22 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwSwapInterval(data.vSync);
 	}
 
-	if (!data.icon.empty())
+	if (!data.icon.empty() && std::filesystem::exists(data.icon))
 	{
 		GLFWimage icon[1];
 		int width, height, channels;
 
-		icon[0].pixels = stbi_load(data.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		unsigned char* image = stbi_load(data.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 
-		if (icon[0].pixels != nullptr)
+		if (image)
 		{
 			icon[0].width = width;
 			icon[0].height = height;
+			icon[0].pixels = image;
 
 			glfwSetWindowIcon(window, 1, icon);
 
-			stbi_image_free(icon[0].pixels);
+			stbi_image_free(image);
 		}
 		else
 		{
