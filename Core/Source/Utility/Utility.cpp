@@ -18,6 +18,7 @@ std::string ReadFile(const char* path)
 
     return content;
 }
+
 std::string ReadFile(const std::string& path)
 {
     std::ifstream file(path, std::ios::binary);
