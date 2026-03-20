@@ -29,9 +29,9 @@ set(SOURCES
 )
 
 add_library(Core STATIC)
-target_sources(Core PRIVATE ${SOURCES})
+target_sources(Core PRIVATE "${SOURCES}")
 
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES ${SOURCES})
+source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES "${SOURCES}")
 
 add_compile_definitions(
 	GLFW_INCLUDE_NONE
@@ -40,10 +40,5 @@ add_compile_definitions(
 
 add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
 
-target_link_libraries(Core glfw)
-target_link_libraries(Core OpenGL::GL)
-target_link_libraries(Core Vulkan::Vulkan)
-target_link_libraries(Core glad)
-target_link_libraries(Core glm)
-
+target_link_libraries(Core glfw OpenGL::GL Vulkan::Vulkan glad glm imgui imguizmo)
 target_include_directories(Core PUBLIC "Source") 
