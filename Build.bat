@@ -6,4 +6,5 @@ if not exist Build (
 
 cd Build
 cmake ..
+cmake --build .
 make ..

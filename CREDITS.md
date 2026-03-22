@@ -1,9 +1,9 @@
 <div align="center">
 	<h1> Credits </h1>
-	<p> People who contribute to the project </p>
+	<p> People and developers who contribute to the project </p>
 </div>
 
-### Founder
+### Founder / Owner
 	Anakorn Songsatain (Github username: MuangthaiDotEXE)
 
 ### Lead developer

@@ -1,6 +1,6 @@
 include(FetchContent)
 
-find_package(glf3 QUIET)
+find_package(glfw3 QUIET)
 if (NOT glfw3_FOUND)
 	set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 	set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)

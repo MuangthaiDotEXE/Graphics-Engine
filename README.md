@@ -10,7 +10,7 @@
 - Simple image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective projection
 - Basic input system for controlling window and graphics rendering
-- Simple ImGui user interface rendering
+- Simple Dear ImGui user interface rendering
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
@@ -23,6 +23,11 @@
 <div align="center">
 	<img src="Asset/Image/Screenshot 1.png" alt="Screenshot 1">
 </div>
+
+### How to use
+- Clone the repository using `git clone` command
+- Run `Build.py` using Python. For platform specific, run `Build.bat` (Windows) or  `Build.sh` (Unix)
+- Once build, the project should be ready to go
 
 ### Credits
 - This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them
