@@ -29,9 +29,9 @@ set(SOURCES
 )
 
 add_library(Core STATIC)
-target_sources(Core PRIVATE "${SOURCES}")
+target_sources(Core PRIVATE ${SOURCES})
 
-source_group(TREE "${CMAKE_CURRENT_SOURCE_DIR}" FILES "${SOURCES}")
+source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 add_compile_definitions(
 	GLFW_INCLUDE_NONE

@@ -46,13 +46,13 @@ if __name__ == "__main__":
     configuration_end_time: float = time.perf_counter()
     configuration_elapsed_time: float = configuration_end_time - configuration_start_time
 
-    print(f"\n --- Configuration completed with the time of {configuration_elapsed_time:.3f} seconds --- \0")
+    print(f"\n --- Configuration completed with the time of {configuration_elapsed_time:.3f} seconds --- \n")
 
-    response: str = str(input(f"Do you want to build the project? [y/n]: ")).lower()
+    response: str = str(input(f" - Do you want to build the project? [y/n]: ")).lower()
 
     if response == "n" or response == "no":
         sys.exit()
-    else:
+    elif response == "y" or response == "yes":
         build_start_time: float = time.perf_counter()
 
         print(f"\n --- Building project '{os.path.basename(os.getcwd())}' with Python {platform.python_version()} build script and CMake --- \n")
@@ -62,3 +62,6 @@ if __name__ == "__main__":
         build_elapsed_time: float = build_end_time - build_start_time
 
         print(f"\n --- Building completed with the time of {configuration_elapsed_time:.3f} seconds --- ")
+    else:
+        print(f"Invalid response")
+        sys.exit()

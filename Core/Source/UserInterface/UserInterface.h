@@ -3,6 +3,7 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
+#include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <imgui_internal.h>

@@ -3,7 +3,7 @@
 static Core::App* app = nullptr;
 
 Core::App::App(const AppData& appData = AppData())
-	: data(appData), running(true), ui()
+	: data(appData), running(true)
 {
 	app = this;
 
@@ -49,8 +49,6 @@ Core::App::App(const AppData& appData = AppData())
 		break;
 	}
 
-	ui.emplace(window->GetWindow());
-
 	std::print("{} {}\n", title, version);
 	std::print("Graphics API: {} API\n", api);
 	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently unstable. Please avoid using it if possible (Vulkan graphics API)\n");
@@ -61,7 +59,6 @@ Core::App::App(const AppData& appData = AppData())
 #endif
 
 	std::print("\n");
-	std::print("Window size (default): {}x{}\n", data.windowData.width, data.windowData.height);
 	std::print("Window monitor synchronization (V-Sync): {}\n", data.windowData.vSync);
 	std::print("Window resizable: {}\n", data.windowData.resizable);
 	std::print("Window decorated: {}\n", data.windowData.decorated);
@@ -81,7 +78,6 @@ void Core::App::Render()
 {
 	window->Render();
 	graphics->Render();
-	ui->Render();
 }
 
 void Core::App::Update()
@@ -90,7 +86,6 @@ void Core::App::Update()
 	window->Update();
 	graphics->Update();
 	graphics->ViewportResize(window->GetWindow());
-	ui->Update();
 }
 
 Core::App& Core::App::GetApplication()

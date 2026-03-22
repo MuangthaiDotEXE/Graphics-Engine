@@ -17,6 +17,7 @@ namespace Engine
 		Core::App app;
 
 		World world;
+		Core::UserInterface ui;
 
 	public:
 		Engine(const Core::AppData& appData);

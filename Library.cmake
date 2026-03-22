@@ -64,6 +64,7 @@ add_library(imgui STATIC
 
 target_include_directories(imgui PUBLIC "${imgui_SOURCE_DIR}" "${imgui_SOURCE_DIR}/backends")
 target_link_libraries(imgui PUBLIC glfw OpenGL::GL Vulkan::Vulkan)
+target_compile_definitions(imgui PRIVATE GLFW_INCLUDE_NONE)
 set_target_properties(imgui PROPERTIES FOLDER "Library")
 
 FetchContent_Declare(

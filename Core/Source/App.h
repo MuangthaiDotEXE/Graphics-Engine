@@ -41,7 +41,6 @@ namespace Core
 	public:
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Graphics> graphics;
-		std::optional<UserInterface> ui;
 
 	public:
 		App(const AppData& appData);
