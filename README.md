@@ -10,14 +10,19 @@
 - Simple image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective projection
 - Basic input system for controlling window and graphics rendering
+- Simple ImGui user interface rendering
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
 - Add and update Vulkan graphics API rendering
-- Add simple/advanced user interface with Dear ImGui
+- Add advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
 - Add audio system using openAL
 - Fully automate libraries package finding and installation with CMake
+
+<div align="center">
+	<img src="Asset/Image/Screenshot 1.png" alt="Screenshot 1">
+</div>
 
 ### Credits
 - This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them
