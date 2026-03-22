@@ -7,12 +7,13 @@ Core::OpenGL::OpenGL()
 	{
 		throw std::exception("Failed to load OpenGL contexts (OpenGL graphics API)\n");
 	}
+
+	glEnable(GL_DEPTH_TEST);
+	glDepthFunc(GL_LESS);
 }
 
 void Core::OpenGL::Render()
 {
-	glEnable(GL_DEPTH_TEST);
-	glDepthFunc(GL_LESS);
 }
 
 void Core::OpenGL::Update()

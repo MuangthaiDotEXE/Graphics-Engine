@@ -24,3 +24,7 @@ CMakeUserPresets.json
 # CMake Build
 [Oo]ut/
 [Bb]uild/
+
+# Dear ImGui
+imgui.ini
+imgui*.ini

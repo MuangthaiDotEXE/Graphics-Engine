@@ -18,10 +18,13 @@ namespace Engine
 	{
 	public:
 		Cube();
+		Cube(const Core::Shader& shader);
 		virtual ~Cube();
 
 		void Render() override;
 		void Update() override;
+
+		void Initialize();
 	};
 }
 

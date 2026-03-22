@@ -16,34 +16,22 @@ GLuint planeIndices[] =
 	1, 2, 3
 };
 
-std::string planeTexture = ProjectDirectory "/Asset/Texture/Brick_Texture.png";
-std::string planeSpecular = ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png";
+std::string planeTexture = ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png";
+std::string planeSpecular = ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png";
 
 std::vector<vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(vertex));
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
 
 Engine::Plane::Plane()
-	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", 
-		planeVerts, planeInds, Core::Texture(), Core::Texture())
+	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", planeVerts, planeInds, Core::Texture(), Core::Texture())
 {
-	vao.Bind();
-	vbo.Bind();
-	ebo.Bind();
+	Initialize();
+}
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
-	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
-	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
-
-	vao.Unbind();
-	vbo.Unbind();
-	ebo.Unbind();
-
-	diffuse.LoadSingle(planeTexture, "diffuse", 0);
-	specular.LoadSingle(planeSpecular, "specular", 1);
-
-	diffuse.SetUnit(shader, "diffuseSampler", 0);
-	specular.SetUnit(shader, "specularSampler", 1);
+Engine::Plane::Plane(const Core::Shader& shader)
+	: Mesh(shader, planeVerts, planeInds, Core::Texture(), Core::Texture())
+{
+	Initialize();
 }
 
 Engine::Plane::~Plane()
@@ -71,4 +59,26 @@ void Engine::Plane::Update()
 	glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
 
 	glDrawElements(GL_TRIANGLES, planeInds.size(), GL_UNSIGNED_INT, 0);
+}
+
+void Engine::Plane::Initialize()
+{
+	vao.Bind();
+	vbo.Bind();
+	ebo.Bind();
+
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
+	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+
+	vao.Unbind();
+	vbo.Unbind();
+	ebo.Unbind();
+
+	diffuse.LoadSingle(planeTexture, "diffuse", 0);
+	specular.LoadSingle(planeSpecular, "specular", 1);
+
+	diffuse.SetUnit(this->shader, "diffuseSampler", 0);
+	specular.SetUnit(this->shader, "specularSampler", 1);
 }

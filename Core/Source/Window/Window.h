@@ -51,6 +51,7 @@ namespace Core
 		glm::vec2 GetWindowSize() const;
 		glm::vec2 GetFramebufferSize() const;
 		glm::vec2 GetPosition() const;
+		bool GetMonitorSync() const;
 
 	private:
 		void SetCenter();

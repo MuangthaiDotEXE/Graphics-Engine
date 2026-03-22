@@ -24,6 +24,7 @@ namespace Engine
 	{
 	private:
 		Core::App& app;
+		Core::Shader shader;
 
 		std::vector<std::unique_ptr<Mesh>> object;
 		Light light;

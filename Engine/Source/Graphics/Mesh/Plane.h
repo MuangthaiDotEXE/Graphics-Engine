@@ -18,10 +18,13 @@ namespace Engine
 	{
 	public:
 		Plane();
+		Plane(const Core::Shader& shader);
 		virtual ~Plane();
 
 		void Render() override;
 		void Update() override;
+
+		void Initialize();
 	};
 }
 

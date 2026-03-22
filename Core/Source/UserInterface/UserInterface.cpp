@@ -70,6 +70,11 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Text("%s %s", title.c_str(), version.c_str());
 	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
 	ImGui::Text(" ");
+
+	int width, height;
+	glfwGetWindowSize(window, &width, &height);
+	ImGui::Text("Window size: %ix%i", width, height);
+
 	ImGui::Text("FPS: %.1f", io.Framerate);
 	ImGui::End();
 }

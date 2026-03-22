@@ -63,49 +63,37 @@ GLuint cubeIndices[] =
 
 static const std::array<std::string, 6> cubeTexture
 {
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Front face
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Right face
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Back face
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Left face
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Top face
-	ProjectDirectory "/Asset/Texture/Brick_Texture.png",   // Bottom face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Front face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Right face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Back face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Left face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Top face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png"    // Bottom face
 };
 
 static const std::array<std::string, 6> cubeSpecular
 {
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",  // Front face
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Right face
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Back face
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Left face
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Top face
-	ProjectDirectory "/Asset/Specular/Brick_Texture_specular.png",	// Bottom face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",  // Front face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Right face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Back face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Left face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Top face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png" 	// Bottom face
 };
 
 std::vector<vertex> cubeVerts(cubeVertices, cubeVertices + sizeof(cubeVertices) / sizeof(vertex));
 std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / sizeof(GLuint));
 
 Engine::Cube::Cube()
-	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag",
-		cubeVerts, cubeInds, Core::Texture(), Core::Texture())
+	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag", cubeVerts, cubeInds, Core::Texture(), Core::Texture())
 {
-	vao.Bind();
-	vbo.Bind();
-	ebo.Bind();
+	Initialize();
+}
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
-	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
-	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
-	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
-
-	vao.Unbind();
-	vbo.Unbind();
-	ebo.Unbind();
-
-	diffuse.LoadMultiple({ cubeTexture.begin(), cubeTexture.end() }, "diffuse", 0);
-	specular.LoadMultiple({ cubeSpecular.begin(), cubeSpecular.end() }, "specular", 1);
-
-	diffuse.SetUnit(shader, "diffuseSampler", 0);
-	specular.SetUnit(shader, "specularSampler", 1);
+Engine::Cube::Cube(const Core::Shader& shader)
+	: Mesh(shader, cubeVerts, cubeInds, Core::Texture(), Core::Texture())
+{
+	Initialize();
 }
 
 Engine::Cube::~Cube()
@@ -136,4 +124,26 @@ void Engine::Cube::Update()
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, (void*)(i * 6 * sizeof(GLuint)));
 	}
+}
+
+void Engine::Cube::Initialize()
+{
+	vao.Bind();
+	vbo.Bind();
+	ebo.Bind();
+
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
+	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+
+	vao.Unbind();
+	vbo.Unbind();
+	ebo.Unbind();
+
+	diffuse.LoadMultiple({ cubeTexture.begin(), cubeTexture.end() }, "diffuse", 0);
+	specular.LoadMultiple({ cubeSpecular.begin(), cubeSpecular.end() }, "specular", 1);
+
+	diffuse.SetUnit(this->shader, "diffuseSampler", 0);
+	specular.SetUnit(this->shader, "specularSampler", 1);
 }

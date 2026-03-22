@@ -170,6 +170,11 @@ glm::vec2 Core::Window::GetPosition() const
 	return glm::vec2(x, y);
 }
 
+bool Core::Window::GetMonitorSync() const
+{
+	return data.vSync;
+}
+
 void Core::Window::SetCenter()
 {
 	int windowX, windowY;
