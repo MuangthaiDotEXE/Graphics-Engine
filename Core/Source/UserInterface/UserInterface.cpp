@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
-Core::UserInterface::UserInterface(GLFWwindow* window)
-	: window(window)
+Core::UserInterface::UserInterface(std::string title, std::string version, std::string graphicsAPI, GLFWwindow* window)
+	: title(title), version(version), graphicsAPI(graphicsAPI), window(window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -34,14 +34,21 @@ void Core::UserInterface::Render()
 {
 }
 
-void Core::UserInterface::Update()
+void Core::UserInterface::BeginFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+}
 
-	ImGui::ShowDemoWindow();
+void Core::UserInterface::Update()
+{
+	//ImGui::ShowDemoWindow();
+	DebugWindow();
+}
 
+void Core::UserInterface::EndFrame()
+{
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
@@ -54,4 +61,15 @@ void Core::UserInterface::Update()
 		ImGui::RenderPlatformWindowsDefault();
 		glfwMakeContextCurrent(context);
 	}
+}
+
+void Core::UserInterface::DebugWindow()
+{
+	ImGuiIO& io = ImGui::GetIO();
+	ImGui::Begin("Debug");
+	ImGui::Text("%s %s", title.c_str(), version.c_str());
+	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
+	ImGui::Text(" ");
+	ImGui::Text("FPS: %.1f", io.Framerate);
+	ImGui::End();
 }

@@ -7,13 +7,6 @@ Core::App::App(const AppData& appData = AppData())
 {
 	app = this;
 
-	std::string title = "";
-	std::string version = "";
-	std::string api = "";
-	const unsigned char* graphicsVersion;
-	const unsigned char* graphicsRenderer;
-	const unsigned char* graphicsVendor;
-
 	if (data.windowData.title.empty() || (!data.name.empty() || !data.version.empty()))
 	{
 		data.windowData.title = data.name + " " + version;
@@ -58,18 +51,12 @@ Core::App::App(const AppData& appData = AppData())
 	std::print("Build: Debug\n");
 #endif
 
-	std::print("\n");
-	std::print("Window monitor synchronization (V-Sync): {}\n", data.windowData.vSync);
-	std::print("Window resizable: {}\n", data.windowData.resizable);
-	std::print("Window decorated: {}\n", data.windowData.decorated);
-
 	running = true;
 }
 
 Core::App::~App()
 {
 	running = false;
-	window.reset();
 
 	app = nullptr;
 }

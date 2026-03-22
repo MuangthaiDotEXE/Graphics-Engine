@@ -3,6 +3,9 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
+#include <string>
+#include <array>
+
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -15,14 +18,19 @@ namespace Core
 	class UserInterface
 	{
 	private:
+		std::string title, version, graphicsAPI;
 		GLFWwindow* window;
 
 	public:
-		UserInterface(GLFWwindow* window);
+		UserInterface(std::string title, std::string version, std::string graphicsAPI, GLFWwindow* window);
 		virtual ~UserInterface();
 
 		void Render();
+		void BeginFrame();
 		void Update();
+		void EndFrame();
+
+		void DebugWindow();
 	};
 }
 

@@ -39,6 +39,10 @@ namespace Core
 		bool running;
 
 	public:
+		std::string title = "";
+		std::string version = "";
+		std::string api = "";
+
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Graphics> graphics;
 
