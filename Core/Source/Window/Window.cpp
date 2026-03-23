@@ -2,7 +2,7 @@
 
 static void ErrorCallback(int error, const char* description)
 {
-	std::fprintf(stderr, "GLFW error %d: %s\n", error, description);
+	std::fprintf(stderr, "GLFW error %d: %s (GLFW windowing API)\n", error, description);
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)

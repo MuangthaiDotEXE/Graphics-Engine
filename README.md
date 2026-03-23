@@ -10,7 +10,8 @@
 - Simple image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective projection
 - Basic input system for controlling window and graphics rendering
-- Simple Dear ImGui user interface rendering
+- Simple user interface rendering
+- Automate libraries package finding
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering

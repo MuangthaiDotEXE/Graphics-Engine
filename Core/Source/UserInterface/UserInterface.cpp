@@ -43,7 +43,6 @@ void Core::UserInterface::BeginFrame()
 
 void Core::UserInterface::Update()
 {
-	//ImGui::ShowDemoWindow();
 	DebugWindow();
 }
 
@@ -66,15 +65,21 @@ void Core::UserInterface::EndFrame()
 void Core::UserInterface::DebugWindow()
 {
 	ImGuiIO& io = ImGui::GetIO();
-	ImGui::Begin("Debug");
+	ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text("%s %s", title.c_str(), version.c_str());
 	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
-	ImGui::Text(" ");
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	int width, height;
 	glfwGetWindowSize(window, &width, &height);
 	ImGui::Text("Window size: %ix%i", width, height);
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
 	ImGui::End();
+}
+
+void Core::UserInterface::DemoWindow()
+{
+	ImGui::ShowDemoWindow();
 }

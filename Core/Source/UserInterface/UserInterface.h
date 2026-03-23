@@ -31,6 +31,7 @@ namespace Core
 		void EndFrame();
 
 		void DebugWindow();
+		void DemoWindow();
 	};
 }
 

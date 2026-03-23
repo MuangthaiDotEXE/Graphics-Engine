@@ -6,11 +6,11 @@ Engine::World::World(Core::App& app)
 {
 	auto cube = std::make_unique<Cube>(shader);
 	cube->name = "Brick cube";
-	cube->transform.position = glm::vec3(-2.0f, 0.0f, 0.0f);
+	cube->transform.position = glm::vec3(-2.5f, 0.0f, 0.0f);
 
 	auto plane = std::make_unique<Plane>(shader);
 	plane->name = "Brick plane";
-	plane->transform.position = glm::vec3(2.0f, 0.0f, 0.0f);
+	plane->transform.position = glm::vec3(2.5f, 0.0f, 0.0f);
 
 	object.emplace_back(std::move(cube));
 	object.emplace_back(std::move(plane));
@@ -24,7 +24,7 @@ void Engine::World::Render()
 {
 	glm::mat4 lightModel = glm::mat4(1.0f);
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	glm::vec3 lightPosition = glm::vec3(2.5f, 2.5f, 2.5f);
+	glm::vec3 lightPosition = glm::vec3(5.0f, 5.0f, 3.75f);
 	lightModel = glm::translate(lightModel, lightPosition);
 	lightModel = glm::scale(lightModel, glm::vec3(0.25f));
 
