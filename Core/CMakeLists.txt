@@ -17,6 +17,8 @@ set(SOURCES
 	 "Source/Graphics/Shader/VBO.cpp"
 	 "Source/Graphics/Shader/EBO.h"
 	 "Source/Graphics/Shader/EBO.cpp"
+	 "Source/Graphics/Shader/FBO.h"
+	 "Source/Graphics/Shader/FBO.cpp"
 	 "Source/Graphics/Texture/Texture.h"
 	 "Source/Graphics/Texture/Texture.cpp"
 	 "Source/Graphics/Texture/stb.cpp"
