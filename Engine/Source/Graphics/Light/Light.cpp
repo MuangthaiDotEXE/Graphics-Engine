@@ -1,17 +1,17 @@
 #include "Light.h"
 
-vertex lightVertices[] =
+Vertex lightVertices[] =
 {
 			// positions
-	vertex{ glm::vec3(-1.0f,  1.0f,  1.0f) },   // top left front vertex
-	vertex{ glm::vec3( 1.0f,  1.0f,  1.0f) },	// top right front vertex
-	vertex{ glm::vec3( 1.0f, -1.0f,  1.0f) },	// bottom right front vertex
-	vertex{ glm::vec3(-1.0f, -1.0f,  1.0f) },	// bottom left front vertex
+	Vertex{ glm::vec3(-1.0f,  1.0f,  1.0f) },   // top left front Vertex
+	Vertex{ glm::vec3( 1.0f,  1.0f,  1.0f) },	// top right front Vertex
+	Vertex{ glm::vec3( 1.0f, -1.0f,  1.0f) },	// bottom right front Vertex
+	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f) },	// bottom left front Vertex
 
-	vertex{ glm::vec3( 1.0f,  1.0f, -1.0f) },   // top left back vertex
-	vertex{ glm::vec3(-1.0f,  1.0f, -1.0f) },	// top right back vertex
-	vertex{ glm::vec3(-1.0f, -1.0f, -1.0f) },	// bottom right back vertex
-	vertex{ glm::vec3( 1.0f, -1.0f, -1.0f) }    // bottom left back vertex
+	Vertex{ glm::vec3( 1.0f,  1.0f, -1.0f) },   // top left back Vertex
+	Vertex{ glm::vec3(-1.0f,  1.0f, -1.0f) },	// top right back Vertex
+	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f) },	// bottom right back Vertex
+	Vertex{ glm::vec3( 1.0f, -1.0f, -1.0f) }    // bottom left back Vertex
 };
 
 GLuint lightIndices[] =
@@ -41,7 +41,7 @@ GLuint lightIndices[] =
 	3, 7, 6
 };
 
-std::vector<vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(vertex));
+std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
 Engine::Light::Light()
@@ -52,7 +52,7 @@ Engine::Light::Light()
 	vbo.Bind();
 	ebo.Bind();
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(vertex), (void*)0);
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
 
 	vao.Unbind();
 	vbo.Unbind();

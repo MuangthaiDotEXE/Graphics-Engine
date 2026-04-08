@@ -1,12 +1,12 @@
 #include "Plane.h"
 
-vertex planeVertices[] =
+Vertex planeVertices[] =
 {
 			// positions					// colors					 // textures			// normals
-	vertex{ glm::vec3(-1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	vertex{ glm::vec3( 1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	vertex{ glm::vec3( 1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	vertex{ glm::vec3(-1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) }
+	Vertex{ glm::vec3(-1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
+	Vertex{ glm::vec3( 1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
+	Vertex{ glm::vec3( 1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
+	Vertex{ glm::vec3(-1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) }
 };
 
 GLuint planeIndices[] =
@@ -19,7 +19,7 @@ GLuint planeIndices[] =
 std::string planeTexture = ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png";
 std::string planeSpecular = ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png";
 
-std::vector<vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(vertex));
+std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(Vertex));
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
 
 Engine::Plane::Plane()

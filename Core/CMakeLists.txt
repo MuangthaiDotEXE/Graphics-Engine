@@ -22,8 +22,6 @@ set(SOURCES
 	 "Source/Graphics/Texture/Texture.h"
 	 "Source/Graphics/Texture/Texture.cpp"
 	 "Source/Graphics/Texture/stb.cpp"
-	 "Source/Graphics/Model/Model.h"
-	 "Source/Graphics/Model/Model.cpp"
 	 "Source/UserInterface/UserInterface.h"
 	 "Source/UserInterface/UserInterface.cpp"
 	 "Source/Utility/Utility.h"

@@ -57,7 +57,6 @@ Core::App::App(const AppData& appData = AppData())
 Core::App::~App()
 {
 	running = false;
-
 	app = nullptr;
 }
 
@@ -78,6 +77,5 @@ void Core::App::Update()
 Core::App& Core::App::GetApplication()
 {
 	assert(app);
-
 	return *app;
 }

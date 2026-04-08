@@ -88,7 +88,9 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 Core::Window::~Window()
 {
 	if (window != nullptr)
+	{
 		glfwDestroyWindow(window);
+	}
 
 	glfwTerminate();
 }
@@ -138,9 +140,9 @@ bool Core::Window::ShouldClose() const
 
 GLFWwindow* Core::Window::GetWindow() const
 {
-	if (window == nullptr)
+	if (window == nullptr || !window)
 	{
-		throw std::exception("Unable to return window because window does not exist (GLFW windowing API)");
+		throw std::exception("Failed to return window because window does not exist (GLFW windowing API)");
 	}
 
 	return this->window;

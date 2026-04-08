@@ -1,3 +1,4 @@
+#include <cstdio>
 #include <print>
 #include <stdexcept>
 
@@ -18,12 +19,13 @@ int main(int argc, char** argv)
 	try
 	{
 		Engine::Engine engine(engineData);
+
 		engine.Render();
 		engine.Update();
 	}
 	catch (const std::exception& exception)
 	{
-		std::print("[Error] An exception was thrown: {}\n", exception.what());
+		std::print(stderr, "[Error] An exception was thrown: {}\n", exception.what());
 		
 		return 1;
 	}

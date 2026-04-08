@@ -8,7 +8,7 @@
 #include <glad/gl.h>
 #include <glm/glm.hpp>
 
-struct vertex
+struct Vertex
 {
 	glm::vec3 position;
 	glm::vec3 color;
@@ -25,7 +25,7 @@ namespace Core
 
 	public:
 		VBO(GLfloat* vertices, GLsizeiptr size);
-		VBO(std::vector<vertex>& vertices);
+		VBO(std::vector<Vertex>& vertices);
 		virtual ~VBO();
 
 		void Bind();
