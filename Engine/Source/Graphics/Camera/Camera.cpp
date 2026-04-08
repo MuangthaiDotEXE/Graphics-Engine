@@ -16,8 +16,7 @@ void Engine::Camera::UpdateMatrix(GLFWwindow* window, float fov, float nearPlane
 
 	glfwGetFramebufferSize(window, &width, &height);
 
-	if (width == 0 || height == 0)
-		return;
+	if (width == 0 || height == 0) return;
 
 	view = glm::lookAt(position, position + orientation, up);
 	projection = glm::perspective(glm::radians(fov), (float)width / (float)height, nearPlane, farPlane);
@@ -92,14 +91,15 @@ void Engine::Camera::Inputs(GLFWwindow* window)
 			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			glm::vec3 rotateOrientation = glm::rotate(orientation, glm::radians(-rotateX), glm::normalize(glm::cross(orientation, up)));
+			pitch -= rotateX;
+			yaw += rotateY;
 
-			if (glm::abs(glm::angle(rotateOrientation, up) - glm::radians(90.0f)) <= glm::radians(85.0f))
-			{
-				orientation = rotateOrientation;
-			}
+			pitch = glm::clamp(pitch, -89.9f, 89.9f);
 
-			orientation = glm::rotate(orientation, glm::radians(-rotateY), up);
+			orientation.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+			orientation.y = glm::sin(glm::radians(pitch));
+			orientation.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+			orientation = glm::normalize(orientation);
 
 			glfwSetCursorPos(window, (width / 2), (height / 2));
 		}
