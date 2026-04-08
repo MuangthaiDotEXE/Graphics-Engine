@@ -12,7 +12,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 	if (!glfwInit())
 	{
-		throw std::exception("Failed to initialize window (GLFW windowing API)\n");
+		throw std::runtime_error("Failed to initialize window (GLFW windowing API)\n");
 	}
 
 	if (graphicsAPI == GraphicsAPI::OPENGL)
@@ -30,7 +30,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		if (!glfwVulkanSupported())
 		{
 			glfwTerminate();
-			throw std::exception("Vulkan graphics API is not supported (GLFW windowing API)\n");
+			throw std::runtime_error("Vulkan graphics API is not supported (GLFW windowing API)\n");
 		}
 
 		glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
@@ -44,7 +44,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	if (window == nullptr || !window)
 	{
 		glfwTerminate();
-		throw std::exception("Failed to create window (GLFW windowing API)\n");
+		throw std::runtime_error("Failed to create window (GLFW windowing API)\n");
 	}
 
 	if (graphicsAPI == GraphicsAPI::OPENGL)
@@ -142,7 +142,7 @@ GLFWwindow* Core::Window::GetWindow() const
 {
 	if (window == nullptr || !window)
 	{
-		throw std::exception("Failed to return window because window does not exist (GLFW windowing API)");
+		throw std::runtime_error("Failed to return window because window does not exist (GLFW windowing API)");
 	}
 
 	return this->window;
