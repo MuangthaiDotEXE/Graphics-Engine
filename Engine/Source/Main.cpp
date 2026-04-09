@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	}
 	catch (const std::exception& exception)
 	{
-		std::print(stderr, "[Error] An exception was thrown: {}\n", exception.what());
+		std::print(stderr, "\033[1;31m[Error] An exception was thrown: {}\033[0m\n", exception.what());
 		
 		return 1;
 	}

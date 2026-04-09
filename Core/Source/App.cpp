@@ -42,13 +42,14 @@ Core::App::App(const AppData& appData = AppData())
 		break;
 	}
 
-	std::print("{} {}\n", title, version);
-	std::print("Graphics API: {} API\n", api);
-	if (api == "Vulkan") std::print("[Warning] Vulkan graphics API is currently unstable. Please avoid using it if possible (Vulkan graphics API)\n");
+	std::print("[Info] {} {}\n", title, version);
+	std::print("[Info] Graphics API: {} API\n", api);
+	if (api == "Vulkan") 
+		std::print("\033[1;33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 #ifdef NDEBUG
-	std::print("Build: Release\n");
+	std::print("[Info] Build: Release\n");
 #else
-	std::print("Build: Debug\n");
+	std::print("[Info] Build: Debug\n");
 #endif
 
 	running = true;
