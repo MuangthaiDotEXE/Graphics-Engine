@@ -27,7 +27,7 @@ namespace Engine
 		Core::Shader shader;
 
 		std::vector<std::unique_ptr<Mesh>> object;
-		Light light;
+		std::unique_ptr<Light> light;
 		Camera camera;
 
 		float nearPlane = 0.001f, farPlane = 1000.0f;
