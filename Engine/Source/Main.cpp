@@ -20,6 +20,13 @@ int main(int argc, char** argv)
 	{
 		Engine::Engine engine(engineData);
 
+#if !defined(NDEBUG)
+		for (size_t i = 0; i < argc; i++)
+		{
+			std::print(stdout, "[Debug] Arguments (argv[{}]): {}\n", i, argv[i]);
+		}
+#endif
+
 		engine.Render();
 		engine.Update();
 	}

@@ -3,6 +3,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include <cstdio>
 #include <array>
 #include <memory>
 #include <assert.h>

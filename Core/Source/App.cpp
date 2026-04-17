@@ -1,5 +1,19 @@
 #include "App.h"
 
+#ifdef _WIN32
+std::string operatingSystem = "Windows";
+#elifdef __APPLE__ || __MACH__
+std::string operatingSystem = "Macintosh";
+#elifdef __linux__
+std::string operatingSystem = "Linux";
+#elifdef __FREEBSD__
+std::string operatingSystem = "FreeBSD";
+#elifdef __unix__ || __unix
+std::string operatingSystem = "Unix";
+#else
+std::string operatingSystem = "Unknown";
+#endif
+
 static Core::App* app = nullptr;
 
 Core::App::App(const AppData& appData = AppData())
@@ -42,16 +56,18 @@ Core::App::App(const AppData& appData = AppData())
 		break;
 	}
 
-	std::print("[Info] {} {}\n", title, version);
-	std::print("[Info] Graphics API: {} API\n", api);
+	std::print(stdout, "[Info] {} {}\n", title, version);
+	std::print(stdout, "[Info] Operating system: {}\n", operatingSystem);
+	std::print(stdout, "[Info] Graphics API: {} API\n", api);
 	if (api == "Vulkan") 
-		std::print("\033[1;33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
+		std::print(stdout, "\033[1;33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 #ifdef NDEBUG
-	std::print("[Info] Build: Release\n");
+	std::print(stdout, "[Debug] Build: Release\n");
 #else
-	std::print("[Info] Build: Debug\n");
+	std::print(stdout, "[Debug] Build: Debug\n");
 #endif
 
+	std::println(stdout, "");
 	running = true;
 }
 
