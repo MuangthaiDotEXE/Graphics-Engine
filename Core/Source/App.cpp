@@ -88,7 +88,9 @@ void Core::App::Update()
 	window->Input();
 	window->Update();
 	graphics->Update();
-	graphics->ViewportResize(window->GetWindow());
+
+	OpenGL openGL;
+	openGL.ViewportResize(window->GetWindow());
 }
 
 Core::App& Core::App::GetApplication()

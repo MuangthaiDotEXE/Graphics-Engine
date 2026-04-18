@@ -21,7 +21,6 @@ namespace Core
 
 		virtual void Render() = 0;
 		virtual void Update() = 0;
-		virtual void ViewportResize(GLFWwindow* window) = 0;
 	};
 }
 

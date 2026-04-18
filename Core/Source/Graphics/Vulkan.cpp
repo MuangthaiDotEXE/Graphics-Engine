@@ -2,7 +2,7 @@
 
 Core::Vulkan::Vulkan()
 {
-	Initialize();
+	CreateInstance();
 }
 
 Core::Vulkan::~Vulkan()
@@ -16,16 +16,6 @@ void Core::Vulkan::Render()
 
 void Core::Vulkan::Update()
 {
-}
-
-void Core::Vulkan::ViewportResize(GLFWwindow* window)
-{
-}
-
-
-void Core::Vulkan::Initialize()
-{
-	CreateInstance();
 }
 
 void Core::Vulkan::CreateInstance()
@@ -55,10 +45,6 @@ void Core::Vulkan::CreateInstance()
 	{
 		throw std::exception("Vulkan graphics API failed to create instance (Vulkan graphics API)\n");
 	}
-}
-
-void Core::Vulkan::MainLoop()
-{
 }
 
 void Core::Vulkan::Cleanup()

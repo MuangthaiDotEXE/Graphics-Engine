@@ -15,7 +15,7 @@ int main(int argc, char** argv)
 	engineData.windowData.vSync = true;
 	engineData.windowData.icon = ProjectDirectory "/Icon.png";
 	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
-
+	
 	try
 	{
 		Engine::Engine engine(engineData);

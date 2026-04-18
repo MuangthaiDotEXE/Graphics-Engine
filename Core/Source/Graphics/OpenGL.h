@@ -23,7 +23,8 @@ namespace Core
 
 		void Render() override;
 		void Update() override;
-		void ViewportResize(GLFWwindow* window) override;
+		
+		void ViewportResize(GLFWwindow* window);
 	};
 }
 

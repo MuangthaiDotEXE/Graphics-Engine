@@ -38,7 +38,7 @@ namespace Core
 	private:
 		AppData data;
 		bool running;
-
+		
 	public:
 		std::string title = "";
 		std::string version = "";

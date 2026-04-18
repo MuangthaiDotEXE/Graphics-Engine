@@ -94,7 +94,7 @@ void Engine::Camera::Inputs(GLFWwindow* window)
 			pitch -= rotateX;
 			yaw += rotateY;
 
-			pitch = glm::clamp(pitch, -89.9f, 89.9f);
+			pitch = glm::clamp(pitch, -89.999f, 89.999f);
 
 			orientation.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
 			orientation.y = glm::sin(glm::radians(pitch));
