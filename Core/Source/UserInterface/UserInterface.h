@@ -3,6 +3,8 @@
 #ifndef USERINTERFACE_H
 #define USERINTERFACE_H
 
+#include <cstdio>
+#include <print>
 #include <string>
 #include <array>
 

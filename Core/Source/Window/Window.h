@@ -17,6 +17,17 @@
 
 #include "../Graphics/Graphics.h"
 
+#ifdef _WIN32
+#define GLFW_EXPOSE_NATIVE_WIN32
+#include <GLFW/glfw3native.h>
+#include <Windows.h>
+#include <dwmapi.h>
+#include <winreg.h>
+#include <commctrl.h>
+#pragma comment(lib, "dwmapi.lib")
+#pragma comment(lib, "comctl32.lib")
+#endif
+
 namespace Core
 {
 	struct WindowData
@@ -35,8 +46,14 @@ namespace Core
 		GLFWwindow* window;
 		WindowData data;
 
+		GraphicsAPI graphicsAPI;
+
 		double toggleTime = 0.0;
 		const double debounceTime = 0.15;
+
+#ifdef _WIN32
+		HWND hwnd;
+#endif
 
 	public:
 		Window(const WindowData& windowData, GraphicsAPI graphicsAPI);

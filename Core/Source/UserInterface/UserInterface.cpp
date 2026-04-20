@@ -76,6 +76,12 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
+	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+	ImGui::Text("Miscellaneous");
+	if (ImGui::Button("Button"))
+	{
+		std::print(stdout, "\033[0m[Debug] Button pressed!\033[0m\n");
+	}
 	ImGui::End();
 }
 

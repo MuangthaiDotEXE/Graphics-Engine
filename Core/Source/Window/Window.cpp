@@ -1,12 +1,55 @@
 #include "Window.h"
 
+#ifdef _WIN32
+static void ApplyTitleBarTheme(HWND hwnd)
+{
+	bool systemDarkMode = false;
+	HKEY hKey;
+	if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+	{
+		DWORD value = 0;
+		DWORD size = sizeof(value);
+
+		if (RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, reinterpret_cast<LPBYTE>(&value), &size) == ERROR_SUCCESS)
+		{
+			systemDarkMode = (value == 0);
+		}
+
+		RegCloseKey(hKey);
+	}
+
+	BOOL useDarkMode = systemDarkMode ? TRUE : FALSE;
+	DwmSetWindowAttribute(hwnd, 20, &useDarkMode, sizeof(useDarkMode));
+
+#if 0	// for Windows 11 only (For custom titlebar color), currently disabled
+	COLORREF titleBarColor = systemDarkMode ? RGB(16, 16, 16) : RGB(240, 240, 240);
+	DwmSetWindowAttribute(hwnd, 35, &titleBarColor, sizeof(titleBarColor));
+#endif
+
+	SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE);
+}
+
+static LRESULT CALLBACK ThemeSubclassProcess(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+{
+	if (msg == WM_SETTINGCHANGE && lParam != 0)
+	{
+		if (wcscmp(reinterpret_cast<LPCWSTR>(lParam), L"ImmersiveColorSet") == 0)
+		{
+			ApplyTitleBarTheme(hwnd);
+		}
+	}
+
+	return DefSubclassProc(hwnd, msg, wParam, lParam);
+}
+#endif
+
 static void ErrorCallback(int error, const char* description)
 {
 	std::print(stderr, "\033[1;31mGLFW error {}: {} (GLFW windowing API)\033[0m\n", error, description);
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
-	: data(windowData)
+	: data(windowData), graphicsAPI(graphicsAPI)
 {
 	glfwSetErrorCallback(ErrorCallback);
 
@@ -46,6 +89,13 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwTerminate();
 		throw std::runtime_error("Failed to create window (GLFW windowing API)\n");
 	}
+
+#ifdef _WIN32
+	hwnd = glfwGetWin32Window(window);
+	
+	ApplyTitleBarTheme(hwnd);
+	SetWindowSubclass(hwnd, ThemeSubclassProcess, 1, 0);
+#endif
 
 	if (graphicsAPI == GraphicsAPI::OPENGL)
 	{
@@ -87,6 +137,13 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 Core::Window::~Window()
 {
+#ifdef _WIN32
+	if (hwnd != nullptr)
+	{
+		RemoveWindowSubclass(hwnd, ThemeSubclassProcess, 1);
+	}
+#endif
+
 	if (window != nullptr)
 	{
 		glfwDestroyWindow(window);
@@ -129,7 +186,11 @@ void Core::Window::Render()
 
 void Core::Window::Update()
 {
-	glfwSwapBuffers(window);
+	if (graphicsAPI == GraphicsAPI::OPENGL)
+	{
+		glfwSwapBuffers(window);
+	}
+
 	glfwPollEvents();
 }
 
