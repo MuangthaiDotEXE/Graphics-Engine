@@ -1,7 +1,7 @@
 #include "Engine.h"
 
 Engine::Engine::Engine(const Core::AppData& appData)
-	: app(appData), world(app), ui(app.title, app.version, app.api, app.window->GetWindow())
+	: app(appData), world(app), ui(app.window.get(), app.title, app.version, app.api)
 {
 }
 

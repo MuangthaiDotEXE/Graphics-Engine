@@ -17,14 +17,14 @@ std::string operatingSystem = "Unknown";
 static Core::App* app = nullptr;
 
 Core::App::App(const AppData& appData = AppData())
-	: data(appData), running(true)
+	: appData(appData), running(true)
 {
 	app = this;
 
-	if (data.windowData.title.empty() || (!data.name.empty() || !data.version.empty()))
+	if (this->appData.windowData.title.empty() || (!this->appData.name.empty() || !this->appData.version.empty()))
 	{
-		data.windowData.title = data.name + " " + version;
-		title = data.name;
+		this->appData.windowData.title = this->appData.name + " " + version;
+		title = this->appData.name;
 	}
 
 	// version system: major, minor, patch
@@ -33,7 +33,7 @@ Core::App::App(const AppData& appData = AppData())
 		version = std::format("v{}.{}.{}{} build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, appData.buildNumber);
 	}
 
-	window = std::make_unique<Window>(data.windowData, appData.graphicsAPI);
+	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
 
 	switch (appData.graphicsAPI) 
 	{
@@ -97,4 +97,9 @@ Core::App& Core::App::GetApplication()
 {
 	assert(app);
 	return *app;
+}
+
+void Core::App::Quit()
+{
+	window->Quit();
 }

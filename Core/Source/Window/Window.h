@@ -44,7 +44,7 @@ namespace Core
 	{
 	private:
 		GLFWwindow* window;
-		WindowData data;
+		WindowData windowData;
 
 		GraphicsAPI graphicsAPI;
 
@@ -64,11 +64,17 @@ namespace Core
 		void Update();
 
 		[[nodiscard]] bool ShouldClose() const;
+		void Quit();
+
 		GLFWwindow* GetWindow() const;
+		std::string GetTitle() const;
 		glm::vec2 GetWindowSize() const;
 		glm::vec2 GetFramebufferSize() const;
 		glm::vec2 GetPosition() const;
 		bool GetMonitorSync() const;
+
+		void SetTitle(const std::string& title);
+		void SetPosition(glm::vec2 position);
 
 	private:
 		void SetCenter();

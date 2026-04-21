@@ -24,13 +24,13 @@ namespace Core
 
 	public:
 		Texture() = default;
-		Texture(const std::string& texture, std::string type, GLuint slot);
-		Texture(const std::vector<std::string>& textures, std::string type, GLuint slot);
+		Texture(const std::string& texture, const std::string& type, GLuint slot);
+		Texture(const std::vector<std::string>& textures, const std::string& type, GLuint slot);
 		virtual ~Texture();
 
-		void LoadSingle(const std::string& texture, std::string type, GLuint slot);
-		void LoadMultiple(const std::vector<std::string>& textures, std::string type, GLuint slot);
-		void SetUnit(Shader& shader, std::string uniform, GLuint unit);
+		void LoadSingle(const std::string& texture, const std::string& type, GLuint slot);
+		void LoadMultiple(const std::vector<std::string>& textures, const std::string& type, GLuint slot);
+		void SetUnit(Shader& shader, const std::string& uniform, GLuint unit);
 		void Bind(size_t index);
 		void Unbind();
 		void Delete();

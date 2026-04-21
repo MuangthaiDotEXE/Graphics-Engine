@@ -1,16 +1,16 @@
 #include "Texture.h"
 
-Core::Texture::Texture(const std::string& texture, std::string type, GLuint slot)
+Core::Texture::Texture(const std::string& texture, const std::string& type, GLuint slot)
 {
 	LoadSingle(texture, type, slot);
 }
 
-Core::Texture::Texture(const std::vector<std::string>& textures, std::string type, GLuint slot)
+Core::Texture::Texture(const std::vector<std::string>& textures, const std::string& type, GLuint slot)
 {
 	LoadMultiple(textures, type, slot);
 }
 
-void Core::Texture::LoadSingle(const std::string& texture, std::string type, GLuint slot)
+void Core::Texture::LoadSingle(const std::string& texture, const std::string& type, GLuint slot)
 {
 	this->type = type;
 	this->unit = slot;
@@ -19,7 +19,7 @@ void Core::Texture::LoadSingle(const std::string& texture, std::string type, GLu
 	textureID.emplace_back(LoadTexture(texture, slot));
 }
 
-void Core::Texture::LoadMultiple(const std::vector<std::string>& textures, std::string type, GLuint slot)
+void Core::Texture::LoadMultiple(const std::vector<std::string>& textures, const std::string& type, GLuint slot)
 {
 	this->type = type;
 	this->unit = slot;
@@ -38,7 +38,7 @@ Core::Texture::~Texture()
 	Delete();
 }
 
-void Core::Texture::SetUnit(Shader& shader, std::string uniform, GLuint unit)
+void Core::Texture::SetUnit(Shader& shader, const std::string& uniform, GLuint unit)
 {
 	shader.Activate();
 	GLuint textureUniform = glGetUniformLocation(shader.programID, uniform.c_str());

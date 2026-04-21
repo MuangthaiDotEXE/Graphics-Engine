@@ -36,7 +36,7 @@ namespace Core
 	class App
 	{
 	private:
-		AppData data;
+		AppData appData;
 		bool running;
 		
 	public:
@@ -55,6 +55,7 @@ namespace Core
 		void Update();
 
 		static App& GetApplication();
+		void Quit();
 	};
 }
 

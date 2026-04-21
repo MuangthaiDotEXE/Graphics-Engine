@@ -49,7 +49,7 @@ static void ErrorCallback(int error, const char* description)
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
-	: data(windowData), graphicsAPI(graphicsAPI)
+	: windowData(windowData), graphicsAPI(graphicsAPI)
 {
 	glfwSetErrorCallback(ErrorCallback);
 
@@ -80,10 +80,10 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	}
 
 	glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE);
-	glfwWindowHint(GLFW_RESIZABLE, data.resizable);
-	glfwWindowHint(GLFW_DECORATED, data.decorated);
+	glfwWindowHint(GLFW_RESIZABLE, windowData.resizable);
+	glfwWindowHint(GLFW_DECORATED, windowData.decorated);
 
-	window = glfwCreateWindow(data.width, data.height, data.title.c_str(), nullptr, nullptr);
+	window = glfwCreateWindow(windowData.width, windowData.height, windowData.title.c_str(), nullptr, nullptr);
 	if (window == nullptr || !window)
 	{
 		glfwTerminate();
@@ -101,15 +101,15 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	{
 		glfwMakeContextCurrent(window);
 
-		glfwSwapInterval(data.vSync);
+		glfwSwapInterval(windowData.vSync);
 	}
 
-	if (!data.icon.empty() && std::filesystem::exists(data.icon))
+	if (!windowData.icon.empty() && std::filesystem::exists(windowData.icon))
 	{
 		GLFWimage icon[1];
 		int width, height, channels;
 
-		unsigned char* image = stbi_load(data.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		unsigned char* image = stbi_load(windowData.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
 
 		if (image)
 		{
@@ -123,7 +123,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		}
 		else
 		{
-			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", data.icon);
+			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", windowData.icon);
 		}
 	}
 
@@ -199,6 +199,11 @@ bool Core::Window::ShouldClose() const
 	return glfwWindowShouldClose(window);
 }
 
+void Core::Window::Quit()
+{
+	glfwSetWindowShouldClose(window, true);
+}
+
 GLFWwindow* Core::Window::GetWindow() const
 {
 	if (window == nullptr || !window)
@@ -207,6 +212,11 @@ GLFWwindow* Core::Window::GetWindow() const
 	}
 
 	return this->window;
+}
+
+std::string Core::Window::GetTitle() const
+{
+	return windowData.title;
 }
 
 glm::vec2 Core::Window::GetWindowSize() const
@@ -235,7 +245,17 @@ glm::vec2 Core::Window::GetPosition() const
 
 bool Core::Window::GetMonitorSync() const
 {
-	return data.vSync;
+	return windowData.vSync;
+}
+
+void Core::Window::SetTitle(const std::string& title)
+{
+	glfwSetWindowTitle(window, title.c_str());
+}
+
+void Core::Window::SetPosition(glm::vec2 position)
+{
+	glfwSetWindowPos(window, position.x, position.y);
 }
 
 void Core::Window::SetCenter()
@@ -303,7 +323,7 @@ void Core::Window::Fullscreen()
 	}
 	else
 	{
-		glfwSetWindowMonitor(window, nullptr, 0, 0, data.width, data.height, 0);
+		glfwSetWindowMonitor(window, nullptr, 0, 0, windowData.width, windowData.height, 0);
 		Window::SetCenter();
 
 		glfwSwapBuffers(window);

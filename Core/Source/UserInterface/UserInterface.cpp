@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
-Core::UserInterface::UserInterface(std::string title, std::string version, std::string graphicsAPI, GLFWwindow* window)
-	: title(title), version(version), graphicsAPI(graphicsAPI), window(window)
+Core::UserInterface::UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI)
+	: window(window), title(title), version(version), graphicsAPI(graphicsAPI)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -19,7 +19,7 @@ Core::UserInterface::UserInterface(std::string title, std::string version, std::
 	style.ScaleAllSizes(mainScale);
 	style.FontScaleDpi = mainScale;
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplGlfw_InitForOpenGL(window->GetWindow(), true);
 	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
@@ -70,14 +70,31 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-	int width, height;
-	glfwGetWindowSize(window, &width, &height);
-	ImGui::Text("Window size: %ix%i", width, height);
+	ImGui::Text("Window size: %ix%i", window->GetFramebufferSize().x, window->GetFramebufferSize().y);
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
+	ImGui::Text("Monitor sync: %s", window->GetMonitorSync() ? "On" : "Off");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
+
 	ImGui::Text("Miscellaneous");
+	ImGui::Text("Wireframe mode");
+	ImGui::SameLine(0, 10);
+	if (ImGui::Button(wireframeMode ? "Off" : "On"))
+	{
+		wireframeMode = !wireframeMode;
+
+		if (wireframeMode)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+		else
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+	}
+	ImGui::Text("Button");
+	ImGui::SameLine(0, 10);
 	if (ImGui::Button("Button"))
 	{
 		std::print(stdout, "\033[0m[Debug] Button pressed!\033[0m\n");
