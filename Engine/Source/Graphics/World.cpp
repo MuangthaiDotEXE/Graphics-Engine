@@ -1,7 +1,7 @@
 #include "World.h"
 
 Engine::World::World(Core::App& app)
-	: app(app), object(), light(), camera(app.window->GetWindow(), glm::vec3(5.0f, 5.0f, 5.0f)),
+	: Scene(app), objects(), lights(), camera(app.window->GetWindow(), glm::vec3(5.0f, 5.0f, 5.0f)),
 	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag")
 {
 	auto cube = std::make_unique<Cube>(shader);
@@ -12,13 +12,15 @@ Engine::World::World(Core::App& app)
 	plane->name = "Brick plane";
 	plane->transform.position = glm::vec3(2.5f, 0.0f, 0.0f);
 
-	object.emplace_back(std::move(cube));
-	object.emplace_back(std::move(plane));
+	objects.emplace_back(std::move(cube));
+	objects.emplace_back(std::move(plane));
 
-	light = std::make_unique<Light>();
+	auto light = std::make_unique<Light>();
 	light->name = "Point light";
 	light->transform.position = glm::vec3(4.375f, 3.5f, -3.75f);
 	light->transform.scale = glm::vec3(0.25f);
+
+	lights.emplace_back(std::move(light));
 }
 
 Engine::World::~World()
@@ -28,18 +30,23 @@ Engine::World::~World()
 void Engine::World::Render()
 {
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec3 lightPosition;
 
-	light->shader.Activate();
-	glUniform4f(glGetUniformLocation(light->shader.programID, "color"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+	for (auto& light : lights)
+	{
+		light->shader.Activate();
+		glUniform4f(glGetUniformLocation(light->shader.programID, "color"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
+		lightPosition = light->transform.position;
 
-	light->Render();
+		light->Render();
+	}
 
-	for (auto& mesh : object)
+	for (auto& mesh : objects)
 	{
 		mesh->shader.Activate();
 		
 		glUniform4f(glGetUniformLocation(mesh->shader.programID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
-		glUniform3f(glGetUniformLocation(mesh->shader.programID, "lightPosition"), light->transform.position.x, light->transform.position.y, light->transform.position.z);
+		glUniform3f(glGetUniformLocation(mesh->shader.programID, "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
 		glUniform1f(glGetUniformLocation(mesh->shader.programID, "nearPlane"), nearPlane);
 		glUniform1f(glGetUniformLocation(mesh->shader.programID, "farPlane"), farPlane);
 
@@ -52,11 +59,14 @@ void Engine::World::Update()
 	camera.UpdateMatrix(Camera::ProjectionMode::PERSPECTIVE, 70.0f, nearPlane, farPlane, 2.5f);
 	camera.Input();
 
-	light->Update();
-	glUniformMatrix4fv(glGetUniformLocation(light->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(light->transform.GetMatrix()));
-	camera.Matrix(light->shader, "cameraMatrix");
+	for (auto& light : lights)
+	{
+		light->Update();
+		glUniformMatrix4fv(glGetUniformLocation(light->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(light->transform.GetMatrix()));
+		camera.Matrix(light->shader, "cameraMatrix");
+	}
 	
-	for (auto& mesh : object)
+	for (auto& mesh : objects)
 	{
 		mesh->shader.Activate();
 

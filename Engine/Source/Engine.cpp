@@ -1,8 +1,10 @@
 #include "Engine.h"
 
 Engine::Engine::Engine(const Core::AppData& appData)
-	: app(appData), world(app), ui(app.window.get(), app.title, app.version, app.api)
+	: app(appData)
 {
+	scene = std::make_unique<World>(app);
+	ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.api);
 }
 
 Engine::Engine::~Engine()
@@ -12,8 +14,8 @@ Engine::Engine::~Engine()
 void Engine::Engine::Render()
 {
 	app.Render();
-	ui.Render();
-	world.Render();
+	ui->Render();
+	scene->Render();
 }
 
 void Engine::Engine::Update()
@@ -22,10 +24,10 @@ void Engine::Engine::Update()
 	{
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 
-		ui.BeginFrame();
-		ui.Update();
-		world.Update();
-		ui.EndFrame();
+		ui->BeginFrame();
+		ui->Update();
+		scene->Update();
+		ui->EndFrame();
 
 		app.Update();
 	}

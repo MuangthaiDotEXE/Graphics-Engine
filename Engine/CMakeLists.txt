@@ -2,6 +2,8 @@ set(SOURCES
 	"Source/Main.cpp"
 	"Source/Engine.h"
 	"Source/Engine.cpp"
+	"Source/Graphics/Scene.h"
+	"Source/Graphics/Scene.cpp"
 	"Source/Graphics/World.h"
 	"Source/Graphics/World.cpp"
 	"Source/Graphics/Mesh/Mesh.h"

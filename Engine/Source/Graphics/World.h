@@ -12,6 +12,7 @@
 
 #include "App.h"
 
+#include "Scene.h"
 #include "Mesh/Mesh.h"
 #include "Mesh/Cube.h"
 #include "Mesh/Plane.h"
@@ -20,14 +21,13 @@
 
 namespace Engine
 {
-	class World
+	class World : public Scene
 	{
 	private:
-		Core::App& app;
 		Core::Shader shader;
 
-		std::vector<std::unique_ptr<Mesh>> object;
-		std::unique_ptr<Light> light;
+		std::vector<std::unique_ptr<Mesh>> objects;
+		std::vector<std::unique_ptr<Light>> lights;
 		Camera camera;
 
 		float nearPlane = 0.001f, farPlane = 1000.0f;
@@ -36,8 +36,8 @@ namespace Engine
 		World(Core::App& app);
 		virtual ~World();
 
-		void Render();
-		void Update();
+		void Render() override;
+		void Update() override;
 	};
 }
 

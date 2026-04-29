@@ -9,7 +9,9 @@
 
 #include "App.h"
 
+#include "Graphics/Scene.h"
 #include "Graphics/World.h"
+
 
 namespace Engine
 {
@@ -18,8 +20,8 @@ namespace Engine
 	private:
 		Core::App app;
 
-		World world;
-		Core::UserInterface ui;
+		std::unique_ptr<Scene> scene;
+		std::unique_ptr<Core::UserInterface> ui;
 
 	public:
 		Engine(const Core::AppData& appData);
