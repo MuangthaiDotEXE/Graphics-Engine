@@ -211,7 +211,7 @@ GLFWwindow* Core::Window::GetWindow() const
 		throw std::runtime_error("Failed to return window because window does not exist (GLFW windowing API)");
 	}
 
-	return this->window;
+	return window;
 }
 
 std::string Core::Window::GetTitle() const

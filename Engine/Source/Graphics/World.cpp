@@ -1,7 +1,7 @@
 #include "World.h"
 
 Engine::World::World(Core::App& app)
-	: app(app), object(), light(), camera(app.window->GetFramebufferSize(), glm::vec3(0.0f, 0.0f, 5.0f)),
+	: app(app), object(), light(), camera(app.window->GetWindow(), glm::vec3(5.0f, 5.0f, 5.0f)),
 	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag")
 {
 	auto cube = std::make_unique<Cube>(shader);
@@ -17,7 +17,7 @@ Engine::World::World(Core::App& app)
 
 	light = std::make_unique<Light>();
 	light->name = "Point light";
-	light->transform.position = glm::vec3(5.0f, 5.0f, 3.75f);
+	light->transform.position = glm::vec3(4.375f, 3.5f, -3.75f);
 	light->transform.scale = glm::vec3(0.25f);
 }
 
@@ -49,8 +49,8 @@ void Engine::World::Render()
 
 void Engine::World::Update()
 {
-	camera.UpdateMatrix(app.window->GetWindow(), 70.0f, nearPlane, farPlane);
-	camera.Inputs(app.window->GetWindow());
+	camera.UpdateMatrix(Camera::ProjectionMode::PERSPECTIVE, 70.0f, nearPlane, farPlane, 2.5f);
+	camera.Input();
 
 	light->Update();
 	glUniformMatrix4fv(glGetUniformLocation(light->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(light->transform.GetMatrix()));

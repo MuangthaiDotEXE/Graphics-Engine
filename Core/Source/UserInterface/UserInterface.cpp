@@ -70,7 +70,7 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-	ImGui::Text("Window size: %ix%i", window->GetFramebufferSize().x, window->GetFramebufferSize().y);
+	ImGui::Text("Window size: %.0fx%.0f", window->GetFramebufferSize().x, window->GetFramebufferSize().y);
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
