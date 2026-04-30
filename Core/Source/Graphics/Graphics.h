@@ -15,12 +15,16 @@ namespace Core
 
 	class Graphics
 	{
+	protected:
+		GLFWwindow* window;
+
 	public:
-		Graphics();
+		Graphics(GLFWwindow* window);
 		virtual ~Graphics() = default;
 
 		virtual void Render() = 0;
 		virtual void Update() = 0;
+		virtual void ViewportResize() {}
 	};
 }
 

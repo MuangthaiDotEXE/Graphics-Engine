@@ -38,19 +38,19 @@ Core::App::App(const AppData& appData = AppData())
 	switch (appData.graphicsAPI) 
 	{
 	case GraphicsAPI::OPENGL:
-		graphics = std::make_unique<OpenGL>();
+		graphics = std::make_unique<OpenGL>(window->GetWindow());
 		api = "OpenGL";
 
 		break;
 
 	case GraphicsAPI::VULKAN:
-		graphics = std::make_unique<Vulkan>();
+		graphics = std::make_unique<Vulkan>(window->GetWindow());
 		api = "Vulkan";
 
 		break;
 
 	default:
-		graphics = std::make_unique<OpenGL>(); // Default to OpenGL graphics API
+		graphics = std::make_unique<OpenGL>(window->GetWindow()); // Default to OpenGL graphics API
 		api = "OpenGL";
 
 		break;
@@ -60,7 +60,9 @@ Core::App::App(const AppData& appData = AppData())
 	std::print(stdout, "[Info] Operating system: {}\n", operatingSystem);
 	std::print(stdout, "[Info] Graphics API: {} API\n", api);
 	if (api == "Vulkan") 
+	{
 		std::print(stdout, "\033[1;33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
+	}
 #ifdef NDEBUG
 	std::print(stdout, "[Debug] Build: Release\n");
 #else
@@ -88,9 +90,7 @@ void Core::App::Update()
 	window->Input();
 	window->Update();
 	graphics->Update();
-
-	OpenGL openGL;
-	openGL.ViewportResize(window->GetWindow());
+	graphics->ViewportResize();
 }
 
 Core::App& Core::App::GetApplication()

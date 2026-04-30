@@ -18,13 +18,12 @@ namespace Core
 		int version;
 
 	public:
-		OpenGL();
+		OpenGL(GLFWwindow* window);
 		virtual ~OpenGL() = default;
 
 		void Render() override;
 		void Update() override;
-		
-		void ViewportResize(GLFWwindow* window);
+		void ViewportResize() override;
 	};
 }
 

@@ -1,5 +1,6 @@
 #include "Graphics.h"
 
-Core::Graphics::Graphics()
+Core::Graphics::Graphics(GLFWwindow* window)
+	: window(window)
 {
 }
