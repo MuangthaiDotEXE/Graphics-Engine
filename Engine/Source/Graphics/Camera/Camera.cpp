@@ -1,8 +1,13 @@
 #include "Camera.h"
 
-Engine::Camera::Camera(GLFWwindow* window, glm::vec3 position)
-	: window(window), position(position)
+Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position)
+	: window(window), projectionMode(projectionMode), rotationMode(rotationMode), position(position)
 {
+	if (rotationMode == RotationMode::QUATERNION)
+	{
+		std::print(stdout, "\033[33m[Warn] Quaternion rotation is currently not working properly. Please use Euler rotation if possible (GLM math library)\033[0m\n");
+	}
+
     if (glm::length(position) < 0.0001f)
     {
         orientation = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -23,7 +28,7 @@ Engine::Camera::~Camera()
 {
 }
 
-void Engine::Camera::UpdateMatrix(ProjectionMode mode, float fov, float nearPlane, float farPlane, float orthoZoomSize = 10.0f)
+void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize = 10.0f)
 {
 	view = glm::mat4(1.0f);
 	projection = glm::mat4(1.0f);
@@ -33,8 +38,15 @@ void Engine::Camera::UpdateMatrix(ProjectionMode mode, float fov, float nearPlan
 
 	float aspect = (float)width / (float)height;
 
-	view = glm::lookAt(position, position + orientation, up);
-	if (mode == ProjectionMode::PERSPECTIVE)
+	if (rotationMode == RotationMode::EULER)
+	{
+		view = glm::lookAt(position, position + orientation, up);
+	}
+	else
+	{
+		view = glm::mat4_cast(glm::conjugate(rotation)) * glm::translate(glm::mat4(1.0f), -position);
+	}
+	if (projectionMode == ProjectionMode::PERSPECTIVE)
 	{
 		projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
 	}
@@ -106,15 +118,31 @@ void Engine::Camera::Input()
 			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			pitch -= rotateX;
-			yaw += rotateY;
+			if (rotationMode == RotationMode::EULER)
+			{
+				pitch -= rotateX;
+				yaw += rotateY;
 
-			pitch = glm::clamp(pitch, -89.999f, 89.999f);
+				pitch = glm::clamp(pitch, -89.999f, 89.999f);
 
-			orientation.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
-			orientation.y = glm::sin(glm::radians(pitch));
-			orientation.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
-			orientation = glm::normalize(orientation);
+				orientation.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+				orientation.y = glm::sin(glm::radians(pitch));
+				orientation.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+				orientation = glm::normalize(orientation);
+			}
+			else
+			{
+				pitch -= rotateX;
+				yaw -= rotateY;
+
+				pitch = glm::clamp(pitch, -90.0f, 90.0f);
+
+				glm::quat quaternionYaw = glm::angleAxis(glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+				glm::quat quaternionPitch = glm::angleAxis(glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
+
+				rotation = glm::normalize(quaternionYaw * quaternionPitch);
+				orientation = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+			}
 
 			glfwSetCursorPos(window, (width / 2), (height / 2));
 		}

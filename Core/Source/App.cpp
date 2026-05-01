@@ -61,7 +61,7 @@ Core::App::App(const AppData& appData = AppData())
 	std::print(stdout, "[Info] Graphics API: {} API\n", api);
 	if (api == "Vulkan") 
 	{
-		std::print(stdout, "\033[1;33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
+		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 	}
 #ifdef NDEBUG
 	std::print(stdout, "[Debug] Build: Release\n");

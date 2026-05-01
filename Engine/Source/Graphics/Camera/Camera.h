@@ -32,6 +32,8 @@ namespace Engine
 		float pitch = 0.0f;
 		float yaw = -90.0f;
 
+		glm::quat rotation;
+
 		glm::mat4 view;
 		glm::mat4 projection;
 
@@ -51,12 +53,17 @@ namespace Engine
 
 	public:
 		enum struct ProjectionMode { PERSPECTIVE, ORTHOGRAPHIC };
+		enum struct RotationMode { EULER, QUATERNION };
+
+	private:
+		ProjectionMode projectionMode;
+		RotationMode rotationMode;
 
 	public:
-		Camera(GLFWwindow* window, glm::vec3 position);
+		Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position);
 		virtual ~Camera();
 
-		void UpdateMatrix(ProjectionMode mode, float fov, float nearPlane, float farPlane, float orthoZoomSize);
+		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
 		void Input();	// Temporary input. Input class will be added later
 		

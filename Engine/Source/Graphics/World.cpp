@@ -1,7 +1,7 @@
 #include "World.h"
 
 Engine::World::World(Core::App& app)
-	: Scene(app), objects(), lights(), camera(app.window->GetWindow(), glm::vec3(5.0f, 5.0f, 5.0f)),
+	: Scene(app), objects(), lights(), camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(5.0f, 5.0f, 5.0f)),
 	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag")
 {
 	auto cube = std::make_unique<Cube>(shader);
@@ -56,7 +56,7 @@ void Engine::World::Render()
 
 void Engine::World::Update()
 {
-	camera.UpdateMatrix(Camera::ProjectionMode::PERSPECTIVE, 70.0f, nearPlane, farPlane, 2.5f);
+	camera.UpdateMatrix(70.0f, nearPlane, farPlane, 2.5f);
 	camera.Input();
 
 	for (auto& light : lights)

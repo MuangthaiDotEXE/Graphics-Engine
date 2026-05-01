@@ -45,7 +45,7 @@ static LRESULT CALLBACK ThemeSubclassProcess(HWND hwnd, UINT msg, WPARAM wParam,
 
 static void ErrorCallback(int error, const char* description)
 {
-	std::print(stderr, "\033[1;31mGLFW error {}: {} (GLFW windowing API)\033[0m\n", error, description);
+	std::print(stderr, "\033[31m[Error] GLFW error {}: {} (GLFW windowing API)\033[0m\n", error, description);
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
