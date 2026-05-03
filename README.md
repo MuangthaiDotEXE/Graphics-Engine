@@ -1,7 +1,7 @@
 <div align="center">
 	<h1> Graphics Engine </h1>
 	<h3> Graphics Engine written in C++ </h3>
-	<p> Using GLFW, OpenGL, STB image, GLM and more </p>
+	<p> Using GLFW, GLAD OpenGL, STB image, GLM and more </p>
 	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MuangthaiDotEXE/Graphics-Engine">
 	<img alt="GitHub License" src="https://img.shields.io/github/license/MuangthaiDotEXE/Graphics-Engine">
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MuangthaiDotEXE/Graphics-Engine">
@@ -14,7 +14,7 @@
 - Multi-platform windowing system
 - 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light) 
 - Simple image texture support (Nearest filter)
-- Basic 3 dimensional camera system with perspective projection
+- Basic 3 dimensional camera system with perspective and orthographic projection and with euler and quaternion rotation
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
 - Automate libraries package finding
