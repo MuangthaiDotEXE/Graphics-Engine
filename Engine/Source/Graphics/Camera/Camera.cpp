@@ -8,20 +8,41 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		std::print(stdout, "\033[33m[Warn] Quaternion rotation is currently not working properly. Please use Euler rotation if possible (GLM math library)\033[0m\n");
 	}
 
-    if (glm::length(position) < 0.0001f)
-    {
-        orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	if (glm::length(position) < 0.0001f)
+	{
+		orientation = glm::vec3(0.0f, 0.0f, -1.0f);
 
-        pitch = 0.0f;
-        yaw = -90.0f;
-    }
-    else
-    {
-        orientation = glm::normalize(glm::vec3(0.0f, 0.0f, 0.0f) - position);
+		pitch = 0.0f;
+		yaw = -90.0f;
 
-        pitch = glm::degrees(glm::asin(orientation.y));
-        yaw = glm::degrees(glm::atan(orientation.z, orientation.x));
-    }
+		if (rotationMode == RotationMode::QUATERNION)
+		{
+			rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+
+			yaw = 0.0f;
+		}
+	}
+	else
+	{
+		orientation = glm::normalize(-position);
+
+		pitch = glm::degrees(glm::asin(orientation.y));
+
+		if (rotationMode == RotationMode::EULER)
+		{
+			yaw = glm::degrees(glm::atan(orientation.z, orientation.x));
+		}
+		else if (rotationMode == RotationMode::QUATERNION)
+		{
+			yaw = glm::degrees(glm::atan(-orientation.x, -orientation.z));
+
+			glm::quat quaternionYaw = glm::angleAxis(glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::quat quaternionPitch = glm::angleAxis(glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
+
+			rotation = glm::normalize(quaternionYaw * quaternionPitch);
+			orientation = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+		}
+	}
 }
 
 Engine::Camera::~Camera()
@@ -130,7 +151,7 @@ void Engine::Camera::Input()
 				orientation.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
 				orientation = glm::normalize(orientation);
 			}
-			else
+			else if (rotationMode == RotationMode::QUATERNION)
 			{
 				pitch -= rotateX;
 				yaw -= rotateY;
