@@ -2,6 +2,11 @@
 	<h1> Graphics Engine </h1>
 	<h3> Graphics Engine written in C++ </h3>
 	<p> Using GLFW, OpenGL, STB image, GLM and more </p>
+	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MuangthaiDotEXE/Graphics-Engine">
+	<img alt="GitHub License" src="https://img.shields.io/github/license/MuangthaiDotEXE/Graphics-Engine">
+	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MuangthaiDotEXE/Graphics-Engine">
+	<img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/MuangthaiDotEXE/Graphics-Engine/cmake-multi-platform.yml">
+	<p></p>
 	<img src="Icon.png" alt="Icon">
 </div>
 
