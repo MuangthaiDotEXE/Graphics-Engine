@@ -27,10 +27,19 @@ namespace Core
 	{
 		WindowData windowData;
 		GraphicsAPI graphicsAPI;
+
 		int buildNumber = 1;
 		std::string name = "App";
 		std::string subVersion = "";
 		std::array<unsigned int, 3> version;
+		enum struct DevelopmentStage
+		{
+			ALPHA,
+			BETA,
+			RELEASE_CANDIDATE,
+			RELEASE
+		};
+		DevelopmentStage developmentStage;
 	};
 	
 	class App
@@ -56,6 +65,10 @@ namespace Core
 
 		static App& GetApplication();
 		void Quit();
+
+	private:
+		std::string GetGraphicsAPI();
+		std::string GetDevelopmentStage();
 	};
 }
 

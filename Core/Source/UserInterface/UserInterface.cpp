@@ -105,7 +105,7 @@ void Core::UserInterface::DebugWindow()
 		ImGui::SameLine(0, 10);
 		if (ImGui::Button("Button"))
 		{
-			std::print(stdout, "\033[0m[Debug] Button pressed!\033[0m\n");
+			std::print(stdout, "\033[32m[Debug] Button pressed!\033[0m\n");
 		}
 	}
 	ImGui::End();

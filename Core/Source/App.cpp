@@ -21,40 +21,21 @@ Core::App::App(const AppData& appData = AppData())
 {
 	app = this;
 
-	if (this->appData.windowData.title.empty() || (!this->appData.name.empty() || !this->appData.version.empty()))
+	if (!this->appData.name.empty() || !this->appData.version.empty())
 	{
 		this->appData.windowData.title = this->appData.name + " " + version;
 		title = this->appData.name;
 	}
 
-	// version system: major, minor, patch
+	// version system: major, minor, patch (Semantic versioning)
 	if (!appData.version.empty())
 	{
-		version = std::format("v{}.{}.{}{} build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, appData.buildNumber);
+		version = std::format("v{}.{}.{}{} {} Build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, GetDevelopmentStage(), appData.buildNumber);
 	}
 
 	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
 
-	switch (appData.graphicsAPI) 
-	{
-	case GraphicsAPI::OPENGL:
-		graphics = std::make_unique<OpenGL>(window->GetWindow());
-		api = "OpenGL";
-
-		break;
-
-	case GraphicsAPI::VULKAN:
-		graphics = std::make_unique<Vulkan>(window->GetWindow());
-		api = "Vulkan";
-
-		break;
-
-	default:
-		graphics = std::make_unique<OpenGL>(window->GetWindow()); // Default to OpenGL graphics API
-		api = "OpenGL";
-
-		break;
-	}
+	std::string api = GetGraphicsAPI();
 
 	std::print(stdout, "[Info] {} {}\n", title, version);
 	std::print(stdout, "[Info] Operating system: {}\n", operatingSystem);
@@ -102,4 +83,40 @@ Core::App& Core::App::GetApplication()
 void Core::App::Quit()
 {
 	window->Quit();
+}
+
+std::string Core::App::GetGraphicsAPI()
+{
+	switch (appData.graphicsAPI)
+	{
+	case GraphicsAPI::OPENGL:
+		graphics = std::make_unique<OpenGL>(window->GetWindow());
+		return "OpenGL";
+
+		break;
+
+	case GraphicsAPI::VULKAN:
+		graphics = std::make_unique<Vulkan>(window->GetWindow());
+		return "Vulkan";
+
+		break;
+
+	default:
+		graphics = std::make_unique<OpenGL>(window->GetWindow()); // Default to OpenGL graphics API
+		return "OpenGL";
+
+		break;
+	}
+}
+
+std::string Core::App::GetDevelopmentStage()
+{
+	switch (appData.developmentStage)
+	{
+	case AppData::DevelopmentStage::ALPHA: return "Alpha";
+	case AppData::DevelopmentStage::BETA: return "Beta";
+	case AppData::DevelopmentStage::RELEASE_CANDIDATE: return "Release candidate";
+	case AppData::DevelopmentStage::RELEASE: return "Release";
+	default: return "";
+	}
 }
