@@ -75,8 +75,27 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(imguizmo)
 
-add_library(imguizmo STATIC "${imguizmo_SOURCE_DIR}/ImGuizmo.cpp")
+if (NOT TARGET imguizmo)
+	add_library(imguizmo STATIC "${imguizmo_SOURCE_DIR}/ImGuizmo.cpp")
+endif()
 
 target_include_directories(imguizmo PUBLIC "${imguizmo_SOURCE_DIR}")
 target_link_libraries(imguizmo PUBLIC imgui)
 set_target_properties(imguizmo PROPERTIES FOLDER "Library")
+
+find_package(assimp QUIET)
+if (NOT assimp_FOUND)
+	set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+	set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)
+	set(ASSIMP_BUILD_SAMPLES OFF CACHE BOOL "" FORCE)
+	set(ASSIMP_BUILD_ASSIMP_TOOLS OFF CACHE BOOL "" FORCE)
+	set(ASSIMP_INJECT_DEBUG_POSTFIX OFF CACHE BOOL "" FORCE)
+
+	FetchContent_Declare(
+		assimp
+		DOWNLOAD_EXTRACT_TIMESTAMP OFF
+		URL https://github.com/assimp/assimp/archive/refs/tags/v6.0.5.zip
+	)
+
+	FetchContent_MakeAvailable(assimp)
+endif()

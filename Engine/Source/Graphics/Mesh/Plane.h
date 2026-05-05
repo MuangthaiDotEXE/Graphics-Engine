@@ -24,6 +24,7 @@ namespace Engine
 		void Render() override;
 		void Update() override;
 
+	private:
 		void Initialize();
 	};
 }

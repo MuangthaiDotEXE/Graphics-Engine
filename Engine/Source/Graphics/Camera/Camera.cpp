@@ -175,6 +175,11 @@ void Engine::Camera::Input()
 	}
 }
 
+glm::vec3 Engine::Camera::GetPosition() const
+{
+	return position;
+}
+
 void Engine::Camera::Framerate()
 {
 	double currentFrame = glfwGetTime();

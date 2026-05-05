@@ -47,5 +47,5 @@ add_compile_definitions(
 
 add_library(glad "${CMAKE_SOURCE_DIR}/Library/glad/src/gl.c")
 
-target_link_libraries(Core glfw OpenGL::GL Vulkan::Vulkan glad glm imgui imguizmo)
+target_link_libraries(Core glfw OpenGL::GL Vulkan::Vulkan glad glm imgui imguizmo assimp::assimp)
 target_include_directories(Core PUBLIC "Source") 

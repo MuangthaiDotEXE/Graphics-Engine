@@ -29,6 +29,8 @@ Engine::World::~World()
 
 void Engine::World::Render()
 {
+	glClearColor(0.00f, 0.78f, 0.08f, 1.00f);
+
 	glm::vec4 lightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	glm::vec3 lightPosition;
 

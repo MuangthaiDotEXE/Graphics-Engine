@@ -75,30 +75,38 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
-	ImGui::Text("Monitor sync: %s", window->GetMonitorSync() ? "On" : "Off");
+	ImGui::Text("Monitor sync (V-Sync): %s", window->GetMonitorSync() ? "On" : "Off");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-	ImGui::Text("Miscellaneous");
-	ImGui::Text("Wireframe mode");
-	ImGui::SameLine(0, 10);
-	if (ImGui::Button(wireframeMode ? "Off" : "On"))
 	{
-		wireframeMode = !wireframeMode;
+		ImGui::Text("Miscellaneous");
 
-		if (wireframeMode)
+		static float color[] = { 0.00f, 0.78f, 0.80f };
+		ImGui::ColorEdit3("Background sky color", color);
+		glClearColor(color[0], color[1], color[2], 1.0f);
+
+		ImGui::Text("Wireframe mode");
+		ImGui::SameLine(0, 10);
+		if (ImGui::Button(wireframeMode ? "Off" : "On"))
 		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			wireframeMode = !wireframeMode;
+
+			if (wireframeMode)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			}
+			else
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
 		}
-		else
+
+		ImGui::Text("Text");
+		ImGui::SameLine(0, 10);
+		if (ImGui::Button("Button"))
 		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			std::print(stdout, "\033[0m[Debug] Button pressed!\033[0m\n");
 		}
-	}
-	ImGui::Text("Button");
-	ImGui::SameLine(0, 10);
-	if (ImGui::Button("Button"))
-	{
-		std::print(stdout, "\033[0m[Debug] Button pressed!\033[0m\n");
 	}
 	ImGui::End();
 }

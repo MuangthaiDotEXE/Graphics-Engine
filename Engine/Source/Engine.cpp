@@ -22,8 +22,6 @@ void Engine::Engine::Update()
 {
 	while (!app.window->ShouldClose())
 	{
-		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-
 		ui->BeginFrame();
 		ui->Update();
 		scene->Update();

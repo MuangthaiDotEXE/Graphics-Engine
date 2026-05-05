@@ -68,6 +68,8 @@ namespace Engine
 		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
 		void Input();	// Temporary input. Input class will be added later
+
+		glm::vec3 GetPosition() const;
 		
 	private:
 		void Framerate();
