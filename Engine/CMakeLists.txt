@@ -16,6 +16,8 @@ set(SOURCES
 	"Source/Graphics/Camera/Camera.cpp"
 	"Source/Graphics/Light/Light.h"
 	"Source/Graphics/Light/Light.cpp"
+	"Source/Graphics/Grid/Grid.h"
+	"Source/Graphics/Grid/Grid.cpp"
 )
 
 add_executable(Engine)
