@@ -99,6 +99,8 @@ void Core::UserInterface::DebugWindow()
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
+
+			std::print(stdout, "\033[32m[Debug] Wireframe mode: {}\033[0m\n", wireframeMode ? "On" : "Off");
 		}
 
 		ImGui::Text("Text");

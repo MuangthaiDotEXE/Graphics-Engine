@@ -37,5 +37,7 @@ target_link_libraries(Engine Core)
 target_include_directories(Engine PRIVATE "Source")
 
 if (MSVC)
-	set_target_properties(Engine PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Engine")
+	set_target_properties(Engine PROPERTIES 
+							VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Engine"
+	)
 endif()

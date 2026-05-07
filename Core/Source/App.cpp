@@ -48,9 +48,8 @@ Core::App::App(const AppData& appData = AppData())
 	std::print(stdout, "[Debug] Build: Release\n");
 #else
 	std::print(stdout, "[Debug] Build: Debug\n");
-#endif
-
 	std::println(stdout, "");
+#endif
 	running = true;
 }
 
