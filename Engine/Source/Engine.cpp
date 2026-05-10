@@ -4,7 +4,7 @@ Engine::Engine::Engine(const Core::AppData& appData)
 	: app(appData)
 {
 	scene = std::make_unique<World>(app);
-	ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.api);
+	ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI());
 }
 
 Engine::Engine::~Engine()

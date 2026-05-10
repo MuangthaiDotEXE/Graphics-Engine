@@ -75,19 +75,21 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
-	ImGui::Text("Monitor sync (V-Sync): %s", window->GetMonitorSync() ? "On" : "Off");
+	ImGui::Text("Monitor sync (V-Sync): %s", window->GetMonitorSync() ? "Enabled" : "Disabled");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
+	/* Miscellaneous */
 	{
 		ImGui::Text("Miscellaneous");
 
 		static float color[] = { 0.00f, 0.78f, 0.80f };
-		ImGui::ColorEdit3("Background sky color", color);
+		ImGui::Text("Background sky clear color");
+		ImGui::ColorEdit3("", color);
 		glClearColor(color[0], color[1], color[2], 1.0f);
 
 		ImGui::Text("Wireframe mode");
 		ImGui::SameLine(0, 10);
-		if (ImGui::Button(wireframeMode ? "Off" : "On"))
+		if (ImGui::Button(wireframeMode ? "Disable" : "Enable"))
 		{
 			wireframeMode = !wireframeMode;
 
@@ -100,7 +102,7 @@ void Core::UserInterface::DebugWindow()
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Wireframe mode: {}\033[0m\n", wireframeMode ? "On" : "Off");
+			std::print(stdout, "\033[32m[Debug] Wireframe mode: {}\033[0m\n", wireframeMode ? "Enabled" : "Disabled");
 		}
 
 		ImGui::Text("Text");

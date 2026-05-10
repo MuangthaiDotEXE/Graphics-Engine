@@ -63,12 +63,12 @@ namespace Core
 		void Render();
 		void Update();
 
-		static App& GetApplication();
-		void Quit();
-
-	private:
+		std::string GetConfigurations();
 		std::string GetGraphicsAPI();
 		std::string GetDevelopmentStage();
+
+		static App& GetApplication();
+		void Quit();
 	};
 }
 

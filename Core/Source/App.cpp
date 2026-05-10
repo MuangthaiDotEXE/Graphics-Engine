@@ -44,12 +44,9 @@ Core::App::App(const AppData& appData = AppData())
 	{
 		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 	}
-#ifdef NDEBUG
-	std::print(stdout, "[Debug] Build: Release\n");
-#else
-	std::print(stdout, "[Debug] Build: Debug\n");
+	std::print(stdout, "[Info] Build: {}\n", GetConfigurations());
 	std::println(stdout, "");
-#endif
+
 	running = true;
 }
 
@@ -82,6 +79,15 @@ Core::App& Core::App::GetApplication()
 void Core::App::Quit()
 {
 	window->Quit();
+}
+
+std::string Core::App::GetConfigurations()
+{
+#ifdef NDEBUG
+	return "Release";
+#else
+	return "Debug";
+#endif
 }
 
 std::string Core::App::GetGraphicsAPI()

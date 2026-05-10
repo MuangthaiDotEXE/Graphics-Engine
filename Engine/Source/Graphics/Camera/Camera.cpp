@@ -92,7 +92,7 @@ void Engine::Camera::Input()
 	Framerate();
 	speed = walkSpeed * deltaTime * (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? sprintMultiplier : 1.0f);
 
-	// Keyboard
+	/* Keyboard */
 	{
 		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		{
@@ -120,7 +120,7 @@ void Engine::Camera::Input()
 		}
 	}
 
-	// Mouse
+	/* Mouse */
 	{
 		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 		{
