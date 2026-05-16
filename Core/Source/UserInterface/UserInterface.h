@@ -26,7 +26,7 @@ namespace Core
 		std::string title, version, graphicsAPI;
 		Window* window;
 
-		bool wireframeMode = false;
+		bool vSyncMode, wireframeMode = false;
 
 	public:
 		UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI);

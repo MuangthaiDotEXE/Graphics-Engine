@@ -31,7 +31,8 @@ namespace Core
 		int buildNumber = 1;
 		std::string name = "App";
 		std::string subVersion = "";
-		std::array<unsigned int, 3> version;
+		std::array<unsigned int, 3> version = { 1, 0, 0 };
+
 		enum struct DevelopmentStage
 		{
 			ALPHA,
@@ -39,7 +40,7 @@ namespace Core
 			RELEASE_CANDIDATE,
 			RELEASE
 		};
-		DevelopmentStage developmentStage;
+		DevelopmentStage developmentStage = DevelopmentStage::ALPHA;
 	};
 	
 	class App

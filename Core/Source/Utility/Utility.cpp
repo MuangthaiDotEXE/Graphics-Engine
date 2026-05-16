@@ -37,11 +37,3 @@ std::string ReadFile(const std::string& path)
 
     return content;
 }
-
-Core::Utility::Utility()
-{
-}
-
-Core::Utility::~Utility()
-{
-}

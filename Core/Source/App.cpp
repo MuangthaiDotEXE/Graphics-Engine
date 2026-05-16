@@ -95,18 +95,21 @@ std::string Core::App::GetGraphicsAPI()
 	switch (appData.graphicsAPI)
 	{
 	case GraphicsAPI::OPENGL:
+#define OPENGL_API
 		graphics = std::make_unique<OpenGL>(window->GetWindow());
 		return "OpenGL";
 
 		break;
 
 	case GraphicsAPI::VULKAN:
+#define VULKAN_API
 		graphics = std::make_unique<Vulkan>(window->GetWindow());
 		return "Vulkan";
 
 		break;
 
 	default:
+#define OPENGL_API
 		graphics = std::make_unique<OpenGL>(window->GetWindow()); // Default to OpenGL graphics API
 		return "OpenGL";
 

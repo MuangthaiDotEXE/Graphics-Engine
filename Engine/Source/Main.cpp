@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 	{
 		Engine::Engine engine(engineData);
 
-#if !defined(NDEBUG)
+#ifndef NDEBUG
 		for (size_t i = 0; i < argc; i++)
 		{
 			std::print(stdout, "[Debug] Arguments (argv[{}]): {}\n", i, argv[i]);
@@ -34,8 +34,8 @@ int main(int argc, char** argv)
 
 		auto initializeFinish = std::chrono::high_resolution_clock::now();
 		auto initializeDuration = std::chrono::duration_cast<std::chrono::milliseconds>(initializeFinish - initializeStart);
-#if !defined(NDEBUG)
-		std::print(stdout, "\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n", initializeDuration, std::chrono::duration<double>(initializeDuration));
+#ifndef NDEBUG
+		std::println(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n", initializeDuration, std::chrono::duration<double>(initializeDuration));
 #endif
 
 		engine.Render();
@@ -50,8 +50,8 @@ int main(int argc, char** argv)
 
 	auto appFinish = std::chrono::high_resolution_clock::now();
 	auto appDuration = std::chrono::duration_cast<std::chrono::milliseconds>(appFinish - appStart);
-#if !defined(NDEBUG)
-	std::print(stdout, "\033[0m[Debug] Application finished running in {} ({})\033[0m\n", appDuration, std::chrono::duration<double>(appDuration));
+#ifndef NDEBUG
+	std::print(stdout, "\n\033[0m[Debug] Application finished running in {} ({})\033[0m\n", appDuration, std::chrono::duration<double>(appDuration));
 #endif
 
 	return 0;

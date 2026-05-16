@@ -20,8 +20,8 @@ namespace Core
 	class Utility
 	{
 	public:
-		Utility();
-		virtual ~Utility();
+		Utility() {};
+		virtual ~Utility() {};
 	};
 }
 

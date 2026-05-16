@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
 Core::UserInterface::UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI)
-	: window(window), title(title), version(version), graphicsAPI(graphicsAPI)
+	: window(window), title(title), version(version), graphicsAPI(graphicsAPI), vSyncMode(window->GetMonitorSync())
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -75,7 +75,7 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	ImGui::Text("FPS: %.1f", io.Framerate);
-	ImGui::Text("Monitor sync (V-Sync): %s", window->GetMonitorSync() ? "Enabled" : "Disabled");
+	ImGui::Text("Monitor sync (V-Sync): %s", vSyncMode ? "Enabled" : "Disabled");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	/* Miscellaneous */
@@ -86,6 +86,24 @@ void Core::UserInterface::DebugWindow()
 		ImGui::Text("Background sky clear color");
 		ImGui::ColorEdit3("", color);
 		glClearColor(color[0], color[1], color[2], 1.0f);
+
+		ImGui::Text("Monitor sync mode");
+		ImGui::SameLine(0, 10);
+		if (ImGui::Button(vSyncMode ? "Disable" : "Enable"))
+		{
+			vSyncMode = !vSyncMode;
+
+			if (vSyncMode)
+			{
+				glfwSwapInterval(true);
+			}
+			else
+			{
+				glfwSwapInterval(false);
+			}
+
+			std::print(stdout, "\033[32m[Debug] Monitor sync mode: {}\033[0m\n", vSyncMode ? "Enable" : "Disable");
+		}
 
 		ImGui::Text("Wireframe mode");
 		ImGui::SameLine(0, 10);
