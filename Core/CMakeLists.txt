@@ -35,12 +35,12 @@ target_sources(Core PRIVATE ${SOURCES})
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
-add_definitions(
+target_compile_definitions(Core PRIVATE
 	-DProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
 	-DCoreDirectory=\"${PROJECT_SOURCE_DIR}/Core\"
 )
 
-add_compile_definitions(
+target_compile_definitions(Core PUBLIC
 	GLFW_INCLUDE_NONE
 	GLM_ENABLE_EXPERIMENTAL
 )
