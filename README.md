@@ -35,7 +35,7 @@
 
 ### How to use
 - Clone the repository using `git clone` command
-- Run `Build.py` using Python. For platform specific, run `Build.bat` (Microsoft Windows) or  `Build.sh` (Unix)
+- Run `Build.py` using Python. For platform specific, run `Build.bat` (Microsoft Windows) or  `Build.sh` (Unix/Linux)
 - Once the project is built successfully, the project should be ready to go
 
 ### Credits

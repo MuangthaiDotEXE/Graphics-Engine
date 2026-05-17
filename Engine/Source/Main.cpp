@@ -23,19 +23,21 @@ int main(int argc, char** argv)
 	
 	try
 	{
-		Engine::Engine engine(engineData);
-
-#ifndef NDEBUG
 		for (size_t i = 0; i < argc; i++)
 		{
-			std::print(stdout, "[Debug] Arguments (argv[{}]): {}\n", i, argv[i]);
+			if (std::string(argv[i]) == "--reset-window" && std::filesystem::exists("Window.state"))
+			{
+				std::filesystem::remove("Window.state");
+				break;
+			}
 		}
-#endif
+
+		Engine::Engine engine(engineData);
 
 		auto initializeFinish = std::chrono::high_resolution_clock::now();
 		auto initializeDuration = std::chrono::duration_cast<std::chrono::milliseconds>(initializeFinish - initializeStart);
 #ifndef NDEBUG
-		std::println(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n", initializeDuration, std::chrono::duration<double>(initializeDuration));
+		std::print(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n\n", initializeDuration, std::chrono::duration<double>(initializeDuration));
 #endif
 
 		engine.Render();

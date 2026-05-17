@@ -3,11 +3,13 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
+#include <iostream>
 #include <print>
 #include <cstdio>
 #include <cstdint>
 #include <string>
 #include <filesystem>
+#include <fstream>
 #include <optional>
 #include <stdexcept>
 
@@ -36,7 +38,18 @@ namespace Core
 		std::string title = "App";
 		std::optional<std::string> icon = std::nullopt; // pass std::nullopt instead of nullptr
 		uint32_t width = 640u, height = 480u;
-		bool vSync = true, resizable = true, decorated = true, fullscreen = false;
+		bool vSync = true;
+		bool resizable = true;
+		bool decorated = true;
+		bool fullscreen = false;
+	};
+
+	struct WindowState
+	{
+		int width, height;
+		int x, y;
+		bool maximized = false;
+		bool fullscreen = false;
 	};
 
 	class Window
@@ -52,6 +65,9 @@ namespace Core
 		const double debounceTime = 0.15;
 
 		bool fullscreenMode;
+
+		int restoredWidth, restoredHeight;
+		int restoredX, restoredY;
 
 #ifdef _WIN32
 		HWND hwnd;
@@ -82,6 +98,10 @@ namespace Core
 	private:
 		void SetCenter();
 		void Fullscreen();
+
+		void SaveState();
+		bool LoadState(WindowState& windowState);
+		void ResetState();
 	};
 }
 

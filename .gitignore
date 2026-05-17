@@ -28,3 +28,7 @@ CMakeUserPresets.json
 # Dear ImGui
 imgui.ini
 imgui*.ini
+
+# Graphics Engine
+**/Window.state
+**/*.state

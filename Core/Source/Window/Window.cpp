@@ -127,9 +127,36 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		}
 	}
 
-	SetCenter();
-	x = GetPosition().x;
-	y = GetPosition().y;
+	restoredWidth = windowData.width;
+	restoredHeight = windowData.height;
+	restoredX = 0;
+	restoredY = 0;
+
+	WindowState savedState;
+	if (LoadState(savedState))
+	{
+		glfwSetWindowSize(window, savedState.width, savedState.height);
+		glfwSetWindowPos(window, savedState.x, savedState.y);
+
+		if (savedState.fullscreen)
+		{
+			fullscreenMode = true;
+			Fullscreen();
+		}
+		else if (savedState.maximized)
+		{
+			glfwMaximizeWindow(window);
+		}
+
+		restoredWidth = savedState.width;
+		restoredHeight = savedState.height;
+		restoredX = savedState.x;
+		restoredY = savedState.y;
+	}
+	else
+	{
+		SetCenter();
+	}
 
 	if (windowData.fullscreen)
 	{
@@ -144,6 +171,8 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 
 Core::Window::~Window()
 {
+	SaveState();
+
 #ifdef _WIN32
 	if (hwnd != nullptr)
 	{
@@ -195,6 +224,12 @@ void Core::Window::Render()
 
 void Core::Window::Update()
 {
+	if (!fullscreenMode && !glfwGetWindowAttrib(window, GLFW_MAXIMIZED))
+	{
+		glfwGetWindowSize(window, &restoredWidth, &restoredHeight);
+		glfwGetWindowPos(window, &restoredX, &restoredY);
+	}
+
 	if (graphicsAPI == GraphicsAPI::OPENGL)
 	{
 		glfwSwapBuffers(window);
@@ -349,4 +384,67 @@ void Core::Window::Fullscreen()
 
 		glfwSwapBuffers(window);
 	}
+}
+
+void Core::Window::SaveState()
+{
+	if (fullscreenMode)
+	{
+		return;
+	}
+
+	WindowState windowState{};
+	windowState.fullscreen = fullscreenMode;
+	windowState.maximized = static_cast<bool>(glfwGetWindowAttrib(window, GLFW_MAXIMIZED));
+
+	windowState.width = restoredWidth;
+	windowState.height = restoredHeight;
+	windowState.x = restoredX;
+	windowState.y = restoredY;
+
+	std::ofstream file("Window.state", std::ios::binary);
+	if (file)
+	{
+		file.write(reinterpret_cast<char*>(&windowState), sizeof(windowState));
+	}
+
+#ifndef NDEBUG
+	std::print(stdout, "\033[33m[Debug] Save window state setting file in path: {}\033[0m\n", std::filesystem::absolute("Window.state").generic_string());
+#endif
+}
+
+bool Core::Window::LoadState(WindowState& windowState)
+{
+	std::ifstream file("Window.state", std::ios::binary);
+	if (!file)
+	{
+		return false;
+	}
+
+	file.read(reinterpret_cast<char*>(&windowState), sizeof(windowState));
+	return file.good();
+}
+
+void Core::Window::ResetState()
+{
+	std::filesystem::remove("Window.state");
+
+	if (fullscreenMode)
+	{
+		fullscreenMode = false;
+		Fullscreen();
+	}
+
+	glfwRestoreWindow(window);
+
+	glfwSetWindowSize(window, windowData.width, windowData.height);
+	SetCenter();
+
+	restoredWidth = windowData.width;
+	restoredHeight = windowData.height;
+	glfwGetWindowPos(window, &restoredX, &restoredY);
+
+#ifndef NDEBUG
+	std::print(stdout, "\033[33m[Debug] Window state reset to defaults\033[0m\n");
+#endif
 }

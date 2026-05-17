@@ -58,7 +58,7 @@ namespace Core
 		std::unique_ptr<Graphics> graphics;
 
 	public:
-		App(const AppData& appData);
+		App(const AppData& appData = AppData());
 		virtual ~App();
 
 		void Render();

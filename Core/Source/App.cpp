@@ -2,13 +2,13 @@
 
 #ifdef _WIN32
 std::string operatingSystem = "Windows";
-#elifdef __APPLE__ || __MACH__
+#elif defined(__APPLE__) || defined(__MACH__)
 std::string operatingSystem = "Macintosh";
 #elifdef __linux__
 std::string operatingSystem = "Linux";
 #elifdef __FREEBSD__
 std::string operatingSystem = "FreeBSD";
-#elifdef __unix__ || __unix
+#elif defined(__unix__) || defined(__unix)
 std::string operatingSystem = "Unix";
 #else
 std::string operatingSystem = "Unknown";
@@ -16,7 +16,7 @@ std::string operatingSystem = "Unknown";
 
 static Core::App* app = nullptr;
 
-Core::App::App(const AppData& appData = AppData())
+Core::App::App(const AppData& appData)
 	: appData(appData), running(true)
 {
 	app = this;
@@ -45,7 +45,6 @@ Core::App::App(const AppData& appData = AppData())
 		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 	}
 	std::print(stdout, "[Info] Build: {}\n", GetConfigurations());
-	std::println(stdout, "");
 
 	running = true;
 }
