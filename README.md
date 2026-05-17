@@ -31,6 +31,7 @@
 <div align="center">
 	<img src="Asset/Image/Screenshot 1.png" alt="Screenshot 1">
 </div>
+(Screenshot taken: 2026-05-17 7:26 UTC)
 
 ### How to use
 - Clone the repository using `git clone` command
