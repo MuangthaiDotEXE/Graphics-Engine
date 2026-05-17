@@ -62,7 +62,7 @@ void Core::FBO::Create()
 
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 	{
-		throw std::exception("Framebuffer creation failed (OpenGL graphics API)\n");
+		throw std::runtime_error("Framebuffer creation failed (OpenGL graphics API)\n");
 	}
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);

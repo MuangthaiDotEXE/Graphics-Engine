@@ -98,4 +98,8 @@ if (NOT assimp_FOUND)
 	)
 
 	FetchContent_MakeAvailable(assimp)
+
+	if (CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	target_compile_definitions(assimp PRIVATE -Wno-maybe-uninitialized)
+	endif()
 endif()
