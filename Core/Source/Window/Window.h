@@ -36,9 +36,7 @@ namespace Core
 		std::string title = "App";
 		std::optional<std::string> icon = std::nullopt; // pass std::nullopt instead of nullptr
 		uint32_t width = 640u, height = 480u;
-		bool vSync = true;
-		bool resizable = true;
-		bool decorated = true;
+		bool vSync = true, resizable = true, decorated = true, fullscreen = false;
 	};
 
 	class Window
@@ -46,11 +44,14 @@ namespace Core
 	private:
 		GLFWwindow* window;
 		WindowData windowData;
+		int width, height, x, y;
 
 		GraphicsAPI graphicsAPI;
 
 		double toggleTime = 0.0;
 		const double debounceTime = 0.15;
+
+		bool fullscreenMode;
 
 #ifdef _WIN32
 		HWND hwnd;
@@ -73,6 +74,7 @@ namespace Core
 		glm::vec2 GetFramebufferSize() const;
 		glm::vec2 GetPosition() const;
 		bool GetMonitorSync() const;
+		bool GetFullscreenMode() const;
 
 		void SetTitle(const std::string& title);
 		void SetPosition(glm::vec2 position);

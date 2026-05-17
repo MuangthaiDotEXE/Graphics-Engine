@@ -49,7 +49,7 @@ static void ErrorCallback(int error, const char* description)
 }
 
 Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
-	: windowData(windowData), graphicsAPI(graphicsAPI)
+	: windowData(windowData), graphicsAPI(graphicsAPI), width(windowData.width), height(windowData.height), fullscreenMode(windowData.fullscreen)
 {
 	glfwSetErrorCallback(ErrorCallback);
 
@@ -128,6 +128,13 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 	}
 
 	SetCenter();
+	x = GetPosition().x;
+	y = GetPosition().y;
+
+	if (windowData.fullscreen)
+	{
+		Fullscreen();
+	}
 
 	if (glfwRawMouseMotionSupported())
 	{
@@ -167,6 +174,8 @@ void Core::Window::Input()
 		{
 			if (glfwGetKey(window, GLFW_KEY_F11) == GLFW_PRESS)
 			{
+				fullscreenMode = !fullscreenMode;
+
 				Fullscreen();
 				toggleTime = currentTime;
 			}
@@ -248,6 +257,11 @@ bool Core::Window::GetMonitorSync() const
 	return windowData.vSync;
 }
 
+bool Core::Window::GetFullscreenMode() const
+{
+	return fullscreenMode;
+}
+
 void Core::Window::SetTitle(const std::string& title)
 {
 	glfwSetWindowTitle(window, title.c_str());
@@ -313,7 +327,13 @@ void Core::Window::SetCenter()
 
 void Core::Window::Fullscreen()
 {
-	if (glfwGetWindowMonitor(window) == nullptr)
+	if (fullscreenMode)
+	{
+		glfwGetWindowPos(window, &x, &y);
+		glfwGetWindowSize(window, &width, &height);
+	}
+
+	if (glfwGetWindowMonitor(window) == nullptr && fullscreenMode)
 	{
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 		const GLFWvidmode* videoMode = (GLFWvidmode*)glfwGetVideoMode(monitor);
@@ -323,8 +343,9 @@ void Core::Window::Fullscreen()
 	}
 	else
 	{
-		glfwSetWindowMonitor(window, nullptr, 0, 0, windowData.width, windowData.height, 0);
-		Window::SetCenter();
+		glfwSetWindowMonitor(window, nullptr, 0, 0, width, height, 0);
+		glfwSetWindowSize(window, width, height);
+		glfwSetWindowPos(window, x, y);
 
 		glfwSwapBuffers(window);
 	}
