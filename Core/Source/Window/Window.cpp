@@ -48,7 +48,7 @@ static void ErrorCallback(int error, const char* description)
 	std::print(stderr, "\033[31m[Error] GLFW error {}: {} (GLFW windowing API)\033[0m\n", error, description);
 }
 
-Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL)
+Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 	: windowData(windowData), graphicsAPI(graphicsAPI), width(windowData.width), height(windowData.height), fullscreenMode(windowData.fullscreen)
 {
 	glfwSetErrorCallback(ErrorCallback);
