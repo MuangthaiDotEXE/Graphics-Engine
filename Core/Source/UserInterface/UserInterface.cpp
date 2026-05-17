@@ -82,14 +82,14 @@ void Core::UserInterface::DebugWindow()
 	{
 		ImGui::Text("Miscellaneous");
 
-		static float color[] = { 0.00f, 0.78f, 0.80f };
-		ImGui::Text("Background sky clear color");
+		static float color[] = { 0.529f, 0.808f, 0.922f };
+		ImGui::Text("Background sky clear color (RGB)");
 		ImGui::ColorEdit3("", color);
 		glClearColor(color[0], color[1], color[2], 1.0f);
 
 		ImGui::Text("Monitor sync mode");
 		ImGui::SameLine(0, 10);
-		if (ImGui::Button(vSyncMode ? "Disable" : "Enable"))
+		if (ImGui::Button(vSyncMode ? "Disable##vSync" : "Enable##vSync"))
 		{
 			vSyncMode = !vSyncMode;
 
@@ -107,7 +107,7 @@ void Core::UserInterface::DebugWindow()
 
 		ImGui::Text("Wireframe mode");
 		ImGui::SameLine(0, 10);
-		if (ImGui::Button(wireframeMode ? "Disable" : "Enable"))
+		if (ImGui::Button(wireframeMode ? "Disable##wireframe" : "Enable##wireframe"))
 		{
 			wireframeMode = !wireframeMode;
 
@@ -122,7 +122,7 @@ void Core::UserInterface::DebugWindow()
 
 			std::print(stdout, "\033[32m[Debug] Wireframe mode: {}\033[0m\n", wireframeMode ? "Enabled" : "Disabled");
 		}
-
+		
 		ImGui::Text("Text");
 		ImGui::SameLine(0, 10);
 		if (ImGui::Button("Button"))
@@ -136,4 +136,13 @@ void Core::UserInterface::DebugWindow()
 void Core::UserInterface::DemoWindow()
 {
 	ImGui::ShowDemoWindow();
+}
+
+void Core::UserInterface::DevWindow()
+{
+	ImGui::ShowAboutWindow();
+	ImGui::ShowDemoWindow();
+	ImGui::ShowDebugLogWindow();
+	ImGui::ShowIDStackToolWindow();
+	ImGui::ShowUserGuide();
 }

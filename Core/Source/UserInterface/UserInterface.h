@@ -39,6 +39,9 @@ namespace Core
 
 		void DebugWindow();
 		void DemoWindow();
+
+	private:
+		void DevWindow();
 	};
 }
 
