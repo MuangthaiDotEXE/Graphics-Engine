@@ -8,6 +8,7 @@
 #include <cstdint>
 #include <string>
 #include <filesystem>
+#include <optional>
 #include <stdexcept>
 
 #include <glad/gl.h>
@@ -33,7 +34,7 @@ namespace Core
 	struct WindowData
 	{
 		std::string title = "App";
-		std::string icon = "";
+		std::optional<std::string> icon = std::nullopt; // pass std::nullopt instead of nullptr
 		uint32_t width = 640u, height = 480u;
 		bool vSync = true;
 		bool resizable = true;

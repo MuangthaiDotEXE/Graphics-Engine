@@ -104,12 +104,12 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		glfwSwapInterval(windowData.vSync);
 	}
 
-	if (!windowData.icon.empty() && std::filesystem::exists(windowData.icon))
+	if (windowData.icon.has_value() && std::filesystem::exists(*windowData.icon))
 	{
 		GLFWimage icon[1];
 		int width, height, channels;
 
-		unsigned char* image = stbi_load(windowData.icon.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+		unsigned char* image = stbi_load((*windowData.icon).c_str(), &width, &height, &channels, STBI_rgb_alpha);
 
 		if (image)
 		{
@@ -123,7 +123,7 @@ Core::Window::Window(const WindowData& windowData = WindowData(), GraphicsAPI gr
 		}
 		else
 		{
-			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", windowData.icon);
+			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", *windowData.icon);
 		}
 	}
 
