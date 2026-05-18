@@ -6,7 +6,7 @@ std::string ReadFile(const char* path)
 
     if (!file)
     {
-        throw std::exception("Failed to open and read the file (Input/Output)");
+        throw std::runtime_error("Failed to open and read the file (Input/Output)");
     }
 
     std::string content;
@@ -25,7 +25,7 @@ std::string ReadFile(const std::string& path)
 
     if (!file)
     {
-        throw std::exception("Failed to open and read the file (Input/Output)");
+        throw std::runtime_error("Failed to open and read the file (Input/Output)");
     }
 
     std::string content;
