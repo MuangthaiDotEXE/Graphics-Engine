@@ -24,8 +24,8 @@ target_sources(Engine PRIVATE ${SOURCES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 target_compile_definitions(Engine PRIVATE
-	-DProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
-	-DEngineDirectory=\"${PROJECT_SOURCE_DIR}/Engine\"
+	ProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
+	EngineDirectory=\"${PROJECT_SOURCE_DIR}/Engine\"
 )
 
 target_compile_definitions(Engine PRIVATE

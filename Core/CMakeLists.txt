@@ -36,8 +36,8 @@ target_sources(Core PRIVATE ${SOURCES})
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
 target_compile_definitions(Core PRIVATE
-	-DProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
-	-DCoreDirectory=\"${PROJECT_SOURCE_DIR}/Core\"
+	ProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
+	CoreDirectory=\"${PROJECT_SOURCE_DIR}/Core\"
 )
 
 target_compile_definitions(Core PUBLIC
