@@ -17,12 +17,12 @@ namespace Core
 		int width, height;
 
 	public:
-		FBO(int width, int height);
+		FBO(glm::vec2 size);
 		virtual ~FBO();
 
 		void Bind();
 		void Unbind();
-		void Resize(int width, int height);
+		void Resize(glm::vec2 size);
 
 		GLuint GetColorTexture() const;
 		glm::vec2 GetSize() const;

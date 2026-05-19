@@ -38,9 +38,11 @@ namespace Core
 		void EndFrame();
 
 		void DebugWindow();
-		void DemoWindow();
+		void ViewportWindow(GLuint textureID, glm::vec2 size);
 
 	private:
+		void DockSpace();
+
 		void DevWindow();
 	};
 }

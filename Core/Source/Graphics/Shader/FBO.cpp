@@ -1,7 +1,7 @@
 #include "FBO.h"
 
-Core::FBO::FBO(int width, int height)
-	: width(width), height(height)
+Core::FBO::FBO(glm::vec2 size)
+	: width(size.x), height(size.y)
 {
 	Create();
 }
@@ -22,12 +22,15 @@ void Core::FBO::Unbind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void Core::FBO::Resize(int width, int height)
+void Core::FBO::Resize(glm::vec2 size)
 {
-	if (width == this->width && height == this->height) return;
+	if (size.x == width && size.y == height)
+	{
+		return;
+	}
 
-	this->width = width;
-	this->height = height;
+	this->width = size.x;
+	this->height = size.y;
 
 	Destroy();
 	Create();
@@ -35,17 +38,17 @@ void Core::FBO::Resize(int width, int height)
 
 GLuint Core::FBO::GetColorTexture() const
 {
-	return this->colorTexture;
+	return colorTexture;
 }
 
 glm::vec2 Core::FBO::GetSize() const
 {
-	return glm::vec2(this->width, this->height);
+	return glm::vec2(width, height);
 }
 
 void Core::FBO::Create()
 {
-	glGenBuffers(1, &fboID);
+	glGenFramebuffers(1, &fboID);
 	glBindFramebuffer(GL_FRAMEBUFFER, fboID);
 
 	glGenTextures(1, &colorTexture);

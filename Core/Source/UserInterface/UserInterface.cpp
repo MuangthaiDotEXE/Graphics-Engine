@@ -43,6 +43,7 @@ void Core::UserInterface::BeginFrame()
 
 void Core::UserInterface::Update()
 {
+	//DockSpace();
 	DebugWindow();
 }
 
@@ -133,9 +134,46 @@ void Core::UserInterface::DebugWindow()
 	ImGui::End();
 }
 
-void Core::UserInterface::DemoWindow()
+void Core::UserInterface::ViewportWindow(GLuint textureID, glm::vec2 size)
 {
-	ImGui::ShowDemoWindow();
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0, 0));
+	ImGui::Begin("Viewport");
+
+	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+
+	ImGui::Image((ImTextureID)(uintptr_t)textureID, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
+
+	ImGui::End();
+	ImGui::PopStyleVar();
+}
+
+void Core::UserInterface::DockSpace()
+{
+	ImGuiViewport* viewport = ImGui::GetMainViewport();
+	ImGui::SetNextWindowPos(viewport->Pos);
+	ImGui::SetNextWindowSize(viewport->Size);
+	ImGui::SetNextWindowViewport(viewport->ID);
+
+	ImGuiWindowFlags dockFlags =
+		ImGuiWindowFlags_NoTitleBar |
+		ImGuiWindowFlags_NoCollapse |
+		ImGuiWindowFlags_NoResize |
+		ImGuiWindowFlags_NoMove |
+		ImGuiWindowFlags_NoBringToFrontOnFocus |
+		ImGuiWindowFlags_NoNavFocus |
+		ImGuiWindowFlags_NoBackground;
+
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
+
+	ImGui::Begin("DockSpace", nullptr, dockFlags);
+	ImGui::PopStyleVar(3);
+
+	ImGuiID dockID = ImGui::GetID("MainDockSpace");
+	ImGui::DockSpace(dockID, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_PassthruCentralNode);
+
+	ImGui::End();
 }
 
 void Core::UserInterface::DevWindow()

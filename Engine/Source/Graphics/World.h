@@ -11,6 +11,7 @@
 #include <glm/glm.hpp>
 
 #include "App.h"
+#include "Graphics/Shader/FBO.h"
 
 #include "Scene.h"
 #include "Mesh/Mesh.h"
@@ -18,6 +19,7 @@
 #include "Mesh/Plane.h"
 #include "Light/Light.h"
 #include "Camera/Camera.h"
+#include <glm/fwd.hpp>
 
 namespace Engine
 {
@@ -25,6 +27,7 @@ namespace Engine
 	{
 	private:
 		Core::Shader shader;
+		Core::FBO fbo;
 
 		std::vector<std::unique_ptr<Mesh>> objects;
 		std::vector<std::unique_ptr<Light>> lights;
@@ -38,6 +41,9 @@ namespace Engine
 
 		void Render() override;
 		void Update() override;
+
+		GLuint GetViewportTexture() const;
+		glm::vec2 GetViewportSize() const;
 	};
 }
 

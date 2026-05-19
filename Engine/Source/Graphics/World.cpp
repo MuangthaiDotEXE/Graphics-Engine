@@ -2,7 +2,8 @@
 
 Engine::World::World(Core::App& app)
 	: Scene(app), objects(), lights(), camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(5.0f, 5.0f, 5.0f)),
-	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag")
+	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag"),
+	fbo(app.window->GetFramebufferSize())
 {
 	auto cube = std::make_unique<Cube>(shader);
 	cube->name = "Brick cube";
@@ -58,6 +59,13 @@ void Engine::World::Render()
 
 void Engine::World::Update()
 {
+	//glm::vec2 windowSize = app.window->GetFramebufferSize();
+	//fbo.Resize(windowSize);
+
+	//fbo.Bind();
+
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	camera.UpdateMatrix(70.0f, nearPlane, farPlane, 2.5f);
 	camera.Input();
 
@@ -79,4 +87,17 @@ void Engine::World::Update()
 
 		mesh->Update();
 	}
+
+
+	//fbo.Unbind();
+}
+
+GLuint Engine::World::GetViewportTexture() const
+{
+	return fbo.GetColorTexture();
+}
+
+glm::vec2 Engine::World::GetViewportSize() const
+{
+	return fbo.GetSize();
 }

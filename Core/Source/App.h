@@ -26,7 +26,7 @@ namespace Core
 	struct AppData
 	{
 		WindowData windowData;
-		GraphicsAPI graphicsAPI;
+		GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL;
 
 		int buildNumber = 1;
 		std::string name = "App";

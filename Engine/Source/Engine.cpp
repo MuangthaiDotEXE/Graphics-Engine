@@ -24,9 +24,16 @@ void Engine::Engine::Update()
 	{
 		ui->BeginFrame();
 		ui->Update();
-		scene->Update();
-		ui->EndFrame();
 
+		scene->Update();
+
+		World* world = dynamic_cast<World*>(scene.get());
+		if (world)
+		{
+			//ui->ViewportWindow(world->GetViewportTexture(), world->GetViewportSize());
+		}
+
+		ui->EndFrame();
 		app.Update();
 	}
 }

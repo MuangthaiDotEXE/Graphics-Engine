@@ -10,7 +10,7 @@ int main(int argc, char** argv)
 	auto initializeStart = std::chrono::high_resolution_clock::now();
 	auto appStart = std::chrono::high_resolution_clock::now();
 
-	Core::AppData engineData {};
+	Core::AppData engineData{};
 	engineData.name = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
 	engineData.developmentStage = Core::AppData::DevelopmentStage::ALPHA;
