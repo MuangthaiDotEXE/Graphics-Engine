@@ -1,7 +1,8 @@
 #include "World.h"
 
 Engine::World::World(Core::App& app)
-	: Scene(app), objects(), lights(), camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(5.0f, 5.0f, 5.0f)),
+	: Scene(app), objects(), lights(), 
+	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(5.0f, 5.0f, 5.0f)),
 	shader(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag"),
 	fbo(app.window->GetFramebufferSize())
 {

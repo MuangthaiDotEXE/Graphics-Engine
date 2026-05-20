@@ -103,7 +103,7 @@ void Core::UserInterface::DebugWindow()
 				glfwSwapInterval(false);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Monitor sync mode: {}\033[0m\n", vSyncMode ? "Enable" : "Disable");
+			std::print(stdout, "\033[32m[Debug] Monitor sync (V-Sync) mode: {}\033[0m\n", vSyncMode ? "Enable" : "Disable");
 		}
 
 		ImGui::Text("Wireframe mode");
@@ -140,6 +140,8 @@ void Core::UserInterface::ViewportWindow(GLuint textureID, glm::vec2 size)
 	ImGui::Begin("Viewport");
 
 	ImVec2 viewportSize = ImGui::GetContentRegionAvail();
+
+	float aspectRatio = (float)viewportSize.x / (float)viewportSize.y;
 
 	ImGui::Image((ImTextureID)(uintptr_t)textureID, viewportSize, ImVec2(0, 1), ImVec2(1, 0));
 

@@ -23,7 +23,8 @@ std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertic
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
 
 Engine::Plane::Plane()
-	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", planeVerts, planeInds, Core::Texture(), Core::Texture())
+	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", 
+		planeVerts, planeInds, Core::Texture(), Core::Texture())
 {
 	Initialize();
 }

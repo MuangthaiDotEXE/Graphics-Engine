@@ -85,7 +85,8 @@ std::vector<Vertex> cubeVerts(cubeVertices, cubeVertices + sizeof(cubeVertices) 
 std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / sizeof(GLuint));
 
 Engine::Cube::Cube()
-	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag", cubeVerts, cubeInds, Core::Texture(), Core::Texture())
+	: Mesh(ProjectDirectory "/Resource/Shader/Cube.vert", ProjectDirectory "/Resource/Shader/Cube.frag", 
+		cubeVerts, cubeInds, Core::Texture(), Core::Texture())
 {
 	Initialize();
 }

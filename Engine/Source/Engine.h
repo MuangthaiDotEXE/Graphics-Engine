@@ -12,7 +12,6 @@
 #include "Graphics/Scene.h"
 #include "Graphics/World.h"
 
-
 namespace Engine
 {
 	class Engine
