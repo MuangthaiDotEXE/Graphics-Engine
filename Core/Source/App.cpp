@@ -44,7 +44,8 @@ Core::App::App(const AppData& appData)
 	{
 		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
 	}
-	std::print(stdout, "[Info] Build: {}\n", GetConfigurations());
+	std::println(stdout, "[Info] Build: {}\n", GetConfigurations());
+	PrintGraphicsInformation();
 
 	running = true;
 }
@@ -94,26 +95,45 @@ std::string Core::App::GetGraphicsAPI()
 	switch (appData.graphicsAPI)
 	{
 	case GraphicsAPI::OPENGL:
-#define OPENGL_API
 		graphics = std::make_unique<OpenGL>(window->GetWindow());
+
+		graphicsVendor = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
+		graphicsRenderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+		graphicsVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+		graphicsShadingLanguage = reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 		return "OpenGL";
 
 		break;
 
 	case GraphicsAPI::VULKAN:
-#define VULKAN_API
 		graphics = std::make_unique<Vulkan>(window->GetWindow());
 		return "Vulkan";
 
 		break;
 
 	default:
-#define OPENGL_API
 		graphics = std::make_unique<OpenGL>(window->GetWindow()); // Default to OpenGL graphics API
+
+		graphicsVendor = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
+		graphicsRenderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+		graphicsVersion = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+		graphicsShadingLanguage = reinterpret_cast<const char*>(glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 		return "OpenGL";
 
 		break;
 	}
+}
+
+void Core::App::PrintGraphicsInformation()
+{
+	std::println(stdout, R"([Info] Graphics device information:
+	> Vendor: {}
+	> Renderer: {}
+	> Version: {}
+	> Shading language: {})",
+	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
 }
 
 std::string Core::App::GetDevelopmentStage()

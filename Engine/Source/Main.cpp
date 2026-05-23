@@ -25,6 +25,15 @@ int main(int argc, char** argv)
 	{
 		for (size_t i = 0; i < argc; i++)
 		{
+			if (std::string(argv[i]) == "-opengl")
+			{
+				engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
+			}
+			else if (std::string(argv[i]) == "-vulkan")
+			{
+				engineData.graphicsAPI = Core::GraphicsAPI::VULKAN;
+			}
+
 			if (std::string(argv[i]) == "--reset-window" && std::filesystem::exists("Window.state"))
 			{
 				std::filesystem::remove("Window.state");

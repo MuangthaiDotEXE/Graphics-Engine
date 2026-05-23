@@ -54,6 +54,11 @@ namespace Core
 		std::string version = "";
 		std::string api = "";
 
+		std::string graphicsVendor = "";
+		std::string graphicsRenderer = "";
+		std::string graphicsVersion = "";
+		std::string graphicsShadingLanguage = "";
+
 		std::unique_ptr<Window> window;
 		std::unique_ptr<Graphics> graphics;
 
@@ -66,6 +71,7 @@ namespace Core
 
 		std::string GetConfigurations();
 		std::string GetGraphicsAPI();
+		void PrintGraphicsInformation();
 		std::string GetDevelopmentStage();
 
 		static App& GetApplication();

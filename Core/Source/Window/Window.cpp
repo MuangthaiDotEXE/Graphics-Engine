@@ -121,10 +121,10 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 
 			stbi_image_free(image);
 		}
-		else
-		{
-			std::print("Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", *windowData.icon);
-		}
+	}
+	else if (windowData.icon.has_value() && !std::filesystem::exists(*windowData.icon))
+	{
+		std::print(stdout, "Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", *windowData.icon);
 	}
 
 	restoredWidth = windowData.width;
