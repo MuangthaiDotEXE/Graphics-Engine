@@ -129,9 +129,9 @@ std::string Core::App::GetGraphicsAPI()
 void Core::App::PrintGraphicsInformation()
 {
 	std::println(stdout, R"([Info] Graphics device information:
-	> Vendor: {}
-	> Renderer: {}
-	> Version: {}
+	> Vendor:           {}
+	> Renderer:         {}
+	> Version:          {}
 	> Shading language: {})",
 	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
 }

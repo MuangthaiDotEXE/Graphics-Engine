@@ -44,7 +44,7 @@ GLuint lightIndices[] =
 std::vector<Vertex> lightVerts(lightVertices, lightVertices + sizeof(lightVertices) / sizeof(Vertex));
 std::vector<GLuint> lightInds(lightIndices, lightIndices + sizeof(lightIndices) / sizeof(GLuint));
 
-glm::mat4 Engine::Light::LightTransform::GetMatrix() const
+glm::mat4 Engine::Light::Transform::GetMatrix() const
 {
 	glm::mat4 matrix = glm::mat4(1.0f);
 

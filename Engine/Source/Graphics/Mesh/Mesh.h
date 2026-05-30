@@ -30,7 +30,7 @@ namespace Engine
 		std::string name = "Mesh";
 
 	public:
-		struct MeshTransform
+		struct Transform
 		{
 			glm::vec3 position = glm::vec3(0.0f);
 			glm::vec3 rotation = glm::vec3(0.0f);
@@ -39,7 +39,7 @@ namespace Engine
 			glm::mat4 GetMatrix() const;
 		};
 
-		MeshTransform transform;
+		Transform transform;
 
 	public:		
 		Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& diffuse, const Core::Texture& specular);

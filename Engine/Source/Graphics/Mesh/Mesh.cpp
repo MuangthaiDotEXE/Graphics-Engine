@@ -1,6 +1,6 @@
 #include "Mesh.h"
 
-glm::mat4 Engine::Mesh::MeshTransform::GetMatrix() const
+glm::mat4 Engine::Mesh::Transform::GetMatrix() const
 {
 	glm::mat4 matrix = glm::mat4(1.0f);
 

@@ -15,7 +15,6 @@ int main(int argc, char** argv)
 	engineData.version = { 1, 0, 0 };
 	engineData.developmentStage = Core::AppData::DevelopmentStage::ALPHA;
 	engineData.buildNumber = 1;
-	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.fullscreen = false;

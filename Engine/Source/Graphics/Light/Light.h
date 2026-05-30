@@ -27,7 +27,7 @@ namespace Engine
 		std::string name = "Light";
 
 	public:
-		struct LightTransform
+		struct Transform
 	{
 		glm::vec3 position = glm::vec3(0.0f);
 		glm::vec3 rotation = glm::vec3(0.0f);
@@ -36,7 +36,7 @@ namespace Engine
 		glm::mat4 GetMatrix() const;
 	};
 		
-		LightTransform transform;
+		Transform transform;
 
 	public:
 		Light();

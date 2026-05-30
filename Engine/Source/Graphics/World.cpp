@@ -7,11 +7,11 @@ Engine::World::World(Core::App& app)
 	fbo(app.window->GetFramebufferSize())
 {
 	auto cube = std::make_unique<Cube>(shader);
-	cube->name = "Brick cube";
+	cube->name = "Red Brick cube";
 	cube->transform.position = glm::vec3(-2.5f, 0.0f, 0.0f);
 
 	auto plane = std::make_unique<Plane>(shader);
-	plane->name = "Brick plane";
+	plane->name = "Yellow Brick plane";
 	plane->transform.position = glm::vec3(2.5f, 0.0f, 0.0f);
 
 	objects.emplace_back(std::move(cube));
