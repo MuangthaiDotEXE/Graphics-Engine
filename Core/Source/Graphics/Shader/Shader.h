@@ -23,7 +23,7 @@ namespace Core
 	public:
 		GLuint programID;
 
-		Shader(const std::string& vertexPath, const std::string& fragmentPath);
+		Shader(const std::string& vertexPath = ProjectDirectory "/Resource/Shader/Default.vert", const std::string& fragmentPath = ProjectDirectory "/Resource/Shader/Default.frag");
 		virtual ~Shader();
 
 		void Activate();

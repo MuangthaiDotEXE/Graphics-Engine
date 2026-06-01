@@ -82,7 +82,7 @@ namespace Core
 		void Update();
 
 		[[nodiscard]] bool ShouldClose() const;
-		void Quit();
+		void Close();
 
 		GLFWwindow* GetWindow() const;
 		std::string GetTitle() const;
@@ -93,6 +93,7 @@ namespace Core
 		bool GetFullscreenMode() const;
 
 		void SetTitle(const std::string& title);
+		void SetIcon(const std::string& path);
 		void SetPosition(glm::vec2 position);
 
 	private:

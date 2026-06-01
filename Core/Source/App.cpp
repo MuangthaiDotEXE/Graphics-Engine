@@ -78,7 +78,7 @@ Core::App& Core::App::GetApplication()
 
 void Core::App::Quit()
 {
-	window->Quit();
+	window->Close();
 }
 
 std::string Core::App::GetConfigurations()

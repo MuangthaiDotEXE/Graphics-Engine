@@ -122,9 +122,9 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 			stbi_image_free(image);
 		}
 	}
-	else if (windowData.icon.has_value() && !std::filesystem::exists(*windowData.icon))
+	else if (!windowData.icon.has_value() || !std::filesystem::exists(*windowData.icon))
 	{
-		std::print(stdout, "Failed to load icon: '{}'. Application will use operating system's default icon instead (GLFW windowing API)\n", *windowData.icon);
+		std::print(stdout, "Failed to load icon with path: '{}'. Application will use operating system's default icon instead (GLFW windowing API, Input/Output)\n", *windowData.icon);
 	}
 
 	restoredWidth = windowData.width;
@@ -243,7 +243,7 @@ bool Core::Window::ShouldClose() const
 	return glfwWindowShouldClose(window);
 }
 
-void Core::Window::Quit()
+void Core::Window::Close()
 {
 	glfwSetWindowShouldClose(window, true);
 }
@@ -300,6 +300,32 @@ bool Core::Window::GetFullscreenMode() const
 void Core::Window::SetTitle(const std::string& title)
 {
 	glfwSetWindowTitle(window, title.c_str());
+}
+
+void Core::Window::SetIcon(const std::string& path)
+{
+	if (!path.empty() && std::filesystem::exists(path))
+	{
+		GLFWimage icon[1];
+		int width, height, channels;
+
+		unsigned char* image = stbi_load(path.c_str(), &width, &height, &channels, STBI_rgb_alpha);
+
+		if (image)
+		{
+			icon[0].width = width;
+			icon[0].height = height;
+			icon[0].pixels = image;
+
+			glfwSetWindowIcon(window, 1, icon);
+
+			stbi_image_free(image);
+		}
+	}
+	else if (path.empty() || !std::filesystem::exists(path))
+	{
+		std::print(stdout, "Failed to load icon with path: '{}' (GLFW windowing API, Input/Output)\n", *windowData.icon);
+	}
 }
 
 void Core::Window::SetPosition(glm::vec2 position)
