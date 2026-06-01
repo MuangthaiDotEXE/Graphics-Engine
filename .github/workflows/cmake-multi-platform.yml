@@ -25,20 +25,20 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
         build_type: [Release]
-        c_compiler: [gcc-16, clang, cl]
+        c_compiler: [gcc-15, clang, cl]
         include:
           - os: windows-latest
             c_compiler: cl
             cpp_compiler: cl
           - os: ubuntu-latest
-            c_compiler: gcc-16
-            cpp_compiler: g++-16
+            c_compiler: gcc-15
+            cpp_compiler: g++-15
           - os: ubuntu-latest
             c_compiler: clang
             cpp_compiler: clang++
         exclude:
           - os: windows-latest
-            c_compiler: gcc-16
+            c_compiler: gcc-15
           - os: windows-latest
             c_compiler: clang
           - os: ubuntu-latest
@@ -63,8 +63,8 @@ jobs:
           libxcursor-dev \
           libxi-dev \
           libvulkan-dev \
-          gcc-16 \
-          g++-16
+          gcc-15 \
+          g++-15
 
     # Windows: Install Vulkan SDK
     - name: Install Vulkan SDK
