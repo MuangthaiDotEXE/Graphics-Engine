@@ -122,9 +122,9 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 			stbi_image_free(image);
 		}
 	}
-	else if (!windowData.icon.has_value() || !std::filesystem::exists(*windowData.icon))
+	else if (windowData.icon.has_value() && !std::filesystem::exists(*windowData.icon))
 	{
-		std::print(stdout, "Failed to load icon with path: '{}'. Application will use operating system's default icon instead (GLFW windowing API, Input/Output)\n", *windowData.icon);
+		std::print(stdout, "\033[33mFailed to load icon with path: '{}'. Application will use operating system's default icon instead (GLFW windowing API, Input/Output)\033[33m\n", *windowData.icon);
 	}
 
 	restoredWidth = windowData.width;
@@ -322,9 +322,9 @@ void Core::Window::SetIcon(const std::string& path)
 			stbi_image_free(image);
 		}
 	}
-	else if (path.empty() || !std::filesystem::exists(path))
+	else if (!path.empty() && !std::filesystem::exists(path))
 	{
-		std::print(stdout, "Failed to load icon with path: '{}' (GLFW windowing API, Input/Output)\n", *windowData.icon);
+		std::print(stdout, "\033[33mFailed to load icon with path: '{}' (GLFW windowing API, Input/Output)\033[33m\n", *windowData.icon);
 	}
 }
 
