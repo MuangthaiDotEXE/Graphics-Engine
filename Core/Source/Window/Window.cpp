@@ -416,7 +416,7 @@ void Core::Window::SaveState()
 {
 	if (fullscreenMode)
 	{
-		return;
+		//return;
 	}
 
 	WindowState windowState{};
