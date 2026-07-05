@@ -18,7 +18,7 @@ namespace Core
 		VAO();
 		virtual ~VAO();
 
-		void LinkAttributes(VBO& vbo, GLuint layout, GLuint numberOfComponents, GLenum type, GLsizeiptr stride, const void* offset);
+		void LinkAttributes(VBO& vbo, GLuint index, GLuint size, GLenum type, GLsizeiptr stride, const void* pointer);
 		void Bind();
 		void Unbind();
 	};

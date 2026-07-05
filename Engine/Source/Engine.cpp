@@ -4,7 +4,12 @@ Engine::Engine::Engine(const Core::AppData& appData)
 	: app(appData)
 {
 	scene = std::make_unique<World>(app);
-	ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI());
+
+	world = dynamic_cast<World*>(scene.get());
+	if (world)
+	{
+		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), world->skyColor);
+	}
 }
 
 Engine::Engine::~Engine()
@@ -27,9 +32,9 @@ void Engine::Engine::Update()
 
 		scene->Update();
 
-		World* world = dynamic_cast<World*>(scene.get());
 		if (world)
 		{
+			ui->coordinate = world->camera.GetPosition();
 			//ui->ViewportWindow(world->GetViewportTexture(), world->GetViewportSize());
 		}
 

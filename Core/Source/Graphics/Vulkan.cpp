@@ -57,10 +57,17 @@ Core::Vulkan::~Vulkan()
 
 void Core::Vulkan::Render()
 {
+	// Empty for future Vulkan rendering
 }
 
 void Core::Vulkan::Update()
 {
+	// Empty for future Vulkan updating
+}
+
+void Core::Vulkan::ViewportResize()
+{
+	// Empty for future Vulkan frame resizing
 }
 
 VkDevice Core::Vulkan::GetLogicalDevice()

@@ -11,6 +11,9 @@
 
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/fwd.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -26,10 +29,15 @@ namespace Core
 		std::string title, version, graphicsAPI;
 		Window* window;
 
-		bool vSyncMode, wireframeMode = false;
+		glm::vec3 skyColor;
+
+		bool vSync;
 
 	public:
-		UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI);
+		glm::vec3 coordinate;
+
+	public:
+		UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI, const glm::vec3& skyColor);
 		virtual ~UserInterface();
 
 		void Render();

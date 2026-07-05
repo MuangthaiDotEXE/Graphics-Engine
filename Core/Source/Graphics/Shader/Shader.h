@@ -10,6 +10,7 @@
 #include <concepts>
 #include <string>
 #include <print>
+#include <filesystem>
 #include <stdexcept>
 
 #include <glad/gl.h>

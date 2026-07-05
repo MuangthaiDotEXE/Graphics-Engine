@@ -45,27 +45,27 @@ void Core::Shader::Delete()
 
 void Core::Shader::Error(GLuint shader, const std::string& type)
 {
-    GLint compiled;
+    GLint completed;
     char infoLog[1024];
 
     if (type == "Shader Program")
     {
-        glGetProgramiv(shader, GL_LINK_STATUS, &compiled);
+        glGetProgramiv(shader, GL_LINK_STATUS, &completed);
 
-        if (compiled == GL_FALSE)
+        if (completed == GL_FALSE)
         {
             glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            std::print("{} linking failed: {}\n", shader, infoLog);
+            std::print(stdout, "{} linking failed: {}\n", shader, infoLog);
         }
     }
     else
     {
-        glGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
+        glGetShaderiv(shader, GL_COMPILE_STATUS, &completed);
 
-        if (compiled == GL_FALSE)
+        if (completed == GL_FALSE)
         {
             glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            std::print("{} compilation failed: {}\n", shader, infoLog);
+            std::print(stdout, "{} compilation failed: {}\n", shader, infoLog);
         }
     }
 }

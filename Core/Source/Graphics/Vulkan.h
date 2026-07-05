@@ -66,6 +66,7 @@ namespace Core
 
 		void Render() override;
 		void Update() override;
+		void ViewportResize() override;
 
 		VkDevice GetLogicalDevice();
 

@@ -19,7 +19,7 @@ namespace Engine
 	public:
 		Plane();
 		Plane(const Core::Shader& shader);
-		virtual ~Plane();
+		virtual ~Plane() = default;
 
 		void Render() override;
 		void Update() override;

@@ -29,8 +29,8 @@ void Core::FBO::Resize(glm::vec2 size)
 		return;
 	}
 
-	this->width = size.x;
-	this->height = size.y;
+	width = size.x;
+	height = size.y;
 
 	Destroy();
 	Create();

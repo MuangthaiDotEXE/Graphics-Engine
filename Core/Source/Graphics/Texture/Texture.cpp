@@ -112,7 +112,7 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	}
 	else
 	{
-		throw std::invalid_argument("Texture type recognition failed (OpenGL graphics API)\n");
+		throw std::invalid_argument("Failed to recognize texture type (OpenGL graphics API)\n");
 	}
 
 	glGenerateMipmap(GL_TEXTURE_2D);

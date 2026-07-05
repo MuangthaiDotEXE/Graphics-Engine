@@ -1,29 +1,29 @@
 #include "Plane.h"
 
-Vertex planeVertices[] =
+static Vertex planeVertices[] =
 {
-			// positions					// colors					 // textures			// normals
-	Vertex{ glm::vec3(-1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	Vertex{ glm::vec3( 1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	Vertex{ glm::vec3( 1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) },
-	Vertex{ glm::vec3(-1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f) }
+	        // positions					// colors					 // textures			// normals
+	Vertex{ glm::vec3(-1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom left vertex
+	Vertex{ glm::vec3( 1.0f,  0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom right vertex
+	Vertex{ glm::vec3( 1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Top right vertex
+	Vertex{ glm::vec3(-1.0f,  0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) }     // Top left vertex
 };
 
-GLuint planeIndices[] =
+static GLuint planeIndices[] =
 {
 	// Plane
-	0, 1, 3,
-	1, 2, 3
+	0, 1, 2,
+	2, 3, 0
 };
 
-std::string planeTexture = ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png";
-std::string planeSpecular = ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png";
+std::string planeTexture = ProjectDirectory "/Asset/Texture/Green_Brick_Texture.png";
+std::string planeSpecular = ProjectDirectory "/Asset/Specular/Green_Brick_Texture_specular.png";
 
 std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(Vertex));
 std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
 
 Engine::Plane::Plane()
-	: Mesh(ProjectDirectory "/Resource/Shader/Plane.vert", ProjectDirectory "/Resource/Shader/Plane.frag", 
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", 
 		planeVerts, planeInds, Core::Texture(), Core::Texture())
 {
 	Initialize();
@@ -35,15 +35,11 @@ Engine::Plane::Plane(const Core::Shader& shader)
 	Initialize();
 }
 
-Engine::Plane::~Plane()
-{
-}
-
 void Engine::Plane::Render()
 {
 	shader.Activate();
 
-	glFrontFace(GL_CW);
+	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 }
@@ -80,6 +76,6 @@ void Engine::Plane::Initialize()
 	diffuse.LoadSingle(planeTexture, "diffuse", 0);
 	specular.LoadSingle(planeSpecular, "specular", 1);
 
-	diffuse.SetUnit(this->shader, "diffuseSampler", 0);
-	specular.SetUnit(this->shader, "specularSampler", 1);
+	diffuse.SetUnit(shader, "diffuseSampler", 0);
+	specular.SetUnit(shader, "specularSampler", 1);
 }

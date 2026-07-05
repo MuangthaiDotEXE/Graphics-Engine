@@ -1,7 +1,7 @@
 #include "UserInterface.h"
 
-Core::UserInterface::UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI)
-	: window(window), title(title), version(version), graphicsAPI(graphicsAPI), vSyncMode(window->GetMonitorSync())
+Core::UserInterface::UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI, const glm::vec3& skyColor)
+	: window(window), title(title), version(version), skyColor(skyColor), graphicsAPI(graphicsAPI), vSync(window->GetMonitorSync())
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
@@ -75,26 +75,27 @@ void Core::UserInterface::DebugWindow()
 	ImGui::Text("Framebuffer size: %.0fx%.0f", window->GetFramebufferSize().x, window->GetFramebufferSize().y);
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-	ImGui::Text("FPS: %.1f", io.Framerate);
-	ImGui::Text("Monitor sync (V-Sync): %s", vSyncMode ? "Enabled" : "Disabled");
+	ImGui::Text("FPS: %.2f", io.Framerate);
+	ImGui::Text("Monitor sync (V-Sync): %s", vSync ? "Enabled" : "Disabled");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	/* Miscellaneous */
 	{
-		ImGui::Text("Miscellaneous");
+		ImGui::Text(" -- Miscellaneous -- ");
 
-		static float color[] = { 0.529f, 0.808f, 0.922f };
-		ImGui::Text("Background sky clear color (RGB)");
-		ImGui::ColorEdit3("", color);
-		glClearColor(color[0], color[1], color[2], 1.0f);
+		ImGui::Text("Position: %.3f, %.3f, %.3f", coordinate.x, coordinate.y, coordinate.z);
 
-		ImGui::Text("Monitor sync mode");
+		ImGui::Text("Sky color");
+		ImGui::ColorEdit3("", glm::value_ptr(skyColor));
+		glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
+		
+		ImGui::Text("Monitor sync");
 		ImGui::SameLine(0, 10);
-		if (ImGui::Button(vSyncMode ? "Disable##vSync" : "Enable##vSync"))
+		if (ImGui::Button(vSync ? "Disable##vSync" : "Enable##vSync"))
 		{
-			vSyncMode = !vSyncMode;
+			vSync = !vSync;
 
-			if (vSyncMode)
+			if (vSync)
 			{
 				glfwSwapInterval(true);
 			}
@@ -103,16 +104,17 @@ void Core::UserInterface::DebugWindow()
 				glfwSwapInterval(false);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Monitor sync (V-Sync) mode: {}\033[0m\n", vSyncMode ? "Enable" : "Disable");
+			std::print(stdout, "\033[32m[Debug] Monitor sync (V-Sync): {}\033[0m\n", vSync ? "Enable" : "Disable");
 		}
 
-		ImGui::Text("Wireframe mode");
+		static bool wireframe = false;
+		ImGui::Text("Wireframe");
 		ImGui::SameLine(0, 10);
-		if (ImGui::Button(wireframeMode ? "Disable##wireframe" : "Enable##wireframe"))
+		if (ImGui::Button(wireframe ? "Disable##wireframe" : "Enable##wireframe"))
 		{
-			wireframeMode = !wireframeMode;
+			wireframe = !wireframe;
 
-			if (wireframeMode)
+			if (wireframe)
 			{
 				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			}
@@ -121,7 +123,7 @@ void Core::UserInterface::DebugWindow()
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Wireframe mode: {}\033[0m\n", wireframeMode ? "Enabled" : "Disabled");
+			std::print(stdout, "\033[32m[Debug] Wireframe: {}\033[0m\n", wireframe ? "Enabled" : "Disabled");
 		}
 		
 		ImGui::Text("Text");

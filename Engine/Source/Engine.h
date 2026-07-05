@@ -22,6 +22,8 @@ namespace Engine
 		std::unique_ptr<Scene> scene;
 		std::unique_ptr<Core::UserInterface> ui;
 
+		World* world;
+
 	public:
 		Engine(const Core::AppData& appData);
 		virtual ~Engine();

@@ -50,7 +50,11 @@ int main(int argc, char** argv)
 			if (std::string(argv[i]) == "--reset-window" && std::filesystem::exists("Window.state"))
 			{
 				std::filesystem::remove("Window.state");
-				break;
+			}
+
+			if (std::string(argv[i]) == "--console")
+			{
+				// Add console window controlling
 			}
 		}
 

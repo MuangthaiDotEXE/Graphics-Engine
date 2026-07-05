@@ -55,7 +55,10 @@ void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, fl
 	projection = glm::mat4(1.0f);
 
 	glfwGetFramebufferSize(window, &width, &height);
-	if (width == 0 || height == 0) return;
+	if (width == 0 || height == 0)
+	{
+		return;
+	}
 
 	float aspect = (float)width / (float)height;
 
@@ -90,39 +93,51 @@ void Engine::Camera::Matrix(const Core::Shader& shader, const std::string& unifo
 void Engine::Camera::Input()
 {
 	Framerate();
-	speed = walkSpeed * deltaTime * (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS ? sprintMultiplier : 1.0f);
-
-	/* Keyboard */
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		{
-			position += speed * orientation;
-		}
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		{
-			position -= speed * glm::normalize(glm::cross(orientation, up));
-		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		{
-			position -= speed * orientation;
-		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		{
-			position += speed * glm::normalize(glm::cross(orientation, up));
-		}
-		if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
-		{
-			position += speed * up;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
-		{
-			position -= speed * up;
-		}
+		speed = walkSpeed * deltaTime * speedMultiplier;
+	}
+	else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+	{
+		speed = walkSpeed * deltaTime * slowMultiplier;
+	}
+	else
+	{
+		speed = walkSpeed * deltaTime;
 	}
 
-	/* Mouse */
+	
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{
-		if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
+		/* Keyboard */
+		{
+			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+			{
+				position += speed * orientation;
+			}
+			if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+			{
+				position -= speed * glm::normalize(glm::cross(orientation, up));
+			}
+			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+			{
+				position -= speed * orientation;
+			}
+			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+			{
+				position += speed * glm::normalize(glm::cross(orientation, up));
+			}
+			if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+			{
+				position += speed * up;
+			}
+			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+			{
+				position -= speed * up;
+			}
+		}
+	
+		/* Mouse cursor */
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
@@ -167,17 +182,27 @@ void Engine::Camera::Input()
 
 			glfwSetCursorPos(window, (width / 2), (height / 2));
 		}
-		else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
-		{
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			clicked = true;
-		}
+	}
+	else if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_RELEASE)
+	{
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		clicked = true;
 	}
 }
 
 glm::vec3 Engine::Camera::GetPosition() const
 {
 	return position;
+}
+
+glm::mat4 Engine::Camera::GetView() const
+{
+	return view;
+}
+
+glm::mat4 Engine::Camera::GetProjection() const
+{
+	return projection;
 }
 
 void Engine::Camera::Framerate()

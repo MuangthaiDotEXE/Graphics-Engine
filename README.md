@@ -12,12 +12,13 @@
 
 ### Features
 - Multi-platform windowing system
-- 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light) 
+- 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light)
+- Simple mesh rendering (Sphere, cube and plane)
 - Simple image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective and orthographic projection and with euler and quaternion rotation
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
-- Automate libraries package finding
+- Automate libraries package searching
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
@@ -29,9 +30,9 @@
 
 ### Screenshot
 <div align="center">
-	<img src="Asset/Image/Screenshot 1.png" alt="Screenshot 1">
+	<img src="Asset/Image/Engine.png" alt="Engine">
 </div>
-(Screenshot taken: 2026-05-17 7:26 UTC)
+(Screenshot taken: 2026-07-05 22:54 UTC)
 
 ### How to use
 - Clone the repository using `git clone` command

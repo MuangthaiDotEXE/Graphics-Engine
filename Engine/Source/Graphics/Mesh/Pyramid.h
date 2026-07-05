@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef PYRAMID_H
+#define PYRAMID_H
 
 #include <string>
 #include <array>
@@ -14,16 +14,15 @@
 
 namespace Engine
 {
-	class Cube : public Mesh
+	class Pyramid : public Mesh
 	{
 	public:
-		Cube();
-		Cube(const Core::Shader& shader);
-		virtual ~Cube() = default;
+		Pyramid();
+		Pyramid(const Core::Shader& shader);
+		virtual ~Pyramid() = default;
 
 		void Render() override;
 		void Update() override;
-
 	private:
 		void Initialize();
 	};

@@ -1,25 +1,29 @@
 #pragma once
 
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef SPHERE_H
+#define SPHERE_H
 
 #include <string>
-#include <array>
+#include <cmath>
 #include <vector>
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/constants.hpp>
 
 #include "Mesh.h"
 
 namespace Engine
 {
-	class Cube : public Mesh
+	class Sphere : public Mesh
 	{
+	private:
+		GLsizei indexCount;
+
 	public:
-		Cube();
-		Cube(const Core::Shader& shader);
-		virtual ~Cube() = default;
+		Sphere();
+		Sphere(const Core::Shader& shader);
+		virtual ~Sphere() = default;
 
 		void Render() override;
 		void Update() override;

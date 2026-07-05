@@ -46,7 +46,8 @@ namespace Engine
 
 		float speed;
 		const float walkSpeed = 10.0f;
-		const float sprintMultiplier = 2.5f;
+		const float speedMultiplier = 2.5f;
+		const float slowMultiplier = 0.4f;
 		float sensitivity = 100.0f;
 
 		float previousFrame;
@@ -67,9 +68,11 @@ namespace Engine
 
 		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
-		void Input();	// Temporary input. Input class will be added later
+		void Input();	// Temporary input. Input class will be added in future update
 
 		glm::vec3 GetPosition() const;
+		glm::mat4 GetView() const;
+		glm::mat4 GetProjection() const;
 		
 	private:
 		void Framerate();

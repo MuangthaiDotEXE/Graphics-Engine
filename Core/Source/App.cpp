@@ -132,7 +132,8 @@ void Core::App::PrintGraphicsInformation()
 	> Vendor:           {}
 	> Renderer:         {}
 	> Version:          {}
-	> Shading language: {})",
+	> Shading language: {}
+)",
 	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
 }
 

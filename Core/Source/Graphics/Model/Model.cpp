@@ -40,7 +40,7 @@ void Core::Model::TraverseNode(unsigned int nextNode, glm::mat4 matrix)
 	if (node.find("translation") != node.end())
 	{
 		float translationValues[3];
-		for (unsigned int i = 0; i < node["translation"].size(); i++)
+		for (unsigned int i = 0; i < node["translation"].size(); ++i)
 		{
 			translationValues[i] = (node["translation"][i]);
 		}
@@ -66,7 +66,7 @@ void Core::Model::TraverseNode(unsigned int nextNode, glm::mat4 matrix)
 	if (node.find("scale") != node.end())
 	{
 		float scaleValues[3];
-		for (unsigned int i = 0; i < node["scale"].size(); i++)
+		for (unsigned int i = 0; i < node["scale"].size(); ++i)
 		{
 			scaleValues[i] = (node["scale"][i]);
 		}
@@ -78,7 +78,7 @@ void Core::Model::TraverseNode(unsigned int nextNode, glm::mat4 matrix)
 	if (node.find("matrix") != node.end())
 	{
 		float matrixValues[16];
-		for (unsigned int i = 0; i < node["matrix"].size(); i++)
+		for (unsigned int i = 0; i < node["matrix"].size(); ++i)
 		{
 			matrixValues[i] = (node["matrix"][i]);
 		}
@@ -108,7 +108,7 @@ void Core::Model::TraverseNode(unsigned int nextNode, glm::mat4 matrix)
 
 	if (node.find("children") != node.end())
 	{
-		for (unsigned int i = 0; i < node["children"].size(); i++)
+		for (unsigned int i = 0; i < node["children"].size(); ++i)
 		{
 			TraverseNode(node["children"][i], matrixNextNode);
 		}
@@ -219,12 +219,12 @@ std::vector<Core::Texture> Core::Model::GetTextures()
 	std::string fileString = std::string(file);
 	std::string fileDirectory = file.substr(0, fileString.find_last_of("/") + 1);
 
-	for (unsigned int i = 0; i < JSON["images"].size(); i++)
+	for (unsigned int i = 0; i < JSON["images"].size(); ++i)
 	{
 		std::string texturePath = JSON["images"][i]["uri"];
 
 		bool skip = false;
-		for (unsigned int j = 0; i < loadedTextureName.size(); j++)
+		for (unsigned int j = 0; i < loadedTextureName.size(); ++j)
 		{
 			if (loadedTextureName[j] == texturePath)
 			{
@@ -260,7 +260,7 @@ std::vector<Core::Texture> Core::Model::GetTextures()
 std::vector<Vertex> Core::Model::AssembleVertices(std::vector<glm::vec3> positions, std::vector<glm::vec3> normals, std::vector<glm::vec2> textureUVs)
 {
 	std::vector<Vertex> vertices;
-	for (int i = 0; i < positions.size(); i++)
+	for (int i = 0; i < positions.size(); ++i)
 	{
 		vertices.emplace_back
 		(
@@ -286,7 +286,7 @@ std::vector<glm::vec2> Core::Model::GroupFloatVector2(std::vector<float> floatVe
 	{
 		vectors.emplace_back(glm::vec2(0, 0));
 
-		for (unsigned int j = 0; j < floatsPerVector; j++)
+		for (unsigned int j = 0; j < floatsPerVector; ++j)
 		{
 			vectors.back()[j] = floatVector[i + j];
 		}
@@ -304,7 +304,7 @@ std::vector<glm::vec3> Core::Model::GroupFloatVector3(std::vector<float> floatVe
 	{
 		vectors.emplace_back(glm::vec3(0, 0, 0));
 
-		for (unsigned int j = 0; j < floatsPerVector; j++)
+		for (unsigned int j = 0; j < floatsPerVector; ++j)
 		{
 			vectors.back()[j] = floatVector[i + j];
 		}
@@ -322,7 +322,7 @@ std::vector<glm::vec4> Core::Model::GroupFloatVector4(std::vector<float> floatVe
 	{
 		vectors.emplace_back(glm::vec4(0, 0, 0, 0));
 
-		for (unsigned int j = 0; j < floatsPerVector; j++)
+		for (unsigned int j = 0; j < floatsPerVector; ++j)
 		{
 			vectors.back()[j] = floatVector[i + j];
 		}

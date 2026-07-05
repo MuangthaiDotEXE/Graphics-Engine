@@ -17,11 +17,13 @@ std::string ReadFile(const std::string& path);
 
 namespace Core
 {
+	// Currently, this class does nothing
+	// However, this class will be a part of the program's backbone later
 	class Utility
 	{
 	public:
-		Utility() {};
-		virtual ~Utility() {};
+		Utility() = default;
+		virtual ~Utility() = default;
 	};
 }
 

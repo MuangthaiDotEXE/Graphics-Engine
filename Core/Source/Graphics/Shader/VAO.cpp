@@ -10,11 +10,11 @@ Core::VAO::~VAO()
 	glDeleteVertexArrays(1, &vaoID);
 }
 
-void Core::VAO::LinkAttributes(VBO& vbo, GLuint layout, GLuint numberOfComponents, GLenum type, GLsizeiptr stride, const void* offset)
+void Core::VAO::LinkAttributes(VBO& vbo, GLuint index, GLuint size, GLenum type, GLsizeiptr stride, const void* pointer)
 {
 	vbo.Bind();
-	glVertexAttribPointer(layout, numberOfComponents, type, GL_FALSE, stride, offset);
-	glEnableVertexAttribArray(layout);
+	glVertexAttribPointer(index, size, type, GL_FALSE, stride, pointer);
+	glEnableVertexAttribArray(index);
 	vbo.Unbind();
 }
 
