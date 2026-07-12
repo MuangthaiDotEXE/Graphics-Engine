@@ -6,14 +6,14 @@
 	<img alt="GitHub License" src="https://img.shields.io/github/license/MuangthaiDotEXE/Graphics-Engine">
 	<img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/MuangthaiDotEXE/Graphics-Engine">
 	<img alt="GitHub Actions Workflow Status" src="https://img.shields.io/github/actions/workflow/status/MuangthaiDotEXE/Graphics-Engine/cmake-multi-platform.yml">
-	<p></p>
+	<br>
 	<img src="Icon.png" alt="Icon">
 </div>
 
 ### Features
 - Multi-platform windowing system
 - 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light)
-- Simple mesh rendering (Sphere, cube and plane)
+- Simple mesh rendering (Sphere, pyramid, cube and plane)
 - Simple image texture support (Nearest filter)
 - Basic 3 dimensional camera system with perspective and orthographic projection and with euler and quaternion rotation
 - Basic input system for controlling window and graphics rendering
