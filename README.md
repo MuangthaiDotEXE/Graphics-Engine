@@ -1,6 +1,6 @@
 <div align="center">
 	<h1> Graphics Engine </h1>
-	<h3> Graphics Engine written in C++ </h3>
+	<h3> Minimal graphics engine written in C++ </h3>
 	<p> Using GLFW, GLAD OpenGL, STB image, GLM and more </p>
 	<img alt="GitHub top language" src="https://img.shields.io/github/languages/top/MuangthaiDotEXE/Graphics-Engine">
 	<img alt="GitHub License" src="https://img.shields.io/github/license/MuangthaiDotEXE/Graphics-Engine">
