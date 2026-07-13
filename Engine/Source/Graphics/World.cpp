@@ -27,7 +27,8 @@ Engine::World::World(Core::App& app)
 	objects.emplace_back(std::move(plane));
 
 	auto light = std::make_unique<Light>();
-	light->name = "Point light";
+	light->name = "Light";
+	light->type = "Point light";
 	light->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	light->transform.position = glm::vec3(4.375f, 3.5f, -3.75f);
 	light->transform.scale = glm::vec3(0.25f);

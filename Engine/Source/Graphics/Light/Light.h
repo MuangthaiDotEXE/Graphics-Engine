@@ -25,6 +25,7 @@ namespace Engine
 		Core::EBO ebo;
 
 		std::string name = "Light";
+		std::string type;
 		glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	public:
