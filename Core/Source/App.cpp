@@ -128,7 +128,7 @@ std::string Core::App::GetGraphicsAPI()
 
 void Core::App::PrintGraphicsInformation()
 {
-	std::println(stdout, R"([Info] Graphics device information:
+	std::print(stdout, R"([Info] Graphics device information:
 	> Vendor:           {}
 	> Renderer:         {}
 	> Version:          {}

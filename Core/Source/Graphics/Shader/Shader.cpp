@@ -2,8 +2,18 @@
 
 Core::Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {
-    std::string vertexCode = ReadFile(vertexPath);
-    std::string fragmentCode = ReadFile(fragmentPath);
+    std::string vertexCode, fragmentCode;
+
+    if (std::filesystem::exists(vertexPath) && std::filesystem::exists(fragmentPath))
+    {
+        vertexCode = ReadFile(vertexPath);
+        fragmentCode = ReadFile(fragmentPath);
+    }
+    else
+    {
+        vertexCode = vertexPath;
+        fragmentCode = fragmentPath;
+    }
 
     const char* vertexSource = vertexCode.c_str();
     const char* fragmentSource = fragmentCode.c_str();

@@ -6,11 +6,11 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <filesystem>
 #include <type_traits>
 #include <concepts>
 #include <string>
 #include <print>
-#include <filesystem>
 #include <stdexcept>
 
 #include <glad/gl.h>
