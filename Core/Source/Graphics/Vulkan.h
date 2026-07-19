@@ -28,10 +28,7 @@ namespace Core
 		std::optional<uint32_t> graphicsFamily;
 		std::optional<uint32_t> presentFamily;
 
-		bool IsComplete()
-		{
-			return graphicsFamily.has_value() && presentFamily.has_value();
-		}
+		bool IsComplete() const;
 	};
 
 	struct SwapChainSupportDetails
@@ -44,6 +41,8 @@ namespace Core
 	class Vulkan final : public Graphics
 	{
 	private:
+		std::string appName, engineName;
+
 		VkInstance instance;
 		VkDebugUtilsMessengerEXT debugMessenger;
 		VkSurfaceKHR surface;
@@ -61,7 +60,7 @@ namespace Core
 		std::vector<VkImageView> swapChainImageViews;
 
 	public:
-		Vulkan(GLFWwindow* window);
+		Vulkan(GLFWwindow* window, const std::string& appName, const std::string& engineName);
 		virtual ~Vulkan();
 
 		void Render() override;

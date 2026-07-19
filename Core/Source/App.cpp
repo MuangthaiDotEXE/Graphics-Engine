@@ -21,10 +21,10 @@ Core::App::App(const AppData& appData)
 {
 	app = this;
 
-	if (!this->appData.name.empty() || !this->appData.version.empty())
+	if (!this->appData.appName.empty() || !this->appData.version.empty())
 	{
-		this->appData.windowData.title = this->appData.name + " " + version;
-		title = this->appData.name;
+		this->appData.windowData.title = this->appData.appName + " " + version;
+		title = this->appData.appName;
 	}
 
 	// version system: major, minor, patch (Semantic versioning)
@@ -42,7 +42,7 @@ Core::App::App(const AppData& appData)
 	std::print(stdout, "[Info] Graphics API: {} API\n", api);
 	if (api == "Vulkan") 
 	{
-		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently unstable (Expect crashes). Please avoid using it if possible (Vulkan graphics API)\033[0m\n");
+		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently in an unstable state (Expect crashes). If possible, please avoid using it (System)\033[0m\n");
 	}
 	std::println(stdout, "[Info] Build: {}\n", GetConfigurations());
 	PrintGraphicsInformation();
@@ -107,7 +107,13 @@ std::string Core::App::GetGraphicsAPI()
 		break;
 
 	case GraphicsAPI::VULKAN:
-		graphics = std::make_unique<Vulkan>(window->GetWindow());
+		graphics = std::make_unique<Vulkan>(window->GetWindow(), appData.appName, appData.engineName);
+
+		graphicsVendor = "NOT_AVAILABLE";
+		graphicsRenderer = "NOT_AVAILABLE";
+		graphicsVersion = "NOT_AVAILABLE";
+		graphicsShadingLanguage = "NOT_AVAILABLE";
+
 		return "Vulkan";
 
 		break;

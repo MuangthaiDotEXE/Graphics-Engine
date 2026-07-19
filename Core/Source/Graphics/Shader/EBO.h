@@ -15,6 +15,7 @@ namespace Core
 		GLuint eboID;
 
 	public:
+		EBO(GLuint* indices);
 		EBO(GLuint* indices, GLsizeiptr size);
 		EBO(std::vector<GLuint>& indices);
 		virtual ~EBO();

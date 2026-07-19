@@ -25,7 +25,8 @@ int main(int argc, char** argv)
 	auto appStart = std::chrono::high_resolution_clock::now();
 
 	Core::AppData engineData{};
-	engineData.name = "Graphics Engine";
+	engineData.appName = "Graphics Engine";
+	engineData.engineName = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
 	engineData.developmentStage = Core::AppData::DevelopmentStage::ALPHA;
 	engineData.buildNumber = 1;
@@ -33,6 +34,7 @@ int main(int argc, char** argv)
 	engineData.windowData.height = 480u;
 	engineData.windowData.fullscreen = false;
 	engineData.windowData.icon = ProjectDirectory "/Asset/Icon/Icon.png";
+	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
 	
 	try
 	{

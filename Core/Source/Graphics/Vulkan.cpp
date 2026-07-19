@@ -16,6 +16,11 @@ const bool enableValidationLayers = false;
 const bool enableValidationLayers = true;
 #endif
 
+bool Core::QueueFamilyIndices::IsComplete() const
+{
+	return graphicsFamily.has_value() && presentFamily.has_value();;
+}
+
 VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, const VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
 {
 	auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
@@ -38,8 +43,8 @@ void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT
 	}
 }
 
-Core::Vulkan::Vulkan(GLFWwindow* window)
-	: Graphics(window)
+Core::Vulkan::Vulkan(GLFWwindow* window, const std::string& appName, const std::string& engineName)
+	: Graphics(window), appName(appName), engineName(engineName)
 {
 	CreateInstance();
 	SetupDebugMessenger();
@@ -84,9 +89,9 @@ void Core::Vulkan::CreateInstance()
 
 	VkApplicationInfo appInfo{};
 	appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-	appInfo.pApplicationName = "Graphics Engine";
+	appInfo.pApplicationName = appName.c_str();
 	appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-	appInfo.pEngineName = "Graphics Engine";
+	appInfo.pEngineName = engineName.c_str();
 	appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
 	appInfo.apiVersion = VK_API_VERSION_1_0;
 
@@ -115,24 +120,33 @@ void Core::Vulkan::CreateInstance()
 	}
 
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
+	{
 		throw std::runtime_error("Failed to create Vulkan graphics API instance (Vulkan graphics API)");
+	}
 }
 
 void Core::Vulkan::SetupDebugMessenger()
 {
-	if (!enableValidationLayers) return;
+	if (!enableValidationLayers) 
+	{
+		return;
+	}
 
 	VkDebugUtilsMessengerCreateInfoEXT createInfo;
 	PopulateDebugMessengerCreateInfo(createInfo);
 
 	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS)
+	{
 		throw std::runtime_error("Failed to setup Vulkan graphics API debug messenger (Vulkan graphics API)");
+	}
 }
 
 void Core::Vulkan::CreateSurface()
 {
 	if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
+	{
 		throw std::runtime_error("Failed to create window surface (GLFW windowing API)");
+	}
 }
 
 void Core::Vulkan::PickPhysicalDevice()
@@ -141,21 +155,26 @@ void Core::Vulkan::PickPhysicalDevice()
 	vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
 	if (deviceCount == 0)
+	{
 		throw std::runtime_error("Failed to find GPUs with Vulkan graphics API support (Vulkan graphics API)");
+	}
 
 	std::vector<VkPhysicalDevice> devices(deviceCount);
 	vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
 	for (const auto& device : devices)
+	{
 		if (IsDeviceSuitable(device))
 		{
 			physicalDevice = device;
-
 			break;
 		}
+	}
 
 	if (physicalDevice == VK_NULL_HANDLE)
+	{
 		throw std::runtime_error("Failed to find a suitable GPU (Vulkan graphics API)");
+	}
 }
 
 void Core::Vulkan::CreateLogicalDevice()
@@ -199,10 +218,14 @@ void Core::Vulkan::CreateLogicalDevice()
 		createInfo.ppEnabledLayerNames = validationLayers.data();
 	}
 	else
+	{
 		createInfo.enabledLayerCount = 0;
+	}
 
 	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
+	{
 		throw std::runtime_error("Failed to create logical device (Vulkan graphics API)");
+	}
 
 	vkGetDeviceQueue(device, indices.graphicsFamily.value(), 0, &graphicsQueue);
 	vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
@@ -218,7 +241,9 @@ void Core::Vulkan::CreateSwapChain()
 
 	uint32_t imageCount = swapChainSupport.capabilities.minImageCount + 1;
 	if (swapChainSupport.capabilities.maxImageCount > 0 && imageCount > swapChainSupport.capabilities.maxImageCount)
+	{
 		imageCount = swapChainSupport.capabilities.maxImageCount;
+	}
 
 	VkSwapchainCreateInfoKHR createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR;
@@ -240,7 +265,10 @@ void Core::Vulkan::CreateSwapChain()
 		createInfo.queueFamilyIndexCount = 2;
 		createInfo.pQueueFamilyIndices = queueFamilyIndices;
 	}
-	else createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	else 
+	{
+		createInfo.imageSharingMode = VK_SHARING_MODE_EXCLUSIVE;
+	}
 
 	createInfo.preTransform = swapChainSupport.capabilities.currentTransform;
 	createInfo.compositeAlpha = VK_COMPOSITE_ALPHA_OPAQUE_BIT_KHR;
@@ -250,7 +278,9 @@ void Core::Vulkan::CreateSwapChain()
 	createInfo.oldSwapchain = VK_NULL_HANDLE;
 
 	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
+	{
 		throw std::runtime_error("Failed to create Vulkan graphics API swap chain (Vulkan graphics API)");
+	}
 
 	vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr);
 	swapChainImages.resize(imageCount);
@@ -282,20 +312,26 @@ void Core::Vulkan::CreateImageViews()
 		createInfo.subresourceRange.layerCount = 1;
 
 		if (vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS)
+		{
 			throw std::runtime_error("Failed to create Vulkan graphics API image views (Vulkan graphics API)");
+		}
 	}
 }
 
 void Core::Vulkan::Cleanup()
 {
 	for (auto imageView : swapChainImageViews)
+	{
 		vkDestroyImageView(device, imageView, nullptr);
+	}
 
 	vkDestroySwapchainKHR(device, swapChain, nullptr);
 	vkDestroyDevice(device, nullptr);
 
 	if (enableValidationLayers)
+	{
 		DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
+	}
 
 	vkDestroySurfaceKHR(instance, surface, nullptr);
 	vkDestroyInstance(instance, nullptr);
@@ -319,7 +355,9 @@ std::vector<const char*> Core::Vulkan::GetRequiredExtensions()
 	std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
 	if (enableValidationLayers)
+	{
 		extensions.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
+	}
 
 	return extensions;
 }
@@ -341,13 +379,14 @@ bool Core::Vulkan::CheckValidationLayerSupport()
 			if (strcmp(layerName, layerProperties.layerName) == 0)
 			{
 				layerFound = true;
-
 				break;
 			}
 		}
 
 		if (!layerFound)
+		{
 			return false;
+		}
 	}
 
 	return true;
@@ -356,8 +395,12 @@ bool Core::Vulkan::CheckValidationLayerSupport()
 VkSurfaceFormatKHR Core::Vulkan::ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats)
 {
 	for (const auto& availableFormat : availableFormats)
+	{
 		if (availableFormat.format == VK_FORMAT_B8G8R8A8_SRGB && availableFormat.colorSpace == VK_COLOR_SPACE_SRGB_NONLINEAR_KHR)
+		{
 			return availableFormat;
+		}
+	}
 
 	return availableFormats[0];
 }
@@ -365,8 +408,12 @@ VkSurfaceFormatKHR Core::Vulkan::ChooseSwapSurfaceFormat(const std::vector<VkSur
 VkPresentModeKHR Core::Vulkan::ChooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes)
 {
 	for (const auto& availablePresentMode : availablePresentModes)
+	{
 		if (availablePresentMode == VK_PRESENT_MODE_MAILBOX_KHR)
+		{
 			return availablePresentMode;
+		}
+	}
 
 	return VK_PRESENT_MODE_FIFO_KHR;
 }
@@ -374,7 +421,9 @@ VkPresentModeKHR Core::Vulkan::ChooseSwapPresentMode(const std::vector<VkPresent
 VkExtent2D Core::Vulkan::ChooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities)
 {
 	if (capabilities.currentExtent.width != std::numeric_limits<uint32_t>::max())
+	{
 		return capabilities.currentExtent;
+	}
 	else
 	{
 		int width, height;
@@ -447,7 +496,9 @@ bool Core::Vulkan::CheckDeviceExtensionSupport(VkPhysicalDevice device)
 	std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 
 	for (const auto& extension : availableExtensions)
+	{
 		requiredExtensions.erase(extension.extensionName);
+	}
 
 	return requiredExtensions.empty();
 }
@@ -465,14 +516,23 @@ Core::QueueFamilyIndices Core::Vulkan::FindQueueFamilies(VkPhysicalDevice device
 	int i = 0;
 	for (const auto& queueFamily : queueFamilies)
 	{
-		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) indices.graphicsFamily = i;
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) 
+		{
+			indices.graphicsFamily = i;
+		}
 
 		VkBool32 presentSupport = false;
 		vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
 
-		if (presentSupport) indices.presentFamily = i;
+		if (presentSupport) 
+		{
+			indices.presentFamily = i;
+		}
 
-		if (indices.IsComplete()) break;
+		if (indices.IsComplete()) 
+		{
+			break;
+		}
 
 		i++;
 	}
@@ -482,7 +542,7 @@ Core::QueueFamilyIndices Core::Vulkan::FindQueueFamilies(VkPhysicalDevice device
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Core::Vulkan::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
-	std::print(stderr, "Validation layer: {}\n", pCallbackData->pMessage);
+	std::print(stderr, "Validation layer: {} (Vulkan graphics API)\n", pCallbackData->pMessage);
 
 	return VK_FALSE;
 }

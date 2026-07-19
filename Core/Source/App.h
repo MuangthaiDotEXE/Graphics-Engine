@@ -29,7 +29,8 @@ namespace Core
 		GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL;
 
 		int buildNumber = 1;
-		std::string name = "App";
+		std::string appName = "App";
+		std::string engineName = "Engine";
 		std::string subVersion = "";
 		std::array<unsigned int, 3> version = { 1, 0, 0 };
 

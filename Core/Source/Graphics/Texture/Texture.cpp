@@ -84,8 +84,7 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	unsigned char* bytes = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	if (!bytes)
 	{
-		std::string errorMessage = std::format("Failed to load texture: {} (STB image library)\n", path);
-		throw std::runtime_error(errorMessage.c_str());
+		throw std::runtime_error(std::format("Failed to load texture: {} (STB image library)\n", path));
 	}
 
 	GLuint id;
