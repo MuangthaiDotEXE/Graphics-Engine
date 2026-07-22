@@ -39,9 +39,12 @@
 - Run `Build.py` using Python. For platform specific, run `Build.bat` (Microsoft Windows) or  `Build.sh` (Unix/Linux)
 - Once the project is built successfully, the project should be ready to go
 
+### Contributing
+- For further details about contributions. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
+
 ### Credits
 - This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them
-- For more information about contributors and their roles. Please refer to [CREDITS.md](CREDITS.md)
+- For more details about contributors and their roles. Please refer to [CREDITS.md](CREDITS.md)
 
 ### License
 - For more information about license. Please refer to [LICENSE.txt](LICENSE.txt)
