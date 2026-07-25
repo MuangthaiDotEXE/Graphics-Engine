@@ -8,6 +8,7 @@
 #endif
 
 #include "Engine.h"
+#include "Timer/Timer.h"
 
 int main(int argc, char** argv)
 {
@@ -17,12 +18,11 @@ int main(int argc, char** argv)
 
 	GetConsoleMode(handleOut, &dwordMode);
 	dwordMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-	
+
 	SetConsoleMode(handleOut, dwordMode);
 #endif
 
-	auto initializeStart = std::chrono::high_resolution_clock::now();
-	auto appStart = std::chrono::high_resolution_clock::now();
+	Engine::Timer initializeTime, appTime;
 
 	Core::AppData engineData{};
 	engineData.appName = "Graphics Engine";
@@ -35,7 +35,7 @@ int main(int argc, char** argv)
 	engineData.windowData.fullscreen = false;
 	engineData.windowData.icon = ProjectDirectory "/Asset/Icon/Icon.png";
 	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
-	
+
 	try
 	{
 		for (size_t i = 0; i < argc; i++)
@@ -62,10 +62,9 @@ int main(int argc, char** argv)
 
 		Engine::Engine engine(engineData);
 
-		auto initializeFinish = std::chrono::high_resolution_clock::now();
-		auto initializeDuration = std::chrono::duration_cast<std::chrono::milliseconds>(initializeFinish - initializeStart);
+		initializeTime.Stop();
 #ifndef NDEBUG
-		std::print(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n\n", initializeDuration, std::chrono::duration<double>(initializeDuration));
+		std::print(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n\n", initializeTime.GetDurationInMilliseconds(), std::chrono::duration<double>(initializeTime.GetDurationInMilliseconds()));
 #endif
 
 		engine.Render();
@@ -74,14 +73,13 @@ int main(int argc, char** argv)
 	catch (const std::exception& exception)
 	{
 		std::print(stderr, "\033[31m[Error] An exception was thrown: {}\033[0m\n", exception.what());
-		
+
 		return 1;
 	}
 
-	auto appFinish = std::chrono::high_resolution_clock::now();
-	auto appDuration = std::chrono::duration_cast<std::chrono::milliseconds>(appFinish - appStart);
+	appTime.Stop();
 #ifndef NDEBUG
-	std::print(stdout, "\n\033[0m[Debug] Application finished running in {} ({})\033[0m\n", appDuration, std::chrono::duration<double>(appDuration));
+	std::print(stdout, "\n\033[0m[Debug] Application finished running in {} ({})\033[0m\n", appTime.GetDurationInMilliseconds(), std::chrono::duration<double>(appTime.GetDurationInMilliseconds()));
 #endif
 
 	return 0;

@@ -22,6 +22,8 @@ set(SOURCES
 	"Source/Graphics/Camera/Camera.cpp"
 	"Source/Graphics/Light/Light.h"
 	"Source/Graphics/Light/Light.cpp"
+	"Source/Timer/Timer.h"
+	"Source/Timer/Timer.cpp"
 )
 
 add_executable(Engine)
