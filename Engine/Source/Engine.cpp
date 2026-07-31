@@ -3,12 +3,12 @@
 Engine::Engine::Engine(const Core::AppData& appData)
 	: app(appData)
 {
-	scene = std::make_unique<World>(app);
+	scene = std::make_unique<Sample>(app);
 
-	world = dynamic_cast<World*>(scene.get());
-	if (world)
+	sample = dynamic_cast<Sample*>(scene.get());
+	if (sample)
 	{
-		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), world->skyColor);
+		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), sample->skyColor);
 	}
 }
 
@@ -32,9 +32,9 @@ void Engine::Engine::Update()
 
 		scene->Update();
 
-		if (world)
+		if (sample)
 		{
-			ui->coordinate = world->camera.GetPosition();
+			ui->coordinate = sample->camera.GetPosition();
 			//ui->ViewportWindow(world->GetViewportTexture(), world->GetViewportSize());
 		}
 

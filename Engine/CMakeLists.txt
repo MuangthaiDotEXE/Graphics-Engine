@@ -2,10 +2,12 @@ set(SOURCES
 	"Source/Main.cpp"
 	"Source/Engine.h"
 	"Source/Engine.cpp"
-	"Source/Graphics/Scene.h"
-	"Source/Graphics/Scene.cpp"
-	"Source/Graphics/World.h"
-	"Source/Graphics/World.cpp"
+	"Source/Graphics/Scene/Scene.h"
+	"Source/Graphics/Scene/Scene.cpp"
+	"Source/Graphics/Scene/Sample.h"
+	"Source/Graphics/Scene/Sample.cpp"
+	"Source/Graphics/Scene/World.h"
+	"Source/Graphics/Scene/World.cpp"
 	"Source/Graphics/Grid/Grid.h"
 	"Source/Graphics/Grid/Grid.cpp"
 	"Source/Graphics/Mesh/Mesh.h"
@@ -48,5 +50,12 @@ if (MSVC)
 	set_target_properties(Engine 
 						  PROPERTIES 
 						  VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/Engine"
+	)
+endif()
+
+if (WIN32)
+	set_target_properties(Engine
+						  PROPERTIES
+						  WIN32_EXECUTABLE $<CONFIG:Release>
 	)
 endif()

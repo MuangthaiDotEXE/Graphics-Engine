@@ -90,5 +90,5 @@ void Engine::Light::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glDrawElements(GL_TRIANGLES, lightInds.size(), GL_UNSIGNED_INT, 0);
+	//glDrawElements(GL_TRIANGLES, lightInds.size(), GL_UNSIGNED_INT, 0);
 }

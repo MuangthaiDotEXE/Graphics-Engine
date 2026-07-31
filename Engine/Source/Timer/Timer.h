@@ -20,7 +20,7 @@ namespace Engine
 		void Stop();
 
 		std::chrono::milliseconds GetDurationInMilliseconds();
-		std::chrono::milliseconds GetDurationInSeconds();
+		std::chrono::seconds GetDurationInSeconds();
 	};
 }
 
