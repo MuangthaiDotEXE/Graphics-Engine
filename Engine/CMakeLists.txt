@@ -58,4 +58,11 @@ if (WIN32)
 						  PROPERTIES
 						  WIN32_EXECUTABLE $<CONFIG:Release>
 	)
+
+	if (MSVC)
+		target_link_options(Engine 
+							PRIVATE
+							$<$<CONFIG:Release>:/ENTRY:mainCRTStartup>
+		)
+	endif()
 endif()
