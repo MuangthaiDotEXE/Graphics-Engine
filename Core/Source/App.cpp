@@ -4,9 +4,9 @@
 std::string operatingSystem = "Windows";
 #elif defined(__APPLE__) || defined(__MACH__)
 std::string operatingSystem = "Macintosh";
-#elifdef __linux__
+#elif defined(__linux__)
 std::string operatingSystem = "Linux";
-#elifdef __FREEBSD__
+#elif defined(__FREEBSD__)
 std::string operatingSystem = "FreeBSD";
 #elif defined(__unix__) || defined(__unix)
 std::string operatingSystem = "Unix";
@@ -35,7 +35,7 @@ Core::App::App(const AppData& appData)
 
 	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
 
-	std::string api = GetGraphicsAPI();
+	api = GetGraphicsAPI();
 
 	std::print(stdout, "[Info] {} {}\n", title, version);
 	std::print(stdout, "[Info] Operating system: {}\n", operatingSystem);

@@ -9,8 +9,9 @@
 
 #include "App.h"
 
-#include "Graphics/Scene.h"
-#include "Graphics/World.h"
+#include "Graphics/Scene/Scene.h"
+#include "Graphics/Scene/Sample.h"
+#include "Graphics/Scene/World.h"
 
 namespace Engine
 {
@@ -22,7 +23,7 @@ namespace Engine
 		std::unique_ptr<Scene> scene;
 		std::unique_ptr<Core::UserInterface> ui;
 
-		World* world;
+		Sample* sample;
 
 	public:
 		Engine(const Core::AppData& appData);

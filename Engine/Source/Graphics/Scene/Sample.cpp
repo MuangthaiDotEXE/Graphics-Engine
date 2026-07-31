@@ -1,27 +1,31 @@
-#include "World.h"
+#include "Sample.h"
 
-Engine::World::World(Core::App& app)
-	: Scene(app), grid(), objects(), lights(), 
-	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
-	shader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"),
+Engine::Sample::Sample(Core::App& app)
+	: Scene(app), 
+	grid(), 
+	objects(), 
+	lights(), 
+	camera(app.window->GetWindow(), 
+	Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
+	meshShader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"),
 	fbo(app.window->GetFramebufferSize())
 {
-	auto cube = std::make_unique<Cube>(shader);
+	auto cube = std::make_unique<Cube>(meshShader);
 	cube->name = "Cube";
 	cube->transform.position = glm::vec3(-5.0f, 0.0f, 0.0f);
 	objects.emplace_back(std::move(cube));
 
-	auto sphere = std::make_unique<Sphere>(shader);
+	auto sphere = std::make_unique<Sphere>(meshShader);
 	sphere->name = "Sphere";
 	sphere->transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
 	objects.emplace_back(std::move(sphere));
 
-	auto pyramid = std::make_unique<Pyramid>(shader);
+	auto pyramid = std::make_unique<Pyramid>(meshShader);
 	pyramid->name = "Pyramid";
 	pyramid->transform.position = glm::vec3(0.0f, 0.0f, -5.0f);
 	objects.emplace_back(std::move(pyramid));
 
-	auto plane = std::make_unique<Plane>(shader);
+	auto plane = std::make_unique<Plane>(meshShader);
 	plane->name = "Plane";
 	plane->transform.position = glm::vec3(5.0f, 0.0f, 0.0f);
 	objects.emplace_back(std::move(plane));
@@ -35,11 +39,11 @@ Engine::World::World(Core::App& app)
 	lights.emplace_back(std::move(light));
 }
 
-Engine::World::~World()
+Engine::Sample::~Sample()
 {
 }
 
-void Engine::World::Render()
+void Engine::Sample::Render()
 {
 	glm::vec4 lightColor = glm::vec4(0.0f);
 	glm::vec3 lightPosition = glm::vec3(0.0f);
@@ -71,7 +75,7 @@ void Engine::World::Render()
 	grid.Render();
 }
 
-void Engine::World::Update()
+void Engine::Sample::Update()
 {
 	//glm::vec2 windowSize = app.window->GetFramebufferSize();
 	//fbo.Resize(windowSize);
@@ -111,12 +115,12 @@ void Engine::World::Update()
 	//fbo.Unbind();
 }
 
-GLuint Engine::World::GetViewportTexture() const
+GLuint Engine::Sample::GetViewportTexture() const
 {
 	return fbo.GetColorTexture();
 }
 
-glm::vec2 Engine::World::GetViewportSize() const
+glm::vec2 Engine::Sample::GetViewportSize() const
 {
 	return fbo.GetSize();
 }
