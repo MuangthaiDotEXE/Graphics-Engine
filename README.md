@@ -13,9 +13,9 @@
 ### Features
 - Multi-platform windowing system
 - 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light)
-- Simple mesh rendering (Sphere, pyramid, cube and plane)
-- Simple image texture support (Nearest filter)
-- Basic 3 dimensional camera system with perspective and orthographic projection and with euler and quaternion rotation
+- Simple mesh rendering (Cube, sphere, pyramid, plane, quad and triangle)
+- Simple image texture support (Nearest filter, 4 color channels)
+- Basic 3 dimensional camera system with projections (Perspective and orthographic) and rotations (Euler and quaternion)
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
 - Automate libraries package searching
@@ -40,11 +40,11 @@ Screenshot taken: 2026-08-02 04:37:06 UTC (2026-08-02T04:37:06Z)
 - Once the project is built successfully, the project should be ready to go
 
 ### Contributing
-- For further details about contributions. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md)
+- For further details about contributions. Please check [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### Credits
 - This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them
-- For more details about contributors and their roles. Please refer to [CREDITS.md](CREDITS.md)
+- For more details about contributors and their roles. Please check out [CREDITS.md](CREDITS.md)
 
 ### License
-- For more information about license. Please refer to [LICENSE.txt](LICENSE.txt)
+- For more information about license. Please review [LICENSE.txt](LICENSE.txt)
