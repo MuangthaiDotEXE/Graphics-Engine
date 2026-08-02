@@ -1,53 +1,53 @@
-#include "Plane.h"
+#include "Quad.h"
 
-static Vertex planeVertices[] =
+static Vertex quadVertices[] =
 {
 	        // positions                   // colors                    // textures            // normals
-	Vertex{ glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom left vertex
-	Vertex{ glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom right vertex
-	Vertex{ glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Top right vertex
-	Vertex{ glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) }     // Top left vertex
+	Vertex{ glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom left vertex
+	Vertex{ glm::vec3( 1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom right vertex
+	Vertex{ glm::vec3( 1.0f,  1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Top right vertex
+	Vertex{ glm::vec3(-1.0f,  1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) }     // Top left vertex
 };
 
-static GLuint planeIndices[] =
+static GLuint quadIndices[] =
 {
-	// Plane
+	// Quad
 	0, 1, 2,
 	2, 3, 0
 };
 
-std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(Vertex));
-std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
+std::vector<Vertex> quadVerts(quadVertices, quadVertices + sizeof(quadVertices) / sizeof(Vertex));
+std::vector<GLuint> quadInds(quadIndices, quadIndices + sizeof(quadIndices) / sizeof(GLuint));
 
-Engine::Plane::Plane(std::optional<std::vector<std::string>> diffuse,
+Engine::Quad::Quad(std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", planeVerts, planeInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", quadVerts, quadInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
-Engine::Plane::Plane(const Core::Shader& shader, 
-	std::optional<std::vector<std::string>> diffuse,
+Engine::Quad::Quad(const Core::Shader& shader, 
+	std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(shader, planeVerts, planeInds, diffuse, specular),
+	: Mesh(shader, quadVerts, quadInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
-void Engine::Plane::Render()
+void Engine::Quad::Render()
 {
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
 }
 
-void Engine::Plane::Update()
+void Engine::Quad::Update()
 {
 	shader.Activate();
 	vao.Bind();
@@ -67,10 +67,10 @@ void Engine::Plane::Update()
 		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
 	}
 
-	glDrawElements(GL_TRIANGLES, planeInds.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, quadInds.size(), GL_UNSIGNED_INT, 0);
 }
 
-void Engine::Plane::Initialize()
+void Engine::Quad::Initialize()
 {
 	vao.Bind();
 	vbo.Bind();

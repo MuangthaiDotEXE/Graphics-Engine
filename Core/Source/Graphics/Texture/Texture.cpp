@@ -1,35 +1,29 @@
 #include "Texture.h"
 
-Core::Texture::Texture(const std::string& texture, const std::string& type, GLuint slot)
+Core::Texture::Texture(std::optional<std::string> texture, const std::string& type, GLuint slot)
+	: type(type),
+	unit(slot)
 {
-	LoadSingle(texture, type, slot);
-}
-
-Core::Texture::Texture(const std::vector<std::string>& textures, const std::string& type, GLuint slot)
-{
-	LoadMultiple(textures, type, slot);
-}
-
-void Core::Texture::LoadSingle(const std::string& texture, const std::string& type, GLuint slot)
-{
-	this->type = type;
-	this->unit = slot;
-
-	textureID.clear();
-	textureID.emplace_back(LoadTexture(texture, slot));
-}
-
-void Core::Texture::LoadMultiple(const std::vector<std::string>& textures, const std::string& type, GLuint slot)
-{
-	this->type = type;
-	this->unit = slot;
-
-	textureID.clear();
-	textureID.reserve(textures.size());
-
-	for (const auto& texture: textures)
+	if (texture.has_value())
 	{
-		textureID.emplace_back(LoadTexture(texture, slot));
+		textureID.clear();
+		textureID.emplace_back(LoadTexture(texture.value(), slot));
+	}
+}
+
+Core::Texture::Texture(std::optional<std::vector<std::string>> textures, const std::string& type, GLuint slot)
+	: type(type),
+	unit(slot)
+{
+	if (textures.has_value())
+	{
+		textureID.clear();
+		textureID.reserve(textures->size());
+
+		for (const auto& texture : textures.value())
+		{
+			textureID.emplace_back(LoadTexture(texture, slot));
+		}
 	}
 }
 
@@ -84,7 +78,7 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	unsigned char* bytes = stbi_load(path.c_str(), &width, &height, &channels, 0);
 	if (!bytes)
 	{
-		throw std::runtime_error(std::format("Failed to load texture: {} (STB image library)\n", path));
+		throw std::runtime_error(std::format("Failed to load texture with path: {} (STB image library)\n", path));
 	}
 
 	GLuint id;
@@ -103,15 +97,19 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	}
 	else if (channels == 3)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bytes);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bytes);
 	}
 	else if (channels == 1)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, bytes);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, bytes);
 	}
 	else
 	{
-		throw std::invalid_argument("Failed to recognize texture type (OpenGL graphics API)\n");
+		throw std::invalid_argument(std::format(R"(Failed to recognize texture type (OpenGL graphics API)
+	path: {}
+	width: {}
+	height: {}
+	color channels: {})", path, width, height, channels));
 	}
 
 	glGenerateMipmap(GL_TEXTURE_2D);

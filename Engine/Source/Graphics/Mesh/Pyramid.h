@@ -16,9 +16,17 @@ namespace Engine
 {
 	class Pyramid : public Mesh
 	{
+	private:
+		std::optional<std::vector<std::string>> diffusePath, specularPath;
+
 	public:
-		Pyramid();
-		Pyramid(const Core::Shader& shader);
+		Pyramid(std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
+		Pyramid(const Core::Shader& shader, 
+			std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
 		virtual ~Pyramid() = default;
 
 		void Render() override;

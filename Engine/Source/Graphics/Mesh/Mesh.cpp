@@ -13,14 +13,33 @@ glm::mat4 Engine::Mesh::Transform::GetMatrix() const
 	return matrix;
 }
 
-Engine::Mesh::Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& diffuse, const Core::Texture& specular)
-	: shader(vertexShader, fragmentShader), vao(), vbo(vertices), ebo(indices), 
-	diffuse(diffuse), specular(specular)
+Engine::Mesh::Mesh(const std::string& vertexShader, 
+	const std::string& fragmentShader, 
+	std::vector<Vertex>& vertices, 
+	std::vector<GLuint>& indices, 
+	std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: shader(vertexShader, fragmentShader), 
+	vao(), 
+	vbo(vertices), 
+	ebo(indices), 
+	diffuse(std::move(diffuse), "diffuse", 0),
+	specular(std::move(specular), "specular", 1)
 {
 }
 
-Engine::Mesh::Mesh(const Core::Shader& shader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& diffuse, const Core::Texture& specular)
-	: shader(shader), vao(), vbo(vertices), ebo(indices), 
-	diffuse(diffuse), specular(specular)
+Engine::Mesh::Mesh(const Core::Shader& shader, 
+	std::vector<Vertex>& vertices, 
+	std::vector<GLuint>& indices, 
+	std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: shader(shader), 
+	vao(), 
+	vbo(vertices), 
+	ebo(indices), 
+	diffuse(std::move(diffuse), "diffuse", 0),
+	specular(std::move(specular), "specular", 1)
 {
 }

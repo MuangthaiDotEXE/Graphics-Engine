@@ -12,23 +12,23 @@ static GLfloat gridVertices[] =
 };
 
 Engine::Grid::Grid()
-	: shader(ProjectDirectory "/Resource/Shader/Grid.vert", ProjectDirectory "/Resource/Shader/Grid.frag"),
-	vao(),  vbo(gridVertices, sizeof(gridVertices))
+	: shader(ProjectDirectory "/Resource/Shader/Grid/Grid.vert", ProjectDirectory "/Resource/Shader/Grid/Grid.frag"),
+	vao(),  
+	vbo(gridVertices, sizeof(gridVertices))
 {
 	Initialize();
 }
 
 Engine::Grid::Grid(const Core::Shader& shader)
 	: shader(shader),
-	vao(), vbo(gridVertices, sizeof(gridVertices))
+	vao(), 
+	vbo(gridVertices, sizeof(gridVertices))
 {
 	Initialize();
 }
 
 void Engine::Grid::Render()
 {
-	shader.Activate();
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }

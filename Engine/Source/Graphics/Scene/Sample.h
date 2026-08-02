@@ -22,6 +22,8 @@
 #include "../Mesh/Sphere.h"
 #include "../Mesh/Pyramid.h"
 #include "../Mesh/Plane.h"
+#include "../Mesh/Quad.h"
+#include "../Mesh/Triangle.h"
 #include "../Light/Light.h"
 #include "../Camera/Camera.h"
 

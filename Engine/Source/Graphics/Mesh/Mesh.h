@@ -4,6 +4,7 @@
 #define MESH_H
 
 #include <string>
+#include <optional>
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>
@@ -42,8 +43,19 @@ namespace Engine
 		Transform transform;
 
 	public:		
-		Mesh(const std::string& vertexShader, const std::string& fragmentShader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& diffuse, const Core::Texture& specular);
-		Mesh(const Core::Shader& shader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, const Core::Texture& diffuse, const Core::Texture& specular);
+		Mesh(const std::string& vertexShader, 
+			const std::string& fragmentShader,
+			std::vector<Vertex>& vertices, 
+			std::vector<GLuint>& indices, 
+			std::optional<std::vector<std::string>> diffuse, 
+			std::optional<std::vector<std::string>> specular
+		);
+		Mesh(const Core::Shader& shader, 
+			std::vector<Vertex>& vertices, 
+			std::vector<GLuint>& indices, 
+			std::optional<std::vector<std::string>> diffuse, 
+			std::optional<std::vector<std::string>> specular
+		);
 		virtual ~Mesh() = default;
 
 		virtual void Render() = 0;

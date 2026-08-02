@@ -58,18 +58,21 @@ glm::mat4 Engine::Light::Transform::GetMatrix() const
 }
 
 Engine::Light::Light()
-	: shader(ProjectDirectory "/Resource/Shader/Light.vert", ProjectDirectory "/Resource/Shader/Light.frag"),
-	vao(), vbo(lightVerts), ebo(lightInds)
+	: shader(ProjectDirectory "/Resource/Shader/Light/Light.vert", ProjectDirectory "/Resource/Shader/Light/Light.frag"), 
+	vao(), 
+	vbo(lightVerts), 
+	ebo(lightInds)
 {
-	vao.Bind();
-	vbo.Bind();
-	ebo.Bind();
+	Initialize();
+}
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
-
-	vao.Unbind();
-	vbo.Unbind();
-	ebo.Unbind();
+Engine::Light::Light(const Core::Shader& shader)
+	: shader(shader),
+	vao(),
+	vbo(lightVerts),
+	ebo(lightInds)
+{
+	Initialize();
 }
 
 Engine::Light::~Light()
@@ -78,8 +81,6 @@ Engine::Light::~Light()
 
 void Engine::Light::Render()
 {
-	shader.Activate();
-	
 	glFrontFace(GL_CW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -91,4 +92,17 @@ void Engine::Light::Update()
 	vao.Bind();
 
 	//glDrawElements(GL_TRIANGLES, lightInds.size(), GL_UNSIGNED_INT, 0);
+}
+
+void Engine::Light::Initialize()
+{
+	vao.Bind();
+	vbo.Bind();
+	ebo.Bind();
+
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)0);
+
+	vao.Unbind();
+	vbo.Unbind();
+	ebo.Unbind();
 }

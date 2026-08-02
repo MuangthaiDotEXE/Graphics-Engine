@@ -20,9 +20,16 @@ namespace Engine
 	private:
 		GLsizei indexCount;
 
+		std::optional<std::vector<std::string>> diffusePath, specularPath;
+
 	public:
-		Sphere();
-		Sphere(const Core::Shader& shader);
+		Sphere(std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
+		Sphere(const Core::Shader& shader, 
+			std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
 		virtual ~Sphere() = default;
 
 		void Render() override;
