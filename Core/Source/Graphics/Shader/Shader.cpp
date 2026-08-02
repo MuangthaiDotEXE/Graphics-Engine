@@ -11,6 +11,10 @@ Core::Shader::Shader(const std::string& vertexPath, const std::string& fragmentP
     }
     else
     {
+#ifndef NDEBUG
+        std::println(stdout, "\033[33m[Warn] Trying to read the string directly because the given string could not be found as shader file path\033[0m\n");
+#endif
+
         vertexCode = vertexPath;
         fragmentCode = fragmentPath;
     }

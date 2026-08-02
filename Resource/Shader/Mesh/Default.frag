@@ -7,7 +7,9 @@ in vec2 textureCoordinate;
 in vec3 normal;
 in vec3 currentPosition;
 
+uniform bool hasDiffuse;
 uniform sampler2D diffuseSampler;
+uniform bool hasSpecular;
 uniform sampler2D specularSampler;
 uniform vec4 lightColor;
 uniform vec3 lightPosition;
@@ -31,7 +33,8 @@ vec4 directionalLight()
 	float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0f), 16);
 	float specular = specularAmount * specularLight;
 
-	return ((diffuse + ambient) + texture(specularSampler, textureCoordinate).r * specular) * lightColor;
+	float specularTexel = hasSpecular ? texture(specularSampler, textureCoordinate).r : 0.0f;
+	return ((diffuse + ambient) + specularTexel * specular) * lightColor;
 }
 
 vec4 pointLight()
@@ -55,7 +58,8 @@ vec4 pointLight()
 	float specularAmount = pow(max(dot(viewDirection, reflectDirection), 0.0f), 16);
 	float specular = specularAmount * specularLight;
 
-	return ((diffuse * intensity + ambient) + texture(specularSampler, textureCoordinate).r * specular * intensity) * lightColor;
+	float specularTexel = hasSpecular ? texture(specularSampler, textureCoordinate).r : 0.0f;
+	return ((diffuse * intensity + ambient) + specularTexel * specular * intensity) * lightColor;
 }
 
 vec4 spotLight()
@@ -79,7 +83,8 @@ vec4 spotLight()
 	float angle = dot(vec3(0.0f, -1.0f, 0.0f), -lightDirection);
 	float intensity = clamp((angle - outerCone) / (innerCone - outerCone), 0.0f, 1.0f);
 
-	return ((diffuse * intensity + ambient) + texture(specularSampler, textureCoordinate).r * specular * intensity) * lightColor;
+	float specularTexel = hasSpecular ? texture(specularSampler, textureCoordinate).r : 0.0f;
+	return ((diffuse * intensity + ambient) + specularTexel * specular * intensity) * lightColor;
 }
 
 float linearizeDepth(float depth)
@@ -96,6 +101,12 @@ float logisticDepth(float depth, float steepness, float offset)
 
 void main()
 {
-	//fragColor = vec4(color, 1.0f) * pointLight();
-	fragColor = texture(diffuseSampler, textureCoordinate) * pointLight();
+	if (hasDiffuse)
+	{
+		fragColor = texture(diffuseSampler, textureCoordinate) * pointLight();
+	}
+	else
+	{
+		fragColor = vec4(1.0f, 1.0f, 1.0f, 1.0f) * pointLight();
+	}
 }

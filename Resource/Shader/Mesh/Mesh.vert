@@ -18,7 +18,7 @@ void main()
 	currentPosition = vec3(model * vec4(positions, 1.0f));
 	gl_Position = cameraMatrix * vec4(currentPosition, 1.0f);
 
-	color = vec3(1.0f, 1.0f, 1.0f);
+	color = colors;
 	textureCoordinate = textures;
 	normal = normals;
 }

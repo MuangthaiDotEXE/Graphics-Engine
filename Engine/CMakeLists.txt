@@ -20,6 +20,10 @@ set(SOURCES
 	"Source/Graphics/Mesh/Pyramid.cpp"
 	"Source/Graphics/Mesh/Plane.h"
 	"Source/Graphics/Mesh/Plane.cpp"
+	"Source/Graphics/Mesh/Quad.h"
+	"Source/Graphics/Mesh/Quad.cpp"
+	"Source/Graphics/Mesh/Triangle.h"
+	"Source/Graphics/Mesh/Triangle.cpp"
 	"Source/Graphics/Camera/Camera.h"
 	"Source/Graphics/Camera/Camera.cpp"
 	"Source/Graphics/Light/Light.h"
@@ -56,13 +60,13 @@ endif()
 if (WIN32)
 	set_target_properties(Engine
 						  PROPERTIES
-						  WIN32_EXECUTABLE $<CONFIG:Release>
+						  WIN32_EXECUTABLE $<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>
 	)
 
 	if (MSVC)
 		target_link_options(Engine 
 							PRIVATE
-							$<$<CONFIG:Release>:/ENTRY:mainCRTStartup>
+							$<$<OR:$<CONFIG:Release>,$<CONFIG:MinSizeRel>>:/ENTRY:mainCRTStartup>
 		)
 	endif()
 endif()

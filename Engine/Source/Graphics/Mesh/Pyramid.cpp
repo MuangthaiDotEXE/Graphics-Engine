@@ -2,7 +2,7 @@
 
 static Vertex pyramidVertices[] =
 {
-		// positions					// colors					 // textures			// normals
+		// positions                        // colors                    // textures            // normals
 	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face bottom left vertex
 	Vertex{ glm::vec3( 1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face bottom right vertex
 	Vertex{ glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 1.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face top vertex
@@ -44,44 +44,32 @@ static GLuint pyramidIndices[] =
 	14, 15, 12
 };
 
-static const std::array<std::string, 5> pyramidTexture
-{
-	ProjectDirectory "/Asset/Texture/Sand_Stone_Texture.png",   // Front face
-	ProjectDirectory "/Asset/Texture/Sand_Stone_Texture.png",   // Right face
-	ProjectDirectory "/Asset/Texture/Sand_Stone_Texture.png",   // Back face
-	ProjectDirectory "/Asset/Texture/Sand_Stone_Texture.png",   // Left face
-	ProjectDirectory "/Asset/Texture/Sand_Stone_Texture.png"    // Bottom face
-};
-
-static const std::array<std::string, 5> pyramidSpecular
-{
-	ProjectDirectory "/Asset/Specular/Sand_Stone_Texture_specular.png",   // Front face
-	ProjectDirectory "/Asset/Specular/Sand_Stone_Texture_specular.png",   // Right face
-	ProjectDirectory "/Asset/Specular/Sand_Stone_Texture_specular.png",   // Back face
-	ProjectDirectory "/Asset/Specular/Sand_Stone_Texture_specular.png",   // Left face
-	ProjectDirectory "/Asset/Specular/Sand_Stone_Texture_specular.png"    // Bottom face
-};
-
 std::vector<Vertex> pyramidVerts(pyramidVertices, pyramidVertices + sizeof(pyramidVertices) / sizeof(Vertex));
 std::vector<GLuint> pyramidInds(pyramidIndices, pyramidIndices + sizeof(pyramidIndices) / sizeof(GLuint));
 
-Engine::Pyramid::Pyramid()
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag",
-		pyramidVerts, pyramidInds, Core::Texture(), Core::Texture())
+Engine::Pyramid::Pyramid(std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", pyramidVerts, pyramidInds, diffuse, specular),
+	diffusePath(std::move(diffuse)),
+	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
-Engine::Pyramid::Pyramid(const Core::Shader& shader)
-	: Mesh(shader, pyramidVerts, pyramidInds, Core::Texture(), Core::Texture())
+Engine::Pyramid::Pyramid(const Core::Shader& shader,
+	std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: Mesh(shader, pyramidVerts, pyramidInds, diffuse, specular),
+	diffusePath(std::move(diffuse)),
+	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
 void Engine::Pyramid::Render()
 {
-	shader.Activate();
-
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -92,13 +80,21 @@ void Engine::Pyramid::Update()
 	shader.Activate();
 	vao.Bind();
 
+	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath.has_value() ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath.has_value() ? GL_TRUE : GL_FALSE);
+
 	for (size_t i = 0; i < 5; ++i)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
-
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
+		if (diffusePath.has_value())
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
+		}
+		if (specularPath.has_value())
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
+		}
 
 		if (i < 4)
 		{
@@ -126,9 +122,12 @@ void Engine::Pyramid::Initialize()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	diffuse.LoadMultiple({ pyramidTexture.begin(), pyramidTexture.end() }, "diffuse", 0);
-	specular.LoadMultiple({ pyramidSpecular.begin(), pyramidSpecular.end() }, "specular", 1);
-
-	diffuse.SetUnit(shader, "diffuseSampler", 0);
-	specular.SetUnit(shader, "specularSampler", 1);
+	if (diffusePath.has_value())
+	{
+		diffuse.SetUnit(shader, "diffuseSampler", 0);
+	}
+	if (specularPath.has_value())
+	{
+		specular.SetUnit(shader, "specularSampler", 1);
+	}
 }

@@ -75,28 +75,31 @@ static std::vector<GLuint> GenerateSphereIndices(int sectors, int stacks)
 static std::vector<Vertex> sphereVerts = GenerateSphereVertices(SPHERE_RADIUS, SPHERE_SECTORS, SPHERE_STACKS);
 static std::vector<GLuint> sphereInds = GenerateSphereIndices(SPHERE_SECTORS, SPHERE_STACKS);
 
-static const std::string sphereTexture = ProjectDirectory "/Asset/Texture/Earth_Color_Map.png";
-static const std::string sphereSpecular = ProjectDirectory "/Asset/Specular/Earth_Bump_Map.png";
-
-Engine::Sphere::Sphere()
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag",
-		sphereVerts, sphereInds, Core::Texture(), Core::Texture()),
-		indexCount(static_cast<GLsizei>(sphereInds.size()))
+Engine::Sphere::Sphere(std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", sphereVerts, sphereInds, diffuse, specular),
+	indexCount(static_cast<GLsizei>(sphereInds.size())),
+	diffusePath(std::move(diffuse)),
+	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
-Engine::Sphere::Sphere(const Core::Shader& shader)
-	: Mesh(shader, sphereVerts, sphereInds, Core::Texture(), Core::Texture()),
-	indexCount(static_cast<GLsizei>(sphereInds.size()))
+Engine::Sphere::Sphere(const Core::Shader& shader, 
+	std::optional<std::vector<std::string>> diffuse,
+	std::optional<std::vector<std::string>> specular
+)
+	: Mesh(shader, sphereVerts, sphereInds, diffuse, specular),
+	indexCount(static_cast<GLsizei>(sphereInds.size())),
+	diffusePath(std::move(diffuse)),
+	specularPath(std::move(specular))
 {
 	Initialize();
 }
 
 void Engine::Sphere::Render()
 {
-	shader.Activate();
-	
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 	glEnable(GL_CULL_FACE);
@@ -107,11 +110,19 @@ void Engine::Sphere::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath.has_value() ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath.has_value() ? GL_TRUE : GL_FALSE);
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+	if (diffusePath.has_value())
+	{
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+	}
+	if (specularPath.has_value())
+	{
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+	}
 
 	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, 0);
 }
@@ -131,9 +142,12 @@ void Engine::Sphere::Initialize()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	diffuse.LoadMultiple({ sphereTexture }, "diffuse", 0);
-	specular.LoadMultiple({ sphereSpecular }, "specular", 1);
-
-	diffuse.SetUnit(shader, "diffuseSampler", 0);
-	specular.SetUnit(shader, "specularSampler", 1);
+	if (diffusePath.has_value())
+	{
+		diffuse.SetUnit(shader, "diffuseSampler", 0);
+	}
+	if (specularPath.has_value())
+	{
+		specular.SetUnit(shader, "specularSampler", 1);
+	}
 }

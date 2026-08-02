@@ -42,10 +42,14 @@ namespace Engine
 
 	public:
 		Light();
+		Light(const Core::Shader& shader);
 		virtual ~Light();
 
 		void Render();
 		void Update();
+
+	private:
+		void Initialize();
 	};
 }
 

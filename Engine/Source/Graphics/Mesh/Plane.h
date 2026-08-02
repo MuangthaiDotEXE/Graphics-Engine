@@ -16,9 +16,17 @@ namespace Engine
 {
 	class Plane : public Mesh
 	{
+	private:
+		std::optional<std::vector<std::string>> diffusePath, specularPath;
+
 	public:
-		Plane();
-		Plane(const Core::Shader& shader);
+		Plane(std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
+		Plane(const Core::Shader& shader, 
+			std::optional<std::vector<std::string>> diffuse = std::nullopt,
+			std::optional<std::vector<std::string>> specular = std::nullopt
+		);
 		virtual ~Plane() = default;
 
 		void Render() override;

@@ -1,5 +1,55 @@
 #include "Sample.h"
 
+static const std::array<std::string, 6> cubeTexture
+{
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Front face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Right face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Back face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Left face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Bottom face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png"    // Top face
+};
+
+static const std::array<std::string, 6> cubeSpecular
+{
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",  // Front face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Right face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Back face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Left face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Bottom face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png" 	// Top face
+};
+
+static const std::array<std::string, 5> pyramidTexture
+{
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Front face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Right face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Back face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Left face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png"    // Bottom face
+};
+
+static const std::array<std::string, 5> pyramidSpecular
+{
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Front face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Right face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Back face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Left face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png"    // Bottom face
+};
+
+static const std::string sphereTexture = ProjectDirectory "/Asset/Texture/Earth_Color_Map.png";
+static const std::string sphereSpecular = ProjectDirectory "/Asset/Specular/Earth_Bump_Map.png";
+
+static const std::string planeTexture = ProjectDirectory "/Asset/Texture/Green_Brick_Texture.png";
+static const std::string planeSpecular = ProjectDirectory "/Asset/Specular/Green_Brick_Texture_specular.png";
+
+static const std::string quadTexture = ProjectDirectory "/Asset/Texture/Blue_Brick_Texture.png";
+static const std::string quadSpecular = ProjectDirectory "/Asset/Specular/Blue_Brick_Texture_specular.png";
+
+static const std::string triangleTexture = ProjectDirectory "/Asset/Texture/Purple_Brick_Texture.png";
+static const std::string triangleSpecular = ProjectDirectory "/Asset/Specular/Purple_Brick_Texture_specular.png";
+
 Engine::Sample::Sample(Core::App& app)
 	: Scene(app), 
 	grid(), 
@@ -7,34 +57,49 @@ Engine::Sample::Sample(Core::App& app)
 	lights(), 
 	camera(app.window->GetWindow(), 
 	Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
-	meshShader(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag"),
+	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
 	fbo(app.window->GetFramebufferSize())
 {
-	auto cube = std::make_unique<Cube>(meshShader);
+	auto cube = std::make_unique<Cube>(meshShader, std::vector<std::string>(cubeTexture.begin(), cubeTexture.end()), std::vector<std::string>(cubeSpecular.begin(), cubeSpecular.end()));
 	cube->name = "Cube";
-	cube->transform.position = glm::vec3(-5.0f, 0.0f, 0.0f);
+	cube->transform.position = glm::vec3(-5.0f, 1.0f, 0.0f);
 	objects.emplace_back(std::move(cube));
 
-	auto sphere = std::make_unique<Sphere>(meshShader);
-	sphere->name = "Sphere";
-	sphere->transform.position = glm::vec3(0.0f, 0.0f, 0.0f);
-	objects.emplace_back(std::move(sphere));
-
-	auto pyramid = std::make_unique<Pyramid>(meshShader);
+	auto pyramid = std::make_unique<Pyramid>(meshShader, std::vector<std::string>(pyramidTexture.begin(), pyramidTexture.end()), std::vector<std::string>(pyramidSpecular.begin(), pyramidSpecular.end()));
 	pyramid->name = "Pyramid";
-	pyramid->transform.position = glm::vec3(0.0f, 0.0f, -5.0f);
+	pyramid->transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
 	objects.emplace_back(std::move(pyramid));
 
-	auto plane = std::make_unique<Plane>(meshShader);
+	auto sphere = std::make_unique<Sphere>(meshShader, std::vector<std::string>{ sphereTexture }, std::vector<std::string>{ sphereSpecular });
+	sphere->name = "Sphere";
+	sphere->transform.position = glm::vec3(0.0f, 1.0f, 0.0f);
+	objects.emplace_back(std::move(sphere));
+
+	auto plane = std::make_unique<Plane>(meshShader, std::vector<std::string>{ planeTexture }, std::vector<std::string>{ planeSpecular });
 	plane->name = "Plane";
-	plane->transform.position = glm::vec3(5.0f, 0.0f, 0.0f);
+	plane->transform.position = glm::vec3(5.0f, 1.0f, 0.0f);
 	objects.emplace_back(std::move(plane));
+
+	auto quad = std::make_unique<Quad>(meshShader, std::vector<std::string>{ quadTexture }, std::vector<std::string>{ quadSpecular });
+	quad->name = "Quad";
+	quad->transform.position = glm::vec3(5.0f, 1.0f, -5.0f);
+	objects.emplace_back(std::move(quad));
+
+	auto triangle = std::make_unique<Triangle>(meshShader, std::vector<std::string>{ triangleTexture }, std::vector<std::string>{triangleSpecular });
+	triangle->name = "Triangle";
+	triangle->transform.position = glm::vec3(-5.0f, 1.0f, -5.0f);
+	objects.emplace_back(std::move(triangle));
+
+	auto floor = std::make_unique<Plane>(meshShader);
+	floor->name = "Floor";
+	floor->transform.scale = glm::vec3(10.0f, 10.0f, 10.0f);
+	objects.emplace_back(std::move(floor));
 
 	auto light = std::make_unique<Light>();
 	light->name = "Light";
 	light->type = "Point light";
 	light->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
-	light->transform.position = glm::vec3(4.375f, 3.5f, -3.75f);
+	light->transform.position = glm::vec3(0.0f, 3.5f, 0.0f);
 	light->transform.scale = glm::vec3(0.25f);
 	lights.emplace_back(std::move(light));
 }
