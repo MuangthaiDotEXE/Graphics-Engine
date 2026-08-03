@@ -23,6 +23,7 @@
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
 - Add and update Vulkan graphics API rendering
+- Add support for multiple graphics API rendering (OpenGL, Vulkan, Direct3D, Metal, etc.)
 - Add advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
 - Add audio system using openAL
@@ -37,7 +38,7 @@ Screenshot taken: 2026-08-02 04:37:06 UTC (2026-08-02T04:37:06Z)
 ### How to use
 - Clone the repository using `git clone` command
 - Run `Build.py` using Python. For platform specific, run `Build.bat` (Microsoft Windows) or  `Build.sh` (Unix/Linux)
-- Once the project is built successfully, the project should be ready to go
+- Once the project is successfully built, it should be ready to go
 
 ### Contributing
 - For further details about contributions. Please check [CONTRIBUTING.md](CONTRIBUTING.md)
