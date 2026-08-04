@@ -28,6 +28,11 @@
 - Add audio system using openAL
 - Fully automate libraries package finding and installation with CMake
 
+### Minimum Requirements
+- [C++23](https://cppreference.com/cpp/23)
+- [GCC 14 or later](https://gcc.gnu.org/), [Clang 18 or later](https://clang.llvm.org/), or [Microsoft Visual C++ (MSVC) 17.10 or later](https://learn.microsoft.com/en-us/cpp/overview/acquire-msvc?view=msvc-170)
+- [CMake 3.20 or later](https://cmake.org/)
+
 ### Screenshot
 <div align="center">
 	<img src="Asset/Image/Engine.png" alt="Engine">
