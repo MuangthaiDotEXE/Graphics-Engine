@@ -22,7 +22,7 @@ std::vector<GLuint> quadInds(quadIndices, quadIndices + sizeof(quadIndices) / si
 Engine::Quad::Quad(std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", quadVerts, quadInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", quadVerts, quadInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {

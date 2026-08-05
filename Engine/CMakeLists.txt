@@ -24,6 +24,8 @@ set(SOURCES
 	"Source/Graphics/Mesh/Quad.cpp"
 	"Source/Graphics/Mesh/Triangle.h"
 	"Source/Graphics/Mesh/Triangle.cpp"
+	"Source/Graphics/Sky/Sky.h"
+	"Source/Graphics/Sky/Sky.cpp"
 	"Source/Graphics/Camera/Camera.h"
 	"Source/Graphics/Camera/Camera.cpp"
 	"Source/Graphics/Light/Light.h"

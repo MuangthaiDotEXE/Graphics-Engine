@@ -2,40 +2,40 @@
 
 static const std::array<std::string, 6> cubeTexture
 {
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Front face
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Right face
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Back face
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Left face
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",   // Bottom face
-	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png"    // Top face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Front face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Right face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Back face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Left face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Bottom face
+	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png"     // Top face
 };
 
 static const std::array<std::string, 6> cubeSpecular
 {
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",  // Front face
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Right face
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Back face
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Left face
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",	// Bottom face
-	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png" 	// Top face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",    // Front face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",    // Right face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",    // Back face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",    // Left face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png",    // Bottom face
+	ProjectDirectory "/Asset/Specular/Red_Brick_Texture_specular.png"     // Top face
 };
 
 static const std::array<std::string, 5> pyramidTexture
 {
-	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Front face
-	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Right face
-	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Back face
-	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",   // Left face
-	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png"    // Bottom face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",    // Front face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",    // Right face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",    // Back face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png",    // Left face
+	ProjectDirectory "/Asset/Texture/Yellow_Brick_Texture.png"     // Bottom face
 };
 
 static const std::array<std::string, 5> pyramidSpecular
 {
-	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Front face
-	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Right face
-	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Back face
-	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",   // Left face
-	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png"    // Bottom face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",    // Front face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",    // Right face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",    // Back face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png",    // Left face
+	ProjectDirectory "/Asset/Specular/Yellow_Brick_Texture_specular.png"     // Bottom face
 };
 
 static const std::string sphereTexture = ProjectDirectory "/Asset/Texture/Earth_Color_Map.png";
@@ -50,13 +50,24 @@ static const std::string quadSpecular = ProjectDirectory "/Asset/Specular/Blue_B
 static const std::string triangleTexture = ProjectDirectory "/Asset/Texture/Purple_Brick_Texture.png";
 static const std::string triangleSpecular = ProjectDirectory "/Asset/Specular/Purple_Brick_Texture_specular.png";
 
+static const std::array<std::string, 6> skyCubemap
+{
+	ProjectDirectory "/Asset/Cubemap/Right.png",     // Right face
+	ProjectDirectory "/Asset/Cubemap/Left.png",      // Left face
+	ProjectDirectory "/Asset/Cubemap/Top.png",       // Top face
+	ProjectDirectory "/Asset/Cubemap/Bottom.png",    // Bottom face
+	ProjectDirectory "/Asset/Cubemap/Front.png",     // Front face
+	ProjectDirectory "/Asset/Cubemap/Back.png"       // Back face
+};
+
 Engine::Sample::Sample(Core::App& app)
 	: Scene(app), 
 	grid(), 
 	objects(), 
 	lights(), 
-	camera(app.window->GetWindow(), 
-	Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
+	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
+	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
+	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
 	fbo(app.window->GetFramebufferSize())
 {
@@ -137,6 +148,10 @@ void Engine::Sample::Render()
 		mesh->Render();
 	}
 
+	sky.shader.Activate();
+	glUniform1i(glGetUniformLocation(sky.shader.programID, "sky"), 0);
+	sky.Render();
+
 	grid.Render();
 }
 
@@ -147,7 +162,7 @@ void Engine::Sample::Update()
 
 	//fbo.Bind();
 
-	camera.UpdateMatrix(70.0f, nearPlane, farPlane, 2.5f);
+	camera.UpdateMatrix(fov, nearPlane, farPlane, 2.5f);
 	camera.Input();
 
 	for (auto& light : lights)
@@ -170,6 +185,24 @@ void Engine::Sample::Update()
 
 		mesh->Update();
 	}
+
+	glDepthFunc(GL_LEQUAL);
+
+	sky.shader.Activate();
+
+	int width, height;
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	glfwGetFramebufferSize(app.window->GetWindow(), &width, &height);
+	view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.orientation, camera.up)));
+	projection = glm::perspective(glm::radians(fov), (float)width / height, nearPlane, farPlane);
+	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
+	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+
+	sky.Update();
+
+	glDepthFunc(GL_LESS);
 
 	grid.view = camera.GetView();
 	grid.projection = camera.GetProjection();

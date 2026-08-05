@@ -26,6 +26,7 @@
 #include "../Mesh/Triangle.h"
 #include "../Light/Light.h"
 #include "../Camera/Camera.h"
+#include "../Sky/Sky.h"
 
 namespace Engine
 {
@@ -33,12 +34,15 @@ namespace Engine
 	{
 	private:
 		Core::Shader meshShader;
+		Core::Shader skyShader;
 		Core::FBO fbo;
+
+		Sky sky;
 
 		std::vector<std::unique_ptr<Mesh>> objects;
 		std::vector<std::unique_ptr<Light>> lights;
 
-		float nearPlane = 0.001f, farPlane = 1000.0f;
+		float fov = 70.0f, nearPlane = 0.001f, farPlane = 1000.0f;
 
 	public:
 		Grid grid;

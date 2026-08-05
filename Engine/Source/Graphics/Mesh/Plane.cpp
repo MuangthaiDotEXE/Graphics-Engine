@@ -22,7 +22,7 @@ std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) 
 Engine::Plane::Plane(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", planeVerts, planeInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", planeVerts, planeInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {

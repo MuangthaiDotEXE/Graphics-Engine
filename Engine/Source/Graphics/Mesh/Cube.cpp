@@ -67,7 +67,7 @@ std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / si
 Engine::Cube::Cube(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", cubeVerts, cubeInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", cubeVerts, cubeInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {

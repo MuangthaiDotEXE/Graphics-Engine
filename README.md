@@ -36,9 +36,9 @@
 
 ### Screenshot
 <div align="center">
-	<img src="Asset/Image/Engine.png" alt="Engine">
+	<img src="Asset/Image/Engine.png" alt="Graphics Engine">
 </div>
-Screenshot taken: 2026-08-02 04:37:06 UTC (2026-08-02T04:37:06Z)
+Screenshot taken: 2026-08-05 04:59:48 UTC (2026-08-05T04:59:48Z)
 
 ### How to use
 - Clone the repository using `git clone` command

@@ -71,12 +71,12 @@ GLuint Core::Texture::GetID(size_t index = 0) const
 
 GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 {
-	int width, height, channels;
+	int width, height, colorChannels;
 
 	stbi_set_flip_vertically_on_load(true);
 
-	unsigned char* bytes = stbi_load(path.c_str(), &width, &height, &channels, 0);
-	if (!bytes)
+	unsigned char* image = stbi_load(path.c_str(), &width, &height, &colorChannels, 0);
+	if (!image)
 	{
 		throw std::runtime_error(std::format("Failed to load texture with path: {} (STB image library)\n", path));
 	}
@@ -91,17 +91,17 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	if (channels == 4)
+	if (colorChannels == 4)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
 	}
-	else if (channels == 3)
+	else if (colorChannels == 3)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bytes);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
 	}
-	else if (channels == 1)
+	else if (colorChannels == 1)
 	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, bytes);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, image);
 	}
 	else
 	{
@@ -109,12 +109,12 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	path: {}
 	width: {}
 	height: {}
-	color channels: {})", path, width, height, channels));
+	color channels: {})", path, width, height, colorChannels));
 	}
 
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	stbi_image_free(bytes);
+	stbi_image_free(image);
 	glBindTexture(GL_TEXTURE_2D, 0);
 
 	return id;

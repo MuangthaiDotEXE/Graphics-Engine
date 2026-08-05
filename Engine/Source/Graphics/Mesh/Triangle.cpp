@@ -20,7 +20,7 @@ std::vector<GLuint> triangleInds(triangleIndices, triangleIndices + sizeof(trian
 Engine::Triangle::Triangle(std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", triangleVerts, triangleInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", triangleVerts, triangleInds, diffuse, specular),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
 {

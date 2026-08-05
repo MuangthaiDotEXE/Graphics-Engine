@@ -78,7 +78,7 @@ static std::vector<GLuint> sphereInds = GenerateSphereIndices(SPHERE_SECTORS, SP
 Engine::Sphere::Sphere(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh.frag", sphereVerts, sphereInds, diffuse, specular),
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", sphereVerts, sphereInds, diffuse, specular),
 	indexCount(static_cast<GLsizei>(sphereInds.size())),
 	diffusePath(std::move(diffuse)),
 	specularPath(std::move(specular))
