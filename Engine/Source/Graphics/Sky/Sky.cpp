@@ -43,14 +43,20 @@ GLuint skyIndices[] =
 
 Engine::Sky::Sky(std::optional<std::vector<std::string>> cubemaps)
 	: shader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
-	cubemap(std::move(cubemaps))
+	vao(),
+	vbo(skyVertices, sizeof(skyVertices)),
+	ebo(skyIndices, sizeof(skyIndices)),
+	cubemap(std::move(cubemaps), "cubemap")
 {
 	Initialize();
 }
 
 Engine::Sky::Sky(const Core::Shader& shader, std::optional<std::vector<std::string>> cubemaps)
 	: shader(shader),
-	cubemap(std::move(cubemaps))
+	vao(),
+	vbo(skyVertices, sizeof(skyVertices)),
+	ebo(skyIndices, sizeof(skyIndices)),
+	cubemap(std::move(cubemaps), "cubemap")
 {
 	Initialize();
 }
@@ -61,60 +67,21 @@ void Engine::Sky::Render()
 
 void Engine::Sky::Update()
 {
-	glBindVertexArray(vao);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+	vao.Bind();
+	cubemap.Bind();
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	vao.Unbind();
 }
 
 void Engine::Sky::Initialize()
 {
-	glGenVertexArrays(1, &vao);
-	glGenBuffers(1, &vbo);
-	glGenBuffers(1, &ebo);
+	vao.Bind();
+	vbo.Bind();
+	ebo.Bind();
 
-	glBindVertexArray(vao);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(skyVertices), skyVertices, GL_STATIC_DRAW);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(skyIndices), skyIndices, GL_STATIC_DRAW);
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 3 * sizeof(float), (void*)0);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-
-	if (cubemap.has_value())
-	{
-		for (size_t i = 0; i < 6; ++i)
-		{
-			int width, height, colorChannels;
-
-			unsigned char* image = stbi_load((*cubemap)[i].c_str(), &width, &height, &colorChannels, 0);
-			if (!image)
-			{
-				throw std::runtime_error(std::format("Failed to load texture with path: {} (STB image library)\n", (*cubemap)[i]));
-			}
-
-			stbi_set_flip_vertically_on_load(false);
-			glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, image);
-
-			stbi_image_free(image);
-		}
-	}
+	vbo.Unbind();
+	vao.Unbind();
+	ebo.Unbind();
 }

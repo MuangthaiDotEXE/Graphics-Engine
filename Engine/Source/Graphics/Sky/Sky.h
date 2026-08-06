@@ -13,16 +13,21 @@
 #include <stb_image.h>
 
 #include "Graphics/Shader/Shader.h"
+#include "Graphics/Shader/VAO.h"
+#include "Graphics/Shader/VBO.h"
+#include "Graphics/Shader/EBO.h"
+#include "Graphics/Texture/Cubemap.h"
 
 namespace Engine
 {
-	class Sky
+	class Sky    // Direction: right, left, top, bottom, front, back
 	{
 	public:
 		Core::Shader shader;
-
-		GLuint vao, vbo, ebo, texture;
-		std::optional<std::vector<std::string>> cubemap; // Direction: right, left, top, bottom, front, back
+		Core::VAO vao;
+		Core::VBO vbo;
+		Core::EBO ebo;
+		Core::Cubemap cubemap;
 
 	public:
 		Sky(std::optional<std::vector<std::string>> cubemaps = std::nullopt);

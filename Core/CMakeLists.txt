@@ -21,6 +21,8 @@ set(SOURCES
 	 "Source/Graphics/Shader/FBO.cpp"
 	 "Source/Graphics/Texture/Texture.h"
 	 "Source/Graphics/Texture/Texture.cpp"
+	 "Source/Graphics/Texture/Cubemap.h"
+	 "Source/Graphics/Texture/Cubemap.cpp"
 	 "Source/Graphics/Texture/stb.cpp"
 	 "Source/Graphics/Model/Model.h"
 	 "Source/Graphics/Model/Model.cpp"

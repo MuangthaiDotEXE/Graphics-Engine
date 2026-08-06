@@ -30,11 +30,11 @@ namespace Core
 		virtual ~Texture();
 
 		void SetUnit(Shader& shader, const std::string& uniform, GLuint unit);
-		void Bind(size_t index);
+		void Bind(size_t index = 0);
 		void Unbind();
 		void Delete();
 
-		GLuint GetID(size_t index) const;
+		GLuint GetID(size_t index = 0) const;
 		size_t GetSize() const;
 
 	private:

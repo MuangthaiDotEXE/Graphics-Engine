@@ -64,7 +64,7 @@ size_t Core::Texture::GetSize() const
 	return textureID.size();
 }
 
-GLuint Core::Texture::GetID(size_t index = 0) const
+GLuint Core::Texture::GetID(size_t index) const
 {
 	return textureID[index];
 }
