@@ -195,7 +195,7 @@ void Engine::Sample::Update()
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	glfwGetFramebufferSize(app.window->GetWindow(), &width, &height);
-	view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.orientation, camera.up)));
+	view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.front, camera.up)));
 	projection = glm::perspective(glm::radians(fov), (float)width / height, nearPlane, farPlane);
 	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));

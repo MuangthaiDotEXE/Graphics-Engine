@@ -24,6 +24,8 @@ namespace Engine
 	{
 	public:
 		glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+		glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);  
+		glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
 		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 		glm::vec3 position;
@@ -50,8 +52,8 @@ namespace Engine
 		const float slowMultiplier = 0.4f;
 		float sensitivity = 100.0f;
 
-		float previousFrame;
-		float deltaTime = 0.0f;
+		double previousFrame;
+		double deltaTime = 0.0f;
 		double fps;
 
 	public:

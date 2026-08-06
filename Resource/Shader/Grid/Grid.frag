@@ -34,7 +34,7 @@ float ToDepthBuffer(vec3 worldPosition)
 float LinearDepth(vec3 worldPosition)
 {
     vec4 clip = projection * view * vec4(worldPosition, 1.0f);
-    float ndcDepth = (clip.z / clip.w) * 2.0f - 1.0f;
+    float ndcDepth = clip.z / clip.w; // Removed "* 2.0f - 1.0f"
     float linear = (2.0f * nearPlane * farPlane) /
                      (farPlane + nearPlane - ndcDepth * (farPlane - nearPlane));
     return linear / farPlane;
@@ -53,13 +53,18 @@ void main()
 {
     vec3 rayDir = normalize(farPoint - nearPoint);
     
+    vec2 nearDerivXZ = fwidth(nearPoint.xz);
+    vec2 dirDerivXZ = fwidth(rayDir.xz);
+    
     float dxz2 = rayDir.x * rayDir.x + rayDir.z * rayDir.z;
     float tY = (dxz2 > 1e-6f)
                        ? -(nearPoint.x * rayDir.x + nearPoint.z * rayDir.z) / dxz2
                        : -1.0f;
     vec3 yClosest = nearPoint + tY * rayDir;
     float yDistXZ = (tY > 0.0f) ? length(yClosest.xz) : 1e9f;
-    float yPixWidth = (tY > 0.0f) ? length(fwidth(yClosest.xz)) : 1.0f;
+    
+    float yPixWidth = (tY > 0.0f) ? length(nearDerivXZ + tY * dirDerivXZ) : 1.0f;
+    
     float yAxisCov = (tY > 0.0f)
                        ? max(0.0f, 1.0f - yDistXZ / max(yPixWidth * AXIS_WIDTH, 1e-6f))
                        : 0.0f;

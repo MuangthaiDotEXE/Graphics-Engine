@@ -10,7 +10,7 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 
 	if (glm::length(position) < 0.0001f)
 	{
-		orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+		front = glm::vec3(0.0f, 0.0f, -1.0f);
 
 		pitch = 0.0f;
 		yaw = -90.0f;
@@ -18,29 +18,27 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		if (rotationMode == RotationMode::QUATERNION)
 		{
 			rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
-
 			yaw = 0.0f;
 		}
 	}
 	else
 	{
-		orientation = glm::normalize(-position);
-
-		pitch = glm::degrees(glm::asin(orientation.y));
+		front = glm::normalize(-position);
+		pitch = glm::degrees(glm::asin(front.y));
 
 		if (rotationMode == RotationMode::EULER)
 		{
-			yaw = glm::degrees(glm::atan(orientation.z, orientation.x));
+			yaw = glm::degrees(glm::atan(front.z, front.x));
 		}
 		else if (rotationMode == RotationMode::QUATERNION)
 		{
-			yaw = glm::degrees(glm::atan(-orientation.x, -orientation.z));
+			yaw = glm::degrees(glm::atan(-front.x, -front.z));
 
 			glm::quat quaternionYaw = glm::angleAxis(glm::radians(yaw), glm::vec3(0.0f, 1.0f, 0.0f));
 			glm::quat quaternionPitch = glm::angleAxis(glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
 
 			rotation = glm::normalize(quaternionYaw * quaternionPitch);
-			orientation = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+			front = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
 		}
 	}
 }
@@ -64,7 +62,7 @@ void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, fl
 
 	if (rotationMode == RotationMode::EULER)
 	{
-		view = glm::lookAt(position, position + orientation, up);
+		view = glm::lookAt(position, position + front, up);
 	}
 	else
 	{
@@ -111,29 +109,37 @@ void Engine::Camera::Input()
 	{
 		/* Keyboard */
 		{
+			glm::vec3 moveDirection(0.0f);
+			glm::vec3 normalizeRight = glm::normalize(glm::cross(front, up));
+
 			if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 			{
-				position += speed * orientation;
+				moveDirection += front;
 			}
 			if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 			{
-				position -= speed * glm::normalize(glm::cross(orientation, up));
+				moveDirection -= normalizeRight;
 			}
 			if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 			{
-				position -= speed * orientation;
+				moveDirection -= front;
 			}
 			if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 			{
-				position += speed * glm::normalize(glm::cross(orientation, up));
+				moveDirection += normalizeRight;
 			}
 			if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 			{
-				position += speed * up;
+				moveDirection += up;
 			}
 			if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
 			{
-				position -= speed * up;
+				moveDirection -= up;
+			}
+
+			if (glm::length(moveDirection) > 0.0001f)
+			{
+				position += speed * glm::normalize(moveDirection);
 			}
 		}
 	
@@ -161,10 +167,10 @@ void Engine::Camera::Input()
 
 				pitch = glm::clamp(pitch, -89.999f, 89.999f);
 
-				orientation.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
-				orientation.y = glm::sin(glm::radians(pitch));
-				orientation.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
-				orientation = glm::normalize(orientation);
+				front.x = glm::cos(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+				front.y = glm::sin(glm::radians(pitch));
+				front.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
+				front = glm::normalize(front);
 			}
 			else if (rotationMode == RotationMode::QUATERNION)
 			{
@@ -177,7 +183,7 @@ void Engine::Camera::Input()
 				glm::quat quaternionPitch = glm::angleAxis(glm::radians(pitch), glm::vec3(1.0f, 0.0f, 0.0f));
 
 				rotation = glm::normalize(quaternionYaw * quaternionPitch);
-				orientation = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+				front = rotation * glm::vec3(0.0f, 0.0f, -1.0f);
 			}
 
 			glfwSetCursorPos(window, (width / 2), (height / 2));

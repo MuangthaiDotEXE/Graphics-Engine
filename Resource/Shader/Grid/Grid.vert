@@ -19,7 +19,7 @@ vec3 Unproject(float x, float y, float z)
 
 void main()
 {
-    nearPoint = Unproject(positions.x, positions.y, 0.0f);
+    nearPoint = Unproject(positions.x, positions.y, -1.0f);
     farPoint = Unproject(positions.x, positions.y, 1.0f);
 
     gl_Position = vec4(positions, 0.0f, 1.0f);
