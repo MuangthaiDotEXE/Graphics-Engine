@@ -16,6 +16,7 @@
 - Simple mesh rendering (Cube, sphere, pyramid, plane, quad and triangle)
 - Simple image texture support (Nearest filter, 4 color channels)
 - Basic 3 dimensional camera system with projections (Perspective and orthographic) and rotations (Euler and quaternion)
+- Simple scenes system with basic skybox support
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
 - Automate libraries package searching
