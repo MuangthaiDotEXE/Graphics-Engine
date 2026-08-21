@@ -149,7 +149,7 @@ void Engine::Sample::Render()
 	}
 
 	sky.shader.Activate();
-	glUniform1i(glGetUniformLocation(sky.shader.programID, "sky"), 0);
+	glUniform1i(glGetUniformLocation(sky.shader.programID, "skySampler"), 0);
 	sky.Render();
 
 	grid.Render();
@@ -195,10 +195,34 @@ void Engine::Sample::Update()
 	glm::mat4 projection = glm::mat4(1.0f);
 
 	glfwGetFramebufferSize(app.window->GetWindow(), &width, &height);
-	view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.front, camera.up)));
-	projection = glm::perspective(glm::radians(fov), (float)width / height, nearPlane, farPlane);
-	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
-	glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+	if (width > 0 && height > 0)
+	{
+		float aspect = (float)width / height;
+
+		if (camera.GetRotationMode() == Camera::RotationMode::EULER)
+		{
+			view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.GetVectorAxis(Camera::VectorAxis::FRONT), camera.GetVectorAxis(Camera::VectorAxis::UP))));
+		}
+		else
+		{
+			view = glm::mat4_cast(glm::conjugate(camera.GetQuaternionRotation())) * glm::translate(glm::mat4(1.0f), -camera.GetPosition());
+		}
+
+		if (camera.GetProjectionMode() == Camera::ProjectionMode::PERSPECTIVE)
+		{
+			projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
+		}
+		else
+		{
+			float halfWidth = camera.GetOrthographicsZoomSize() * aspect;
+			float halfHeight = camera.GetOrthographicsZoomSize();
+
+			projection = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
+		}
+
+		glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
+		glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "projection"), 1, GL_FALSE, glm::value_ptr(projection));
+	}
 
 	sky.Update();
 

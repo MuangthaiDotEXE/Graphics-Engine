@@ -1,0 +1,37 @@
+#include "ModelMesh.h"
+
+Engine::ModelMesh::ModelMesh(const Core::Shader& shader, std::vector<Vertex>& vertices, std::vector<GLuint>& indices, std::optional<std::vector<std::string>> diffuse, std::optional<std::vector<std::string>> specular)
+	: Mesh(shader, vertices, indices, diffuse, specular),
+	indexCount(static_cast<GLsizei>(indices.size()))
+{
+	SetupMesh();
+}
+
+void Engine::ModelMesh::Render()
+{
+	
+}
+
+void Engine::ModelMesh::Update()
+{
+	shader.Activate();
+	diffuse.Bind();
+	specular.Bind();
+	vao.Bind();
+
+	glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+
+	vao.Unbind();
+}
+
+void Engine::ModelMesh::SetupMesh()
+{
+	vao.Bind();
+
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, 11 * sizeof(float), (void*)0);
+	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, 11 * sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, 11 * sizeof(float), (void*)(6 * sizeof(float)));
+	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, 11 * sizeof(float), (void*)(8 * sizeof(float)));
+
+	vao.Unbind();
+}

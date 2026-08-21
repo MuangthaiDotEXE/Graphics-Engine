@@ -1,0 +1,41 @@
+#pragma once
+
+#ifndef MODEL_H
+#define MODEL_H
+
+#include <print>
+#include <string>
+
+#include <glad/gl.h>
+#include <glm/glm.hpp>
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+
+#include "Graphics/Shader/Shader.h"
+
+#include "../Mesh/Mesh.h"
+#include "ModelMesh.h"
+
+namespace Engine
+{
+	class Model
+	{
+	private:
+		Core::Shader shader;
+
+		std::string directory;
+		std::vector<std::unique_ptr<Mesh>> meshes;
+
+	public:
+		Model(const std::string& path, const Core::Shader& shader);
+		virtual ~Model() = default;
+
+	private:
+		void Load(const std::string& path);
+		void ProcessNode(aiNode* node, const aiScene* scene);
+		std::unique_ptr<Mesh> ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	};
+}
+
+#endif

@@ -11,6 +11,10 @@ Core::Model::Model(const Shader& shader, std::string file)
 	TraverseNode(0);
 }
 
+void Core::Model::Update()
+{
+}
+
 void Core::Model::LoadMesh(unsigned int indexMesh)
 {
 	unsigned int positionAccessorIndices = JSON["meshes"][indexMesh]["primitives"][0]["attributes"]["POSITION"];

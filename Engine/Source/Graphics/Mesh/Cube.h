@@ -17,9 +17,6 @@ namespace Engine
 {
 	class Cube : public Mesh
 	{
-	private:
-		std::optional<std::vector<std::string>> diffusePath, specularPath;
-
 	public:
 		Cube(std::optional<std::vector<std::string>> diffuse = std::nullopt, 
 			std::optional<std::vector<std::string>> specular = std::nullopt

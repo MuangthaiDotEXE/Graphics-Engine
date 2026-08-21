@@ -79,9 +79,7 @@ Engine::Sphere::Sphere(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
 	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", sphereVerts, sphereInds, diffuse, specular),
-	indexCount(static_cast<GLsizei>(sphereInds.size())),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	indexCount(static_cast<GLsizei>(sphereInds.size()))
 {
 	Initialize();
 }
@@ -91,9 +89,7 @@ Engine::Sphere::Sphere(const Core::Shader& shader,
 	std::optional<std::vector<std::string>> specular
 )
 	: Mesh(shader, sphereVerts, sphereInds, diffuse, specular),
-	indexCount(static_cast<GLsizei>(sphereInds.size())),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	indexCount(static_cast<GLsizei>(sphereInds.size()))
 {
 	Initialize();
 }
@@ -110,15 +106,15 @@ void Engine::Sphere::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath.has_value() ? GL_TRUE : GL_FALSE);
-	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath.has_value() ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath ? GL_TRUE : GL_FALSE);
 
-	if (diffusePath.has_value())
+	if (diffusePath)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
 	}
-	if (specularPath.has_value())
+	if (specularPath)
 	{
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
@@ -142,11 +138,11 @@ void Engine::Sphere::Initialize()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	if (diffusePath.has_value())
+	if (diffusePath)
 	{
 		diffuse.SetUnit(shader, "diffuseSampler", 0);
 	}
-	if (specularPath.has_value())
+	if (specularPath)
 	{
 		specular.SetUnit(shader, "specularSampler", 1);
 	}

@@ -22,9 +22,7 @@ std::vector<GLuint> quadInds(quadIndices, quadIndices + sizeof(quadIndices) / si
 Engine::Quad::Quad(std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", quadVerts, quadInds, diffuse, specular),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", quadVerts, quadInds, diffuse, specular)
 {
 	Initialize();
 }
@@ -33,9 +31,7 @@ Engine::Quad::Quad(const Core::Shader& shader,
 	std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(shader, quadVerts, quadInds, diffuse, specular),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	: Mesh(shader, quadVerts, quadInds, diffuse, specular)
 {
 	Initialize();
 }
@@ -52,16 +48,16 @@ void Engine::Quad::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath.has_value() ? GL_TRUE : GL_FALSE);
-	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath.has_value() ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath ? GL_TRUE : GL_FALSE);
 
-	if (diffusePath.has_value())
+	if (diffusePath)
 	{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
 	}
 
-	if (specularPath.has_value())
+	if (specularPath)
 	{
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
@@ -85,11 +81,11 @@ void Engine::Quad::Initialize()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	if (diffusePath.has_value())
+	if (diffusePath)
 	{
 		diffuse.SetUnit(shader, "diffuseSampler", 0);
 	}
-	if (specularPath.has_value())
+	if (specularPath)
 	{
 		specular.SetUnit(shader, "specularSampler", 1);
 	}

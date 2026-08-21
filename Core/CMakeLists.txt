@@ -24,8 +24,6 @@ set(SOURCES
 	 "Source/Graphics/Texture/Cubemap.h"
 	 "Source/Graphics/Texture/Cubemap.cpp"
 	 "Source/Graphics/Texture/stb.cpp"
-	 "Source/Graphics/Model/Model.h"
-	 "Source/Graphics/Model/Model.cpp"
 	 "Source/UserInterface/UserInterface.h"
 	 "Source/UserInterface/UserInterface.cpp"
 	 "Source/Utility/Utility.h"

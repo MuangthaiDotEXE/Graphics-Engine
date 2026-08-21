@@ -20,8 +20,6 @@ namespace Engine
 	private:
 		GLsizei indexCount;
 
-		std::optional<std::vector<std::string>> diffusePath, specularPath;
-
 	public:
 		Sphere(std::optional<std::vector<std::string>> diffuse = std::nullopt,
 			std::optional<std::vector<std::string>> specular = std::nullopt

@@ -41,6 +41,8 @@ namespace Engine
 		glm::mat4 view;
 		glm::mat4 projection;
 
+		float orthoZoomSize;
+
 		bool clicked = true;
 
 		int width, height;
@@ -57,24 +59,35 @@ namespace Engine
 		double fps;
 
 	public:
+		enum struct VectorAxis { ORIENTATION, FRONT, RIGHT, UP };
 		enum struct ProjectionMode { PERSPECTIVE, ORTHOGRAPHIC };
 		enum struct RotationMode { EULER, QUATERNION };
 
-	private:
+	public:
 		ProjectionMode projectionMode;
 		RotationMode rotationMode;
 
 	public:
-		Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position);
+		Camera(GLFWwindow* window, 
+			ProjectionMode projectionMode, 
+			RotationMode rotationMode, 
+			glm::vec3 position,
+			float orthoZoomSize = 10.0f
+		);
 		virtual ~Camera();
 
-		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize);
+		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize = 10.0f);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
 		void Input();	// Temporary input. Input class will be added in future update
 
+		glm::vec3 GetVectorAxis(VectorAxis vectorAxis) const;
 		glm::vec3 GetPosition() const;
 		glm::mat4 GetView() const;
 		glm::mat4 GetProjection() const;
+		glm::quat GetQuaternionRotation() const;
+		ProjectionMode GetProjectionMode() const;
+		RotationMode GetRotationMode() const;
+		float GetOrthographicsZoomSize() const;
 		
 	private:
 		void Framerate();

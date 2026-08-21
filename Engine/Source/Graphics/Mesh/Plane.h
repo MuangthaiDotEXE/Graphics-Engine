@@ -16,9 +16,6 @@ namespace Engine
 {
 	class Plane : public Mesh
 	{
-	private:
-		std::optional<std::vector<std::string>> diffusePath, specularPath;
-
 	public:
 		Plane(std::optional<std::vector<std::string>> diffuse = std::nullopt,
 			std::optional<std::vector<std::string>> specular = std::nullopt

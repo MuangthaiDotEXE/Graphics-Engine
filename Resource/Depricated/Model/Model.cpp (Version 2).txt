@@ -1,0 +1,112 @@
+#include "Model.h"
+
+Engine::Model::Model(const std::string& path, const Core::Shader& shader)
+	: shader(shader)
+{
+	Load(path);
+}
+
+void Engine::Model::Load(const std::string& path)
+{
+	Assimp::Importer importer;
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+
+	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	{
+		std::print(stdout, "\033[33m[Warn] Failed to initialize scene: {} (Assimp model import library)\033[0m\n", importer.GetErrorString());
+
+		return;
+	}
+
+	size_t slash = path.find_last_of("/\\");
+	directory = (slash != std::string::npos) ? path.substr(0, slash) : ".";
+
+	ProcessNode(scene->mRootNode, scene);
+}
+
+void Engine::Model::ProcessNode(aiNode* node, const aiScene* scene)
+{
+	for (size_t i = 0; i < node->mNumMeshes; ++i)
+	{
+		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
+		meshes.emplace_back(ProcessMesh(mesh, scene));
+	}
+
+	for (size_t i = 0; i < node->mNumChildren; ++i)
+	{
+		ProcessNode(node->mChildren[i], scene);
+	}
+}
+
+std::unique_ptr<Engine::Mesh> Engine::Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+{
+	std::vector<Vertex> vertices;
+	std::vector<GLuint> indices;
+
+	for (size_t i = 0; i < mesh->mNumVertices; ++i)
+	{
+		Vertex vertex{};
+
+		vertex.position = glm::vec3(mesh->mVertices[i].x, mesh->mVertices[i].y, mesh->mVertices[i].z);
+
+		if (mesh->HasVertexColors(0))
+		{
+			vertex.color = glm::vec3(mesh->mColors[0][i].r, mesh->mColors[0][i].g, mesh->mColors[0][i].b);
+		}
+		else
+		{
+			vertex.color = glm::vec3(1.0f);
+		}
+
+		if (mesh->mTextureCoords[0])
+		{
+			vertex.textureUV = glm::vec2(mesh->mTextureCoords[0][i].x, mesh->mTextureCoords[0][i].y);
+		}
+		else
+		{
+			vertex.textureUV = glm::vec2(0.0f);
+		}
+
+		if (mesh->HasNormals())
+		{
+			vertex.normal = glm::vec3(mesh->mNormals[i].x, mesh->mNormals[i].y, mesh->mNormals[i].z);
+		}
+		else
+		{
+			vertex.normal = glm::vec3(0.0f);
+		}
+
+		vertices.emplace_back(vertex);
+	}
+
+	for (size_t i = 0; i < mesh->mNumFaces; ++i)
+	{
+		aiFace face = mesh->mFaces[i];
+
+		for (size_t j = 0; j < face.mNumIndices; ++j)
+		{
+			indices.emplace_back(face.mIndices[j]);
+		}
+	}
+
+	std::vector<std::string> diffusePaths;
+	std::vector<std::string> specularPaths;
+
+	if (mesh->mMaterialIndex >= 0)
+	{
+		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+
+		for (size_t i = 0; i < material->GetTextureCount(aiTextureType_DIFFUSE); ++i)
+		{
+			aiString str;
+
+			material->GetTexture(aiTextureType_DIFFUSE, i, &str);
+			diffusePaths.emplace_back(directory + "/" + str.C_Str());
+		}
+	}
+
+	std::optional<std::vector<std::string>> diffuseOptional = diffusePaths.empty() ? std::nullopt : std::make_optional(diffusePaths);
+	std::optional<std::vector<std::string>> specularOptional = specularPaths.empty() ? std::nullopt : std::make_optional(specularPaths);
+
+	return std::make_unique<ModelMesh>(shader, vertices, indices, diffuseOptional, specularOptional);
+}

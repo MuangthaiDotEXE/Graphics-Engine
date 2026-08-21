@@ -25,7 +25,9 @@ Engine::Mesh::Mesh(const std::string& vertexShader,
 	vbo(vertices), 
 	ebo(indices), 
 	diffuse(std::move(diffuse), "diffuse", 0),
-	specular(std::move(specular), "specular", 1)
+	specular(std::move(specular), "specular", 1),
+	diffusePath(diffuse.has_value()),
+	specularPath(specular.has_value())
 {
 }
 
@@ -40,6 +42,8 @@ Engine::Mesh::Mesh(const Core::Shader& shader,
 	vbo(vertices), 
 	ebo(indices), 
 	diffuse(std::move(diffuse), "diffuse", 0),
-	specular(std::move(specular), "specular", 1)
+	specular(std::move(specular), "specular", 1),
+	diffusePath(diffuse.has_value()),
+	specularPath(specular.has_value())
 {
 }

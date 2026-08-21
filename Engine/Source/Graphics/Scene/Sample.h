@@ -24,6 +24,7 @@
 #include "../Mesh/Plane.h"
 #include "../Mesh/Quad.h"
 #include "../Mesh/Triangle.h"
+#include "../Model/Model.h"
 #include "../Light/Light.h"
 #include "../Camera/Camera.h"
 #include "../Sky/Sky.h"

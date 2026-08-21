@@ -1,7 +1,7 @@
 #include "Camera.h"
 
-Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position)
-	: window(window), projectionMode(projectionMode), rotationMode(rotationMode), position(position)
+Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position, float orthoZoomSize)
+	: window(window), projectionMode(projectionMode), rotationMode(rotationMode), position(position), orthoZoomSize(orthoZoomSize)
 {
 	if (rotationMode == RotationMode::QUATERNION)
 	{
@@ -47,8 +47,10 @@ Engine::Camera::~Camera()
 {
 }
 
-void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize = 10.0f)
+void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize)
 {
+	orthoZoomSize = orthoZoomSize;
+
 	view = glm::mat4(1.0f);
 	projection = glm::mat4(1.0f);
 
@@ -196,6 +198,18 @@ void Engine::Camera::Input()
 	}
 }
 
+glm::vec3 Engine::Camera::GetVectorAxis(VectorAxis vectorAxis) const
+{
+	switch (vectorAxis)
+	{
+	case VectorAxis::ORIENTATION: return orientation;
+	case VectorAxis::FRONT: return front;
+	case VectorAxis::RIGHT: return right;
+	case VectorAxis::UP: return up;
+	default: return glm::vec3(0.0f, 0.0f, 0.0f);
+	}
+}
+
 glm::vec3 Engine::Camera::GetPosition() const
 {
 	return position;
@@ -209,6 +223,26 @@ glm::mat4 Engine::Camera::GetView() const
 glm::mat4 Engine::Camera::GetProjection() const
 {
 	return projection;
+}
+
+glm::quat Engine::Camera::GetQuaternionRotation() const
+{
+	return rotation;
+}
+
+Engine::Camera::ProjectionMode Engine::Camera::GetProjectionMode() const
+{
+	return projectionMode;
+}
+
+Engine::Camera::RotationMode Engine::Camera::GetRotationMode() const
+{
+	return rotationMode;
+}
+
+float Engine::Camera::GetOrthographicsZoomSize() const
+{
+	return orthoZoomSize;
 }
 
 void Engine::Camera::Framerate()

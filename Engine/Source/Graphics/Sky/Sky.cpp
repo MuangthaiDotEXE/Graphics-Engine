@@ -32,13 +32,13 @@ GLuint skyIndices[] =
 	5, 4, 1,
 	1, 0, 5,
 
-	// Back face
-	0, 1, 2,
-	2, 3, 0,
-
 	// Front face
 	4, 5, 6,
-	6, 7, 4
+	6, 7, 4,
+
+	// Back face
+	0, 1, 2,
+	2, 3, 0
 };
 
 Engine::Sky::Sky(std::optional<std::vector<std::string>> cubemaps)
@@ -69,7 +69,9 @@ void Engine::Sky::Update()
 {
 	vao.Bind();
 	cubemap.Bind();
+
 	glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+	
 	vao.Unbind();
 }
 

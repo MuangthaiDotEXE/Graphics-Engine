@@ -30,6 +30,9 @@ namespace Engine
 
 		std::string name = "Mesh";
 
+	protected:
+		bool diffusePath, specularPath;
+
 	public:
 		struct Transform
 		{

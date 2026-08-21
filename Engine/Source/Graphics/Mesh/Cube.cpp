@@ -67,9 +67,7 @@ std::vector<GLuint> cubeInds(cubeIndices, cubeIndices + sizeof(cubeIndices) / si
 Engine::Cube::Cube(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", cubeVerts, cubeInds, diffuse, specular),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	: Mesh(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag", cubeVerts, cubeInds, std::move(diffuse), std::move(specular))
 {
 	Initialize();
 }
@@ -78,9 +76,7 @@ Engine::Cube::Cube(const Core::Shader& shader,
 	std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
 )
-	: Mesh(shader, cubeVerts, cubeInds, diffuse, specular),
-	diffusePath(std::move(diffuse)),
-	specularPath(std::move(specular))
+	: Mesh(shader, cubeVerts, cubeInds, std::move(diffuse), std::move(specular))
 {
 	Initialize();
 }
@@ -97,17 +93,17 @@ void Engine::Cube::Update()
 	shader.Activate();
 	vao.Bind();
 
-	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath.has_value() ? GL_TRUE : GL_FALSE);
-	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath.has_value() ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath ? GL_TRUE : GL_FALSE);
+	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath ? GL_TRUE : GL_FALSE);
 
 	for (size_t i = 0; i < 6; ++i)
 	{
-		if (diffusePath.has_value())
+		if (diffusePath)
 		{
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
 		}
-		if (specularPath.has_value())
+		if (specularPath)
 		{
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
@@ -132,11 +128,11 @@ void Engine::Cube::Initialize()
 	vbo.Unbind();
 	ebo.Unbind();
 
-	if (diffusePath.has_value())
+	if (diffusePath)
 	{
 		diffuse.SetUnit(shader, "diffuseSampler", 0);
 	}
-	if (specularPath.has_value())
+	if (specularPath)
 	{
 		specular.SetUnit(shader, "specularSampler", 1);
 	}
