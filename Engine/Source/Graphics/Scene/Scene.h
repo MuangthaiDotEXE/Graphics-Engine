@@ -11,6 +11,9 @@ namespace Engine
 {
 	class Scene
 	{
+	public:
+		glm::vec3 skyColor = glm::vec3(0.529f, 0.808f, 0.922f);
+
 	protected:
 		Core::App& app;
 
@@ -20,6 +23,9 @@ namespace Engine
 
 		virtual void Render() = 0;
 		virtual void Update() = 0;
+
+		virtual GLuint GetViewportTexture() const = 0;
+		virtual glm::vec2 GetViewportSize() const = 0;
 	};
 }
 

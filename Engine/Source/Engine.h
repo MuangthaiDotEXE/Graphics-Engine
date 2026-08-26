@@ -24,6 +24,7 @@ namespace Engine
 		std::unique_ptr<Core::UserInterface> ui;
 
 		Sample* sample;
+		World* world;
 
 	public:
 		Engine(const Core::AppData& appData);

@@ -1,5 +1,24 @@
 #include "Sample.h"
 
+static const std::array<std::string, 6> prototypeTexture
+{
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png",    // Front face
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png",    // Right face
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png",    // Back face
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png",    // Left face
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png",    // Bottom face
+	ProjectDirectory "/Asset/Texture/Prototype_Texture.png"     // Top face
+};
+
+static const std::array<std::string, 6> prototypeSpecular
+{
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png",    // Front face
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png",    // Right face
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png",    // Back face
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png",    // Left face
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png",    // Bottom face
+	ProjectDirectory "/Asset/Specular/Prototype_Texture_specular.png"     // Top face
+};
 static const std::array<std::string, 6> cubeTexture
 {
 	ProjectDirectory "/Asset/Texture/Red_Brick_Texture.png",    // Front face
@@ -65,12 +84,17 @@ Engine::Sample::Sample(Core::App& app)
 	grid(), 
 	objects(), 
 	lights(), 
+	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
 	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
 	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
-	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f)),
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
 	fbo(app.window->GetFramebufferSize())
 {
+	auto prototype = std::make_unique<Cube>(meshShader, std::vector<std::string>(prototypeTexture.begin(), prototypeTexture.end()), std::vector<std::string>(prototypeSpecular.begin(), prototypeSpecular.end()));
+	prototype->name = "Prototype";
+	prototype->transform.position = glm::vec3(-5.0f, 1.0f, 5.0f);
+	objects.emplace_back(std::move(prototype));
+
 	auto cube = std::make_unique<Cube>(meshShader, std::vector<std::string>(cubeTexture.begin(), cubeTexture.end()), std::vector<std::string>(cubeSpecular.begin(), cubeSpecular.end()));
 	cube->name = "Cube";
 	cube->transform.position = glm::vec3(-5.0f, 1.0f, 0.0f);
@@ -142,8 +166,8 @@ void Engine::Sample::Render()
 		
 		glUniform4f(glGetUniformLocation(mesh->shader.programID, "lightColor"), lightColor.r, lightColor.g, lightColor.b, lightColor.w);
 		glUniform3f(glGetUniformLocation(mesh->shader.programID, "lightPosition"), lightPosition.x, lightPosition.y, lightPosition.z);
-		glUniform1f(glGetUniformLocation(mesh->shader.programID, "nearPlane"), nearPlane);
-		glUniform1f(glGetUniformLocation(mesh->shader.programID, "farPlane"), farPlane);
+		glUniform1f(glGetUniformLocation(mesh->shader.programID, "nearPlane"), camera.GetNearPlane());
+		glUniform1f(glGetUniformLocation(mesh->shader.programID, "farPlane"), camera.GetFarPlane());
 
 		mesh->Render();
 	}
@@ -157,35 +181,6 @@ void Engine::Sample::Render()
 
 void Engine::Sample::Update()
 {
-	//glm::vec2 windowSize = app.window->GetFramebufferSize();
-	//fbo.Resize(windowSize);
-
-	//fbo.Bind();
-
-	camera.UpdateMatrix(fov, nearPlane, farPlane, 2.5f);
-	camera.Input();
-
-	for (auto& light : lights)
-	{
-		light->shader.Activate();
-		glUniformMatrix4fv(glGetUniformLocation(light->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(light->transform.GetMatrix()));
-		
-		camera.Matrix(light->shader, "cameraMatrix");
-
-		light->Update();
-	}
-	
-	for (auto& mesh : objects)
-	{
-		mesh->shader.Activate();
-		glUniformMatrix4fv(glGetUniformLocation(mesh->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(mesh->transform.GetMatrix()));
-		
-		glUniform3f(glGetUniformLocation(mesh->shader.programID, "cameraPosition"), camera.position.x, camera.position.y, camera.position.z);
-		camera.Matrix(mesh->shader, "cameraMatrix");
-
-		mesh->Update();
-	}
-
 	glDepthFunc(GL_LEQUAL);
 
 	sky.shader.Activate();
@@ -210,14 +205,14 @@ void Engine::Sample::Update()
 
 		if (camera.GetProjectionMode() == Camera::ProjectionMode::PERSPECTIVE)
 		{
-			projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
+			projection = glm::perspective(glm::radians(camera.GetFieldOfView()), aspect, camera.GetNearPlane(), camera.GetFarPlane());
 		}
 		else
 		{
-			float halfWidth = camera.GetOrthographicsZoomSize() * aspect;
-			float halfHeight = camera.GetOrthographicsZoomSize();
+			float halfWidth = camera.GetOrthographicZoomSize() * aspect;
+			float halfHeight = camera.GetOrthographicZoomSize();
 
-			projection = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
+			projection = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, camera.GetNearPlane(), camera.GetFarPlane());
 		}
 
 		glUniformMatrix4fv(glGetUniformLocation(sky.shader.programID, "view"), 1, GL_FALSE, glm::value_ptr(view));
@@ -228,10 +223,37 @@ void Engine::Sample::Update()
 
 	glDepthFunc(GL_LESS);
 
+	//glm::vec2 windowSize = app.window->GetFramebufferSize();
+	//fbo.Resize(windowSize);
+
+	//fbo.Bind();
+
+	camera.Input();
+	camera.UpdateMatrix(70.0f, 0.001f, 1000.0f, 2.5f);
+
+	for (auto& light : lights)
+	{
+		light->shader.Activate();
+		glUniformMatrix4fv(glGetUniformLocation(light->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(light->transform.GetMatrix()));
+		camera.Matrix(light->shader, "cameraMatrix");
+
+		light->Update();
+	}
+	
+	for (auto& mesh : objects)
+	{
+		mesh->shader.Activate();
+		glUniformMatrix4fv(glGetUniformLocation(mesh->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(mesh->transform.GetMatrix()));
+		glUniform3f(glGetUniformLocation(mesh->shader.programID, "cameraPosition"), camera.GetPosition().x, camera.GetPosition().y, camera.GetPosition().z);
+		camera.Matrix(mesh->shader, "cameraMatrix");
+
+		mesh->Update();
+	}
+
 	grid.view = camera.GetView();
 	grid.projection = camera.GetProjection();
-	grid.nearPlane = nearPlane;
-	grid.farPlane = farPlane;
+	grid.nearPlane = camera.GetNearPlane();
+	grid.farPlane = camera.GetFarPlane();
 	grid.Update();
 
 	//fbo.Unbind();

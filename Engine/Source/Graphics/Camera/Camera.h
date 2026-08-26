@@ -22,17 +22,15 @@ namespace Engine
 {
 	class Camera
 	{
-	public:
+	private:
 		glm::vec3 orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-		glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);  
+		glm::vec3 front = glm::vec3(0.0f, 0.0f, -1.0f);
 		glm::vec3 right = glm::vec3(1.0f, 0.0f, 0.0f);
 		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 		glm::vec3 position;
 
-	private:
 		glm::mat4 cameraMatrix = glm::mat4(1.0f);
-
 		glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 
 		float pitch = 0.0f;
@@ -41,7 +39,8 @@ namespace Engine
 		glm::mat4 view;
 		glm::mat4 projection;
 
-		float orthoZoomSize;
+		float fov, nearPlane, farPlane;
+		float orthographicZoomSize = 10.0f;
 
 		bool clicked = true;
 
@@ -72,14 +71,20 @@ namespace Engine
 			ProjectionMode projectionMode, 
 			RotationMode rotationMode, 
 			glm::vec3 position,
-			float orthoZoomSize = 10.0f
+			float fov, 
+			float nearPlane, 
+			float farPlane,
+			float orthographicZoomSize = 10.0f
 		);
 		virtual ~Camera();
 
-		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize = 10.0f);
+		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthographicZoomSize = 10.0f);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);
 		void Input();	// Temporary input. Input class will be added in future update
 
+		float GetFieldOfView() const;
+		float GetNearPlane() const;
+		float GetFarPlane() const;
 		glm::vec3 GetVectorAxis(VectorAxis vectorAxis) const;
 		glm::vec3 GetPosition() const;
 		glm::mat4 GetView() const;
@@ -87,7 +92,7 @@ namespace Engine
 		glm::quat GetQuaternionRotation() const;
 		ProjectionMode GetProjectionMode() const;
 		RotationMode GetRotationMode() const;
-		float GetOrthographicsZoomSize() const;
+		float GetOrthographicZoomSize() const;
 		
 	private:
 		void Framerate();

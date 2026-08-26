@@ -1,9 +1,18 @@
 #include "Camera.h"
 
-Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position, float orthoZoomSize)
-	: window(window), projectionMode(projectionMode), rotationMode(rotationMode), position(position), orthoZoomSize(orthoZoomSize)
+Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position, float fov, float nearPlane, float farPlane, float orthographicZoomSize)
+	: window(window), 
+	projectionMode(projectionMode), 
+	rotationMode(rotationMode), 
+	position(position), 
+	fov(fov),
+	nearPlane(nearPlane),
+	farPlane(farPlane),
+	orthographicZoomSize(orthographicZoomSize)
 {
-	if (rotationMode == RotationMode::QUATERNION)
+	glfwGetFramebufferSize(window, &width, &height);
+
+	if (GetRotationMode() == RotationMode::QUATERNION)
 	{
 		std::print(stdout, "\033[33m[Warn] Quaternion rotation is currently not working properly. Please use Euler rotation if possible (GLM math library)\033[0m\n");
 	}
@@ -15,7 +24,7 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		pitch = 0.0f;
 		yaw = -90.0f;
 
-		if (rotationMode == RotationMode::QUATERNION)
+		if (GetRotationMode() == RotationMode::QUATERNION)
 		{
 			rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 			yaw = 0.0f;
@@ -26,11 +35,11 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		front = glm::normalize(-position);
 		pitch = glm::degrees(glm::asin(front.y));
 
-		if (rotationMode == RotationMode::EULER)
+		if (GetRotationMode() == RotationMode::EULER)
 		{
 			yaw = glm::degrees(glm::atan(front.z, front.x));
 		}
-		else if (rotationMode == RotationMode::QUATERNION)
+		else if (GetRotationMode() == RotationMode::QUATERNION)
 		{
 			yaw = glm::degrees(glm::atan(-front.x, -front.z));
 
@@ -47,22 +56,25 @@ Engine::Camera::~Camera()
 {
 }
 
-void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthoZoomSize)
+void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthographicZoomSize)
 {
-	orthoZoomSize = orthoZoomSize;
+	this->fov = fov;
+	this->nearPlane = nearPlane;
+	this->farPlane = farPlane;
+	this->orthographicZoomSize = orthographicZoomSize;
 
 	view = glm::mat4(1.0f);
 	projection = glm::mat4(1.0f);
 
 	glfwGetFramebufferSize(window, &width, &height);
-	if (width == 0 || height == 0)
+	if (width <= 0 || height <= 0)
 	{
 		return;
 	}
 
 	float aspect = (float)width / (float)height;
 
-	if (rotationMode == RotationMode::EULER)
+	if (GetRotationMode() == RotationMode::EULER)
 	{
 		view = glm::lookAt(position, position + front, up);
 	}
@@ -70,14 +82,14 @@ void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, fl
 	{
 		view = glm::mat4_cast(glm::conjugate(rotation)) * glm::translate(glm::mat4(1.0f), -position);
 	}
-	if (projectionMode == ProjectionMode::PERSPECTIVE)
+	if (GetProjectionMode() == ProjectionMode::PERSPECTIVE)
 	{
 		projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
 	}
 	else
 	{
-		float halfWidth = orthoZoomSize * aspect;
-		float halfHeight = orthoZoomSize;
+		float halfWidth = orthographicZoomSize * aspect;
+		float halfHeight = orthographicZoomSize;
 
 		projection = glm::ortho(-halfWidth, halfWidth, -halfHeight, halfHeight, nearPlane, farPlane);
 	}
@@ -162,7 +174,7 @@ void Engine::Camera::Input()
 			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			if (rotationMode == RotationMode::EULER)
+			if (GetRotationMode() == RotationMode::EULER)
 			{
 				pitch -= rotateX;
 				yaw += rotateY;
@@ -174,7 +186,7 @@ void Engine::Camera::Input()
 				front.z = glm::sin(glm::radians(yaw)) * glm::cos(glm::radians(pitch));
 				front = glm::normalize(front);
 			}
-			else if (rotationMode == RotationMode::QUATERNION)
+			else
 			{
 				pitch -= rotateX;
 				yaw -= rotateY;
@@ -196,6 +208,21 @@ void Engine::Camera::Input()
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		clicked = true;
 	}
+}
+
+float Engine::Camera::GetFieldOfView() const
+{
+	return fov;
+}
+
+float Engine::Camera::GetNearPlane() const
+{
+	return nearPlane;
+}
+
+float Engine::Camera::GetFarPlane() const
+{
+	return farPlane;
 }
 
 glm::vec3 Engine::Camera::GetVectorAxis(VectorAxis vectorAxis) const
@@ -240,9 +267,9 @@ Engine::Camera::RotationMode Engine::Camera::GetRotationMode() const
 	return rotationMode;
 }
 
-float Engine::Camera::GetOrthographicsZoomSize() const
+float Engine::Camera::GetOrthographicZoomSize() const
 {
-	return orthoZoomSize;
+	return orthographicZoomSize;
 }
 
 void Engine::Camera::Framerate()

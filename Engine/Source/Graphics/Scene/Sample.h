@@ -43,13 +43,9 @@ namespace Engine
 		std::vector<std::unique_ptr<Mesh>> objects;
 		std::vector<std::unique_ptr<Light>> lights;
 
-		float fov = 70.0f, nearPlane = 0.001f, farPlane = 1000.0f;
-
 	public:
 		Grid grid;
 		Camera camera;
-
-		glm::vec3 skyColor = glm::vec3(0.529f, 0.808f, 0.922f);
 
 	public:
 		Sample(Core::App& app);
@@ -58,8 +54,8 @@ namespace Engine
 		void Render() override;
 		void Update() override;
 
-		GLuint GetViewportTexture() const;
-		glm::vec2 GetViewportSize() const;
+		GLuint GetViewportTexture() const override;
+		glm::vec2 GetViewportSize() const override;
 	};
 }
 

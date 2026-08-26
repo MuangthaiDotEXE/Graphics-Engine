@@ -8,7 +8,7 @@ Engine::Engine::Engine(const Core::AppData& appData)
 	sample = dynamic_cast<Sample*>(scene.get());
 	if (sample)
 	{
-		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), sample->skyColor);
+		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), scene->skyColor);
 	}
 }
 
@@ -35,7 +35,7 @@ void Engine::Engine::Update()
 		if (sample)
 		{
 			ui->coordinate = sample->camera.GetPosition();
-			//ui->ViewportWindow(world->GetViewportTexture(), world->GetViewportSize());
+			//ui->ViewportWindow(sample->GetViewportTexture(), sample->GetViewportSize());
 		}
 
 		ui->EndFrame();
