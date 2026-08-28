@@ -16,7 +16,7 @@
 - Simple mesh rendering (Cube, sphere, pyramid, plane, quad and triangle)
 - Simple image texture support (Nearest filter, 4 color channels)
 - Basic 3 dimensional camera system with projections (Perspective and orthographic) and rotations (Euler and quaternion)
-- Simple scenes system with basic skybox support
+- Simple scenes system with basic skybox support using cubemaps
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
 - Automate libraries package searching
@@ -39,12 +39,14 @@
 <div align="center">
 	<img src="Asset/Image/Engine.png" alt="Graphics Engine">
 </div>
-Screenshot taken: 2026-08-06 15:59:30 UTC (2026-08-06T15:59:30Z)
+Screenshot taken: 2026-08-28 15:40:48 UTC (2026-08-28T15:40:48Z)
 
 ### How to use
 - Clone the repository using `git clone` command
 - Run `Build.py` using Python. For platform specific, run `Build.bat` (Microsoft Windows) or  `Build.sh` (Unix/Linux)
 - Once the project is successfully built, it should be ready to go
+- Use argument `-opengl` or `-vulkan` to switch between openGL and Vulkan graphics API
+- Use argument `--reset-window` to reset window values back to their default value
 
 ### Contributing
 - For further details about contributions. Please check [CONTRIBUTING.md](CONTRIBUTING.md)

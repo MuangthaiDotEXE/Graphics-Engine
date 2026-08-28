@@ -81,12 +81,12 @@ static const std::array<std::string, 6> skyCubemap
 
 Engine::Sample::Sample(Core::App& app)
 	: Scene(app), 
+	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
+	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
+	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
 	grid(), 
 	objects(), 
 	lights(), 
-	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
-	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
-	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
 	fbo(app.window->GetFramebufferSize())
 {
@@ -145,6 +145,10 @@ Engine::Sample::~Sample()
 
 void Engine::Sample::Render()
 {
+	sky.shader.Activate();
+	glUniform1i(glGetUniformLocation(sky.shader.programID, "skySampler"), 0);
+	sky.Render();
+
 	glm::vec4 lightColor = glm::vec4(0.0f);
 	glm::vec3 lightPosition = glm::vec3(0.0f);
 
@@ -171,10 +175,6 @@ void Engine::Sample::Render()
 
 		mesh->Render();
 	}
-
-	sky.shader.Activate();
-	glUniform1i(glGetUniformLocation(sky.shader.programID, "skySampler"), 0);
-	sky.Render();
 
 	grid.Render();
 }
@@ -257,6 +257,11 @@ void Engine::Sample::Update()
 	grid.Update();
 
 	//fbo.Unbind();
+}
+
+Engine::Camera Engine::Sample::GetCamera() const
+{
+	return camera;
 }
 
 GLuint Engine::Sample::GetViewportTexture() const

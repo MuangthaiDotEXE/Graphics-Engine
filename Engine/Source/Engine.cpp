@@ -34,8 +34,8 @@ void Engine::Engine::Update()
 
 		if (sample)
 		{
-			ui->coordinate = sample->camera.GetPosition();
-			//ui->ViewportWindow(sample->GetViewportTexture(), sample->GetViewportSize());
+			ui->coordinate = scene->GetCamera().GetPosition();
+			//ui->ViewportWindow(scene->GetViewportTexture(), scene->GetViewportSize());
 		}
 
 		ui->EndFrame();

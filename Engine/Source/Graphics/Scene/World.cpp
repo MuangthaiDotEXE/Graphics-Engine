@@ -12,9 +12,10 @@ static const std::array<std::string, 6> skyCubemap
 
 Engine::World::World(Core::App& app)
 	: Scene(app),
-	grid(),
+	sky(std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
 	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
-	sky(std::vector<std::string>(skyCubemap.begin(), skyCubemap.end()))
+	grid(),
+	fbo(app.window->GetFramebufferSize())
 {
 }
 
@@ -81,12 +82,17 @@ void Engine::World::Update()
 	grid.Update();
 }
 
+Engine::Camera Engine::World::GetCamera() const
+{
+	return camera;
+}
+
 GLuint Engine::World::GetViewportTexture() const
 {
-	return GLuint();
+	return fbo.GetColorTexture();
 }
 
 glm::vec2 Engine::World::GetViewportSize() const
 {
-	return glm::vec2();
+	return fbo.GetSize();
 }

@@ -16,6 +16,8 @@
 #include "App.h"
 
 #include "Scene.h"
+#include "../Sky/Sky.h"
+#include "../Camera/Camera.h"
 #include "../Grid/Grid.h"
 #include "../Mesh/Mesh.h"
 #include "../Mesh/Cube.h"
@@ -26,8 +28,6 @@
 #include "../Mesh/Triangle.h"
 #include "../Model/Model.h"
 #include "../Light/Light.h"
-#include "../Camera/Camera.h"
-#include "../Sky/Sky.h"
 
 namespace Engine
 {
@@ -39,13 +39,11 @@ namespace Engine
 		Core::FBO fbo;
 
 		Sky sky;
+		Camera camera;
+		Grid grid;
 
 		std::vector<std::unique_ptr<Mesh>> objects;
 		std::vector<std::unique_ptr<Light>> lights;
-
-	public:
-		Grid grid;
-		Camera camera;
 
 	public:
 		Sample(Core::App& app);
@@ -54,6 +52,7 @@ namespace Engine
 		void Render() override;
 		void Update() override;
 
+		Camera GetCamera() const override;
 		GLuint GetViewportTexture() const override;
 		glm::vec2 GetViewportSize() const override;
 	};

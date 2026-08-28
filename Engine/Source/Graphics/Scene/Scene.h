@@ -6,6 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "App.h"
+#include "../Camera/Camera.h"
 
 namespace Engine
 {
@@ -24,6 +25,7 @@ namespace Engine
 		virtual void Render() = 0;
 		virtual void Update() = 0;
 
+		virtual Camera GetCamera() const = 0;
 		virtual GLuint GetViewportTexture() const = 0;
 		virtual glm::vec2 GetViewportSize() const = 0;
 	};
