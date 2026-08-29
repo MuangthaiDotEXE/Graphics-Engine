@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		Engine::Engine engine(engineData);
+		Engine::Engine engine(engineData, Engine::SceneType::SAMPLE);
 
 		initializeTime.Stop();
 #ifndef NDEBUG

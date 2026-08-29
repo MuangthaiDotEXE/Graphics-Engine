@@ -21,16 +21,16 @@ Core::App::App(const AppData& appData)
 {
 	app = this;
 
-	if (!this->appData.appName.empty() || !this->appData.version.empty())
-	{
-		this->appData.windowData.title = this->appData.appName + " " + version;
-		title = this->appData.appName;
-	}
-
 	// version system: major, minor, patch (Semantic versioning)
 	if (!appData.version.empty())
 	{
 		version = std::format("v{}.{}.{}{} {} Build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, GetDevelopmentStage(), appData.buildNumber);
+	}
+
+	if (!appData.appName.empty() || !appData.version.empty())
+	{
+		this->appData.windowData.title = appData.appName;
+		title = appData.appName;
 	}
 
 	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
@@ -70,10 +70,15 @@ void Core::App::Update()
 	graphics->ViewportResize();
 }
 
-Core::App& Core::App::GetApplication()
+void Core::App::PrintGraphicsInformation()
 {
-	assert(app);
-	return *app;
+	std::print(stdout, R"([Info] Graphics device information:
+	> Vendor:           {}
+	> Renderer:         {}
+	> Version:          {}
+	> Shading language: {}
+)",
+	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
 }
 
 void Core::App::Quit()
@@ -81,7 +86,7 @@ void Core::App::Quit()
 	window->Close();
 }
 
-std::string Core::App::GetConfigurations()
+std::string Core::App::GetConfigurations() const
 {
 #ifdef NDEBUG
 	return "Release";
@@ -132,18 +137,17 @@ std::string Core::App::GetGraphicsAPI()
 	}
 }
 
-void Core::App::PrintGraphicsInformation()
+std::string Core::App::GetTitle() const
 {
-	std::print(stdout, R"([Info] Graphics device information:
-	> Vendor:           {}
-	> Renderer:         {}
-	> Version:          {}
-	> Shading language: {}
-)",
-	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
+	return title;
 }
 
-std::string Core::App::GetDevelopmentStage()
+std::array<unsigned int, 3> Core::App::GetVersion() const
+{
+	return appData.version;
+}
+
+std::string Core::App::GetDevelopmentStage() const
 {
 	switch (appData.developmentStage)
 	{
@@ -153,4 +157,10 @@ std::string Core::App::GetDevelopmentStage()
 	case AppData::DevelopmentStage::RELEASE: return "Release";
 	default: return "";
 	}
+}
+
+Core::App& Core::App::GetApplication()
+{
+	assert(app);
+	return *app;
 }

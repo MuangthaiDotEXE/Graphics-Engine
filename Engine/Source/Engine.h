@@ -15,6 +15,12 @@
 
 namespace Engine
 {
+	enum class SceneType
+	{
+		SAMPLE,
+		WORLD
+	};
+
 	class Engine
 	{
 	private:
@@ -26,12 +32,20 @@ namespace Engine
 		Sample* sample;
 		World* world;
 
+		SceneType activeSceneType;
+
 	public:
-		Engine(const Core::AppData& appData);
+		Engine(const Core::AppData& appData, SceneType initialSceneType = SceneType::SAMPLE);
 		virtual ~Engine();
 
 		void Render();
 		void Update();
+
+		void SwitchScene(SceneType sceneType);
+
+	private:
+		std::unique_ptr<Scene> CreateScene(SceneType sceneType);
+		void InitializeScene(SceneType sceneType);
 	};
 }
 

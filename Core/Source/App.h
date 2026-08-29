@@ -70,13 +70,15 @@ namespace Core
 		void Render();
 		void Update();
 
-		std::string GetConfigurations();
-		std::string GetGraphicsAPI();
 		void PrintGraphicsInformation();
-		std::string GetDevelopmentStage();
-
-		static App& GetApplication();
 		void Quit();
+
+		std::string GetConfigurations() const;
+		std::string GetGraphicsAPI();
+		std::string GetTitle() const;
+		std::array<unsigned int, 3> GetVersion() const;
+		std::string GetDevelopmentStage() const;
+		static App& GetApplication();
 	};
 }
 
