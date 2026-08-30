@@ -62,7 +62,6 @@ namespace Engine
 		enum struct ProjectionMode { PERSPECTIVE, ORTHOGRAPHIC };
 		enum struct RotationMode { EULER, QUATERNION };
 
-	public:
 		ProjectionMode projectionMode;
 		RotationMode rotationMode;
 

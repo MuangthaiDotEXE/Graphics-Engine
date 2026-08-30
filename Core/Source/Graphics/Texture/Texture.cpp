@@ -29,7 +29,11 @@ Core::Texture::Texture(std::optional<std::vector<std::string>> textures, const s
 
 Core::Texture::~Texture()
 {
-	Delete();
+	if (!textureID.empty())
+	{
+		glDeleteTextures(static_cast<GLsizei>(textureID.size()), textureID.data());
+		textureID.clear();
+	}
 }
 
 void Core::Texture::SetUnit(Shader& shader, const std::string& uniform, GLuint unit)
@@ -48,15 +52,6 @@ void Core::Texture::Bind(size_t index)
 void Core::Texture::Unbind()
 {
 	glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void Core::Texture::Delete()
-{
-	if (!textureID.empty())
-	{
-		glDeleteTextures(static_cast<GLsizei>(textureID.size()), textureID.data());
-		textureID.clear();
-	}
 }
 
 size_t Core::Texture::GetSize() const

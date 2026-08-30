@@ -24,11 +24,11 @@ namespace Engine
 		glm::mat4 view = glm::mat4(1.0f);
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		float nearPlane = 0.001f, farPlane = 1000.0f;
+		float nearPlane, farPlane;
 
 	public:
-		Grid();
-		Grid(const Core::Shader& shader);
+		Grid(float nearPlane = 0.001f, float farPlane = 1000.0f);
+		Grid(const Core::Shader& shader, float nearPlane = 0.001f, float farPlane = 1000.0f);
 		virtual ~Grid() = default;
 
 		void Render();

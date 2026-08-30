@@ -14,7 +14,7 @@ Engine::World::World(Core::App& app)
 	: Scene(app),
 	sky(std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
 	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
-	grid(),
+	grid(camera.GetNearPlane(), camera.GetFarPlane()),
 	fbo(app.window->GetFramebufferSize())
 {
 }

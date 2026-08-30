@@ -24,7 +24,6 @@ namespace Core
 		GLuint unit;
 
 	public:
-		Texture() = default;
 		Texture(std::optional<std::string> texture, const std::string& type, GLuint slot);
 		Texture(std::optional<std::vector<std::string>> textures, const std::string& type, GLuint slot);
 		virtual ~Texture();
@@ -32,7 +31,6 @@ namespace Core
 		void SetUnit(Shader& shader, const std::string& uniform, GLuint unit);
 		void Bind(size_t index = 0);
 		void Unbind();
-		void Delete();
 
 		GLuint GetID(size_t index = 0) const;
 		size_t GetSize() const;

@@ -24,7 +24,7 @@ namespace Core
 
 	public:
 		Cubemap(std::optional<std::vector<std::string>> cubemaps, std::string type);
-		virtual ~Cubemap() = default;
+		virtual ~Cubemap();
 
 		void Bind();
 		void Unbind();

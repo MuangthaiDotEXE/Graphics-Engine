@@ -84,7 +84,7 @@ Engine::Sample::Sample(Core::App& app)
 	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
 	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
 	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
-	grid(), 
+	grid(camera.GetNearPlane(), camera.GetFarPlane()), 
 	objects(), 
 	lights(), 
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),

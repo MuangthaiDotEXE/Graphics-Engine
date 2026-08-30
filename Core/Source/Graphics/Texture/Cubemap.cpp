@@ -24,7 +24,7 @@ Core::Cubemap::Cubemap(std::optional<std::vector<std::string>> cubemaps, std::st
 			unsigned char* image = stbi_load((*cubemaps)[i].c_str(), &width, &height, &colorChannels, 0);
 			if (!image)
 			{
-				throw std::runtime_error(std::format("Failed to load texture with path: {} (STB image library)\n", (*cubemaps)[i]));
+				throw std::runtime_error(std::format("Failed to load cubemap with path: {} (STB image library)\n", (*cubemaps)[i]));
 			}
 
 			stbi_set_flip_vertically_on_load(false);
@@ -33,6 +33,13 @@ Core::Cubemap::Cubemap(std::optional<std::vector<std::string>> cubemaps, std::st
 			stbi_image_free(image);
 		}
 	}
+
+	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+}
+
+Core::Cubemap::~Cubemap()
+{
+	glDeleteTextures(1, &cubemapID);
 }
 
 void Core::Cubemap::Bind()

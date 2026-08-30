@@ -11,18 +11,22 @@ static GLfloat gridVertices[] =
 	-1.0f,  1.0f
 };
 
-Engine::Grid::Grid()
+Engine::Grid::Grid(float nearPlane, float farPlane)
 	: shader(ProjectDirectory "/Resource/Shader/Grid/Grid.vert", ProjectDirectory "/Resource/Shader/Grid/Grid.frag"),
 	vao(),  
-	vbo(gridVertices, sizeof(gridVertices))
+	vbo(gridVertices, sizeof(gridVertices)),
+	nearPlane(nearPlane),
+	farPlane(farPlane)
 {
 	Initialize();
 }
 
-Engine::Grid::Grid(const Core::Shader& shader)
+Engine::Grid::Grid(const Core::Shader& shader, float nearPlane, float farPlane)
 	: shader(shader),
 	vao(), 
-	vbo(gridVertices, sizeof(gridVertices))
+	vbo(gridVertices, sizeof(gridVertices)),
+	nearPlane(nearPlane),
+	farPlane(farPlane)
 {
 	Initialize();
 }

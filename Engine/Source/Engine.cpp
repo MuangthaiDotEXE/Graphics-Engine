@@ -28,7 +28,6 @@ void Engine::Engine::Update()
 
 		ui->coordinate = scene->GetCamera().GetPosition();
 		//ui->ViewportWindow(scene->GetViewportTexture(), scene->GetViewportSize());
-		
 
 		ui->EndFrame();
 		app.Update();

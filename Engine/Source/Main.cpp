@@ -38,7 +38,7 @@ int main(int argc, char** argv)
 
 	try
 	{
-		for (size_t i = 0; i < argc; i++)
+		for (size_t i = 0; i < argc; ++i)
 		{
 			if (std::string(argv[i]) == "-opengl")
 			{
