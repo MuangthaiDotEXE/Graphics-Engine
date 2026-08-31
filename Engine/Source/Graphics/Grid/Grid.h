@@ -33,6 +33,11 @@ namespace Engine
 
 		void Render();
 		void Update();
+
+		void SetView(glm::mat4 view);
+		void SetProjection(glm::mat4 projection);
+		void SetNearPlane(float nearPlane);
+		void SetFarPlane(float farPlane);
 	
 	private:
 		void Initialize();

@@ -33,12 +33,13 @@ Engine::Grid::Grid(const Core::Shader& shader, float nearPlane, float farPlane)
 
 void Engine::Grid::Render()
 {
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void Engine::Grid::Update()
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	shader.Activate();
 	vao.Bind();
 
@@ -51,6 +52,26 @@ void Engine::Grid::Update()
 
 	vao.Unbind();
 	glDisable(GL_BLEND);
+}
+
+void Engine::Grid::SetView(glm::mat4 view)
+{
+	this->view = view;
+}
+
+void Engine::Grid::SetProjection(glm::mat4 projection)
+{
+	this->projection = projection;
+}
+
+void Engine::Grid::SetNearPlane(float nearPlane)
+{
+	this->nearPlane = nearPlane;
+}
+
+void Engine::Grid::SetFarPlane(float farPlane)
+{
+	this->farPlane = farPlane;
 }
 
 void Engine::Grid::Initialize()

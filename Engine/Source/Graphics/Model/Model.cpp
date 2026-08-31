@@ -32,10 +32,10 @@ Engine::Model::SubMesh::SubMesh(std::vector<Vertex>& vertices,
 	vbo.Bind();
 	ebo.Bind();
 
-	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, position));
-	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, color));
-	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, textureUV));
-	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+	vao.LinkAttributes(vbo, 0, 3, GL_FLOAT, sizeof(float), (void*)0);
+	vao.LinkAttributes(vbo, 1, 3, GL_FLOAT, sizeof(float), (void*)(3 * sizeof(float)));
+	vao.LinkAttributes(vbo, 2, 2, GL_FLOAT, sizeof(float), (void*)(6 * sizeof(float)));
+	vao.LinkAttributes(vbo, 3, 3, GL_FLOAT, sizeof(float), (void*)(8 * sizeof(float)));
 
 	vao.Unbind();
 	vbo.Unbind();

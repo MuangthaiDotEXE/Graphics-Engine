@@ -223,6 +223,12 @@ void Engine::Sample::Update()
 
 	glDepthFunc(GL_LESS);
 
+	grid.SetView(camera.GetView());
+	grid.SetProjection(camera.GetProjection());
+	grid.SetNearPlane(camera.GetNearPlane());
+	grid.SetFarPlane(camera.GetFarPlane());
+	grid.Update();
+
 	//glm::vec2 windowSize = app.window->GetFramebufferSize();
 	//fbo.Resize(windowSize);
 
@@ -249,12 +255,6 @@ void Engine::Sample::Update()
 
 		mesh->Update();
 	}
-
-	grid.view = camera.GetView();
-	grid.projection = camera.GetProjection();
-	grid.nearPlane = camera.GetNearPlane();
-	grid.farPlane = camera.GetFarPlane();
-	grid.Update();
 
 	//fbo.Unbind();
 }
