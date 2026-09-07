@@ -19,16 +19,16 @@
 - Simple scenes system with basic skybox support using cubemaps
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering
-- Automate libraries package searching
+- Automate libraries package searching and installation
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
-- Add and update Vulkan graphics API rendering
+- Add basic and advanced Vulkan graphics API rendering
 - Add support for multiple graphics API rendering (OpenGL, Vulkan, Direct3D, Metal, etc.)
 - Add advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
-- Add audio system using openAL
-- Fully automate libraries package finding and installation with CMake
+- Add audio system using openAL audio library
+- Fully automate more advanced libraries package finding and installation with CMake
 
 ### Minimum Requirements
 - [C++23](https://cppreference.com/cpp/23)
