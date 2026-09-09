@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CUBEMAP_H
-#define CUBEMAP_H
+#ifndef CORE_CUBEMAP_H
+#define CORE_CUBEMAP_H
 
 #include <string>
 #include <format>

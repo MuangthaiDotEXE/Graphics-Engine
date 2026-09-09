@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef USERINTERFACE_H
-#define USERINTERFACE_H
+#ifndef CORE_USERINTERFACE_H
+#define CORE_USERINTERFACE_H
 
 #include <cstdio>
 #include <print>
@@ -50,8 +50,7 @@ namespace Core
 
 	private:
 		void DockSpace();
-
-		void DevWindow();
+		void DeveloperWindow();
 	};
 }
 

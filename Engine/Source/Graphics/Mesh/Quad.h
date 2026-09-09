@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef QUAD_H
-#define QUAD_H
+#ifndef ENGINE_QUAD_H
+#define ENGINE_QUAD_H
 
 #include <string>
 #include <array>

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef EBO_H
-#define EBO_H
+#ifndef CORE_EBO_H
+#define CORE_EBO_H
 
 #include <vector>
 

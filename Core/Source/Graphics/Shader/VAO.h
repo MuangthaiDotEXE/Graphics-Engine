@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef VAO_H
-#define VAO_H
+#ifndef CORE_VAO_H
+#define CORE_VAO_H
 
 #include <glad/gl.h>
 

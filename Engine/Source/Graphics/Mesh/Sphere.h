@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SPHERE_H
-#define SPHERE_H
+#ifndef ENGINE_SPHERE_H
+#define ENGINE_SPHERE_H
 
 #include <string>
 #include <cmath>

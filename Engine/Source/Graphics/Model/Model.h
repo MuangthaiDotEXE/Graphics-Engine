@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef ENGINE_MODEL_H
+#define ENGINE_MODEL_H
 
 #include <print>
 #include <string>

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef UTILITY_H
-#define UTILITY_H
+#ifndef CORE_UTILITY_H
+#define CORE_UTILITY_H
 
 #include <string>
 #include <sstream>

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SAMPLE_H
-#define SAMPLE_H
+#ifndef ENGINE_SAMPLE_H
+#define ENGINE_SAMPLE_H
 
 #include <array>
 #include <vector>

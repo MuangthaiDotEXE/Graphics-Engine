@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef OPENGL_API_H
-#define OPENGL_API_H
+#ifndef CORE_OPENGL_API_H
+#define CORE_OPENGL_API_H
 
 #include <stdexcept>
 

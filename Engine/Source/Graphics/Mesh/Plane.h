@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef PLANE_H
-#define PLANE_H
+#ifndef ENGINE_PLANE_H
+#define ENGINE_PLANE_H
 
 #include <string>
 #include <array>

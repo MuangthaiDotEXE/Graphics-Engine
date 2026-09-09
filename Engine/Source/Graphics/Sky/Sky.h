@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SKY_H
-#define SKY_H
+#ifndef ENGINE_SKY_H
+#define ENGINE_SKY_H
 
 #include <string>
 #include <format>

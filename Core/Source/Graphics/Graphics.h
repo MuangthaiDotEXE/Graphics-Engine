@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef CORE_GRAPHICS_H
+#define CORE_GRAPHICS_H
 
 #include <GLFW/glfw3.h>
 

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef FBO_H
-#define FBO_H
+#ifndef CORE_FBO_H
+#define CORE_FBO_H
 
 #include <stdexcept>
 

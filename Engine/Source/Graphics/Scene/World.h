@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef WORLD_H
-#define WORLD_H
+#ifndef ENGINE_WORLD_H
+#define ENGINE_WORLD_H
 
 #include "Graphics/Shader/FBO.h"
 #include "App.h"

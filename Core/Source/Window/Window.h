@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef CORE_WINDOW_H
+#define CORE_WINDOW_H
 
 #include <iostream>
 #include <print>

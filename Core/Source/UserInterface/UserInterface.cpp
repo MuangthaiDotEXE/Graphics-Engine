@@ -180,7 +180,7 @@ void Core::UserInterface::DockSpace()
 	ImGui::End();
 }
 
-void Core::UserInterface::DevWindow()
+void Core::UserInterface::DeveloperWindow()
 {
 	ImGui::ShowAboutWindow();
 	ImGui::ShowDemoWindow();

@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CAMERA_H
-#define CAMERA_H
+#ifndef ENGINE_CAMERA_H
+#define ENGINE_CAMERA_H
 
 #include <string>
 

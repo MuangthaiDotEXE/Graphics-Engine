@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef ENGINE_TIMER_H
+#define ENGINE_TIMER_H
 
 #include <chrono>
 

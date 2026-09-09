@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef CORE_TEXTURE_H
+#define CORE_TEXTURE_H
 
 #include <string>
 #include <format>

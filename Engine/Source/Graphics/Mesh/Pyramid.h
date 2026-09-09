@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef PYRAMID_H
-#define PYRAMID_H
+#ifndef ENGINE_PYRAMID_H
+#define ENGINE_PYRAMID_H
 
 #include <string>
 #include <array>

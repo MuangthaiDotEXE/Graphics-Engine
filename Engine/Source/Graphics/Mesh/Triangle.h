@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef TRIANGLE_H
-#define TRIANGLE_H
+#ifndef ENGINE_TRIANGLE_H
+#define ENGINE_TRIANGLE_H
 
 #include <string>
 #include <array>

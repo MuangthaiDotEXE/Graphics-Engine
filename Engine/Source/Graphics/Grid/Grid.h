@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef GRID_H
-#define GRID_H
+#ifndef ENGINE_GRID_H
+#define ENGINE_GRID_H
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>

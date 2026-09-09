@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef CUBE_H
-#define CUBE_H
+#ifndef ENGINE_CUBE_H
+#define ENGINE_CUBE_H
 
 #include <string>
 #include <array>

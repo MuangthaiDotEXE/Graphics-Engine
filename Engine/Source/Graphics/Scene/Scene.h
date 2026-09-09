@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef SCENE_H
-#define SCENE_H
+#ifndef ENGINE_SCENE_H
+#define ENGINE_SCENE_H
 
 #include <GLFW/glfw3.h>
 
