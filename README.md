@@ -14,11 +14,11 @@
 - Multi-platform windowing system
 - 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light)
 - Simple mesh rendering (Cube, sphere, pyramid, plane, quad and triangle)
-- Simple image texture support (Nearest filter, 4 color channels)
+- Simple image texture support (PNG/JPG file format, Nearest filter, 4 color channels)
 - Basic 3 dimensional camera system with projections (Perspective and orthographic) and rotations (Euler and quaternion)
 - Simple scenes system with basic skybox support using cubemaps
 - Basic input system for controlling window and graphics rendering
-- Simple user interface rendering
+- Simple user interface rendering with functional texts and buttons
 - Automate libraries package searching and installation
 
 ### Future Plans
@@ -28,7 +28,7 @@
 - Add advanced user interface with Dear ImGui
 - Add advanced and flexible input system with mouse and keyboard input
 - Add audio system using openAL audio library
-- Fully automate more advanced libraries package finding and installation with CMake
+- Fully automate improved libraries package finding and installation using CMake
 
 ### Minimum Requirements
 - [C++23](https://cppreference.com/cpp/23)
@@ -52,7 +52,7 @@ Screenshot taken: 2026-08-28 15:40:48 UTC (2026-08-28T15:40:48Z)
 - For further details about contributions. Please check [CONTRIBUTING.md](CONTRIBUTING.md)
 
 ### Credits
-- This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them
+- This Graphics Engine project follows [VictorGordan's Youtube OpenGL tutorial playlist](https://youtube.com/playlist?list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-&si=UxJGYZ8omvecyZBD) and [LearnOpenGL tutorial](https://learnopengl.com/). Huge shoutout to them!
 - For more details about contributors and their roles. Please check out [CREDITS.md](CREDITS.md)
 
 ### License
