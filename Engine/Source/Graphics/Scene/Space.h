@@ -1,7 +1,7 @@
 #pragma once
 
-#ifndef ENGINE_SAMPLE_H
-#define ENGINE_SAMPLE_H
+#ifndef ENGINE_SPACE_H
+#define ENGINE_SPACE_H
 
 #include <array>
 #include <vector>
@@ -17,37 +17,29 @@
 
 #include "Scene.h"
 #include "../Sky/Sky.h"
-#include "../Grid/Grid.h"
 #include "../Object/Camera/Camera.h"
 #include "../Object/Mesh/Mesh.h"
-#include "../Object/Mesh/Cube.h"
 #include "../Object/Mesh/Sphere.h"
-#include "../Object/Mesh/Pyramid.h"
-#include "../Object/Mesh/Plane.h"
-#include "../Object/Mesh/Quad.h"
-#include "../Object/Mesh/Triangle.h"
-#include "../Object/Model/Model.h"
 #include "../Object/Light/Light.h"
 
 namespace Engine
 {
-	class Sample : public Scene
+	class Space : public Scene
 	{
 	private:
-		Core::Shader meshShader;
-		Core::Shader skyShader;
+		Core::Shader planetShader;
+		Core::Shader spaceShader;
 		Core::FBO fbo;
 
-		Sky sky;
+		Sky space;
 		Camera camera;
-		Grid grid;
 
-		std::vector<std::unique_ptr<Mesh>> meshes;
-		std::vector<std::unique_ptr<Light>> lights;
+		std::vector<std::unique_ptr<Mesh>> planets;
+		std::vector<std::unique_ptr<Light>> stars;
 
 	public:
-		Sample(Core::App& app);
-		virtual ~Sample() = default;
+		Space(Core::App& app);
+		virtual ~Space() = default;
 
 		void Render() override;
 		void Update() override;

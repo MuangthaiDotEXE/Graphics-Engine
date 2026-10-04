@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "App.h"
-#include "../Camera/Camera.h"
+#include "../Object/Camera/Camera.h"
 
 namespace Engine
 {

@@ -57,20 +57,22 @@ glm::mat4 Engine::Light::Transform::GetMatrix() const
 	return matrix;
 }
 
-Engine::Light::Light()
+Engine::Light::Light(bool visible)
 	: shader(ProjectDirectory "/Resource/Shader/Light/Light.vert", ProjectDirectory "/Resource/Shader/Light/Light.frag"), 
 	vao(), 
 	vbo(lightVerts), 
-	ebo(lightInds)
+	ebo(lightInds),
+	visible(visible)
 {
 	Initialize();
 }
 
-Engine::Light::Light(const Core::Shader& shader)
+Engine::Light::Light(const Core::Shader& shader, bool visible)
 	: shader(shader),
 	vao(),
 	vbo(lightVerts),
-	ebo(lightInds)
+	ebo(lightInds),
+	visible(visible)
 {
 	Initialize();
 }
@@ -91,7 +93,10 @@ void Engine::Light::Update()
 	shader.Activate();
 	vao.Bind();
 
-	//glDrawElements(GL_TRIANGLES, lightInds.size(), GL_UNSIGNED_INT, 0);
+	if (visible)
+	{
+		glDrawElements(GL_TRIANGLES, lightInds.size(), GL_UNSIGNED_INT, 0);
+	}
 }
 
 void Engine::Light::Initialize()

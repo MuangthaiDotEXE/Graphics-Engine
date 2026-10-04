@@ -28,6 +28,8 @@ namespace Engine
 		std::string type;
 		glm::vec4 color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
+		bool visible;
+
 	public:
 		struct Transform
 		{
@@ -41,8 +43,8 @@ namespace Engine
 		Transform transform;
 
 	public:
-		Light();
-		Light(const Core::Shader& shader);
+		Light(bool visible = true);
+		Light(const Core::Shader& shader, bool visible = true);
 		virtual ~Light();
 
 		void Render();

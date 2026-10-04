@@ -50,6 +50,7 @@ std::unique_ptr<Engine::Scene> Engine::Engine::CreateScene(SceneType sceneType)
 	{
 	case SceneType::SAMPLE: return std::make_unique<Sample>(app);
 	case SceneType::WORLD: return std::make_unique<World>(app);
+	case SceneType::SPACE: return std::make_unique<Space>(app);
 	}
 
 	return nullptr;
@@ -62,6 +63,7 @@ void Engine::Engine::InitializeScene(SceneType sceneType)
 
 	sample = dynamic_cast<Sample*>(scene.get());
 	world = dynamic_cast<World*>(scene.get());
+	space = dynamic_cast<Space*>(scene.get());
 
 	if (!ui)
 	{

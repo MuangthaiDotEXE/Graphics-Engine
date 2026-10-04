@@ -2,12 +2,12 @@
 
 static const std::array<std::string, 6> skyCubemap
 {
-	ProjectDirectory "/Asset/Cubemap/Right.png",     // Right face
-	ProjectDirectory "/Asset/Cubemap/Left.png",      // Left face
-	ProjectDirectory "/Asset/Cubemap/Top.png",       // Top face
-	ProjectDirectory "/Asset/Cubemap/Bottom.png",    // Bottom face
-	ProjectDirectory "/Asset/Cubemap/Front.png",     // Front face
-	ProjectDirectory "/Asset/Cubemap/Back.png"       // Back face
+	ProjectDirectory "/Asset/Cubemap/Sky/Right.png",     // Right face
+	ProjectDirectory "/Asset/Cubemap/Sky/Left.png",      // Left face
+	ProjectDirectory "/Asset/Cubemap/Sky/Top.png",       // Top face
+	ProjectDirectory "/Asset/Cubemap/Sky/Bottom.png",    // Bottom face
+	ProjectDirectory "/Asset/Cubemap/Sky/Front.png",     // Front face
+	ProjectDirectory "/Asset/Cubemap/Sky/Back.png"       // Back face
 };
 
 Engine::World::World(Core::App& app)

@@ -8,8 +8,8 @@
 
 #include "Scene.h"
 #include "../Sky/Sky.h"
-#include "../Camera/Camera.h"
 #include "../Grid/Grid.h"
+#include "../Object/Camera/Camera.h"
 
 namespace Engine
 {

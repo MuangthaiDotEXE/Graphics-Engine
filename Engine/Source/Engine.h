@@ -12,13 +12,15 @@
 #include "Graphics/Scene/Scene.h"
 #include "Graphics/Scene/Sample.h"
 #include "Graphics/Scene/World.h"
+#include "Graphics/Scene/Space.h"
 
 namespace Engine
 {
 	enum class SceneType
 	{
 		SAMPLE,
-		WORLD
+		WORLD,
+		SPACE
 	};
 
 	class Engine
@@ -31,6 +33,7 @@ namespace Engine
 
 		Sample* sample;
 		World* world;
+		Space* space;
 
 		SceneType activeSceneType;
 

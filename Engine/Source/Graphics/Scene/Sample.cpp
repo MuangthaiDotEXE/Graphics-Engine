@@ -71,12 +71,12 @@ static const std::string triangleSpecular = ProjectDirectory "/Asset/Specular/Pu
 
 static const std::array<std::string, 6> skyCubemap
 {
-	ProjectDirectory "/Asset/Cubemap/Right.png",     // Right face
-	ProjectDirectory "/Asset/Cubemap/Left.png",      // Left face
-	ProjectDirectory "/Asset/Cubemap/Top.png",       // Top face
-	ProjectDirectory "/Asset/Cubemap/Bottom.png",    // Bottom face
-	ProjectDirectory "/Asset/Cubemap/Front.png",     // Front face
-	ProjectDirectory "/Asset/Cubemap/Back.png"       // Back face
+	ProjectDirectory "/Asset/Cubemap/Sky/Right.png",     // Right face
+	ProjectDirectory "/Asset/Cubemap/Sky/Left.png",      // Left face
+	ProjectDirectory "/Asset/Cubemap/Sky/Top.png",       // Top face
+	ProjectDirectory "/Asset/Cubemap/Sky/Bottom.png",    // Bottom face
+	ProjectDirectory "/Asset/Cubemap/Sky/Front.png",     // Front face
+	ProjectDirectory "/Asset/Cubemap/Sky/Back.png"       // Back face
 };
 
 Engine::Sample::Sample(Core::App& app)
@@ -85,62 +85,58 @@ Engine::Sample::Sample(Core::App& app)
 	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
 	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
 	grid(camera.GetNearPlane(), camera.GetFarPlane()), 
-	objects(), 
-	lights(), 
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
+	meshes(), 
+	lights(), 
 	fbo(app.window->GetFramebufferSize())
 {
 	auto prototype = std::make_unique<Cube>(meshShader, std::vector<std::string>(prototypeTexture.begin(), prototypeTexture.end()), std::vector<std::string>(prototypeSpecular.begin(), prototypeSpecular.end()));
 	prototype->name = "Prototype";
 	prototype->transform.position = glm::vec3(-5.0f, 1.0f, 5.0f);
-	objects.emplace_back(std::move(prototype));
+	meshes.emplace_back(std::move(prototype));
 
 	auto cube = std::make_unique<Cube>(meshShader, std::vector<std::string>(cubeTexture.begin(), cubeTexture.end()), std::vector<std::string>(cubeSpecular.begin(), cubeSpecular.end()));
 	cube->name = "Cube";
 	cube->transform.position = glm::vec3(-5.0f, 1.0f, 0.0f);
-	objects.emplace_back(std::move(cube));
+	meshes.emplace_back(std::move(cube));
 
 	auto pyramid = std::make_unique<Pyramid>(meshShader, std::vector<std::string>(pyramidTexture.begin(), pyramidTexture.end()), std::vector<std::string>(pyramidSpecular.begin(), pyramidSpecular.end()));
 	pyramid->name = "Pyramid";
 	pyramid->transform.position = glm::vec3(0.0f, 1.0f, -5.0f);
-	objects.emplace_back(std::move(pyramid));
+	meshes.emplace_back(std::move(pyramid));
 
 	auto sphere = std::make_unique<Sphere>(meshShader, std::vector<std::string>{ sphereTexture }, std::vector<std::string>{ sphereSpecular });
 	sphere->name = "Sphere";
 	sphere->transform.position = glm::vec3(0.0f, 1.0f, 0.0f);
-	objects.emplace_back(std::move(sphere));
+	meshes.emplace_back(std::move(sphere));
 
 	auto plane = std::make_unique<Plane>(meshShader, std::vector<std::string>{ planeTexture }, std::vector<std::string>{ planeSpecular });
 	plane->name = "Plane";
 	plane->transform.position = glm::vec3(5.0f, 1.0f, 0.0f);
-	objects.emplace_back(std::move(plane));
+	meshes.emplace_back(std::move(plane));
 
 	auto quad = std::make_unique<Quad>(meshShader, std::vector<std::string>{ quadTexture }, std::vector<std::string>{ quadSpecular });
 	quad->name = "Quad";
 	quad->transform.position = glm::vec3(5.0f, 1.0f, -5.0f);
-	objects.emplace_back(std::move(quad));
+	meshes.emplace_back(std::move(quad));
 
 	auto triangle = std::make_unique<Triangle>(meshShader, std::vector<std::string>{ triangleTexture }, std::vector<std::string>{triangleSpecular });
 	triangle->name = "Triangle";
 	triangle->transform.position = glm::vec3(-5.0f, 1.0f, -5.0f);
-	objects.emplace_back(std::move(triangle));
+	meshes.emplace_back(std::move(triangle));
 
 	auto floor = std::make_unique<Plane>(meshShader);
 	floor->name = "Floor";
 	floor->transform.scale = glm::vec3(10.0f, 10.0f, 10.0f);
-	objects.emplace_back(std::move(floor));
+	meshes.emplace_back(std::move(floor));
 
-	auto light = std::make_unique<Light>();
+	auto light = std::make_unique<Light>(false);
 	light->name = "Light";
 	light->type = "Point light";
 	light->color = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 	light->transform.position = glm::vec3(0.0f, 3.5f, 0.0f);
 	light->transform.scale = glm::vec3(0.25f);
 	lights.emplace_back(std::move(light));
-}
-
-Engine::Sample::~Sample()
-{
 }
 
 void Engine::Sample::Render()
@@ -164,7 +160,7 @@ void Engine::Sample::Render()
 		light->Render();
 	}
 
-	for (auto& mesh : objects)
+	for (auto& mesh : meshes)
 	{
 		mesh->shader.Activate();
 		
@@ -246,7 +242,7 @@ void Engine::Sample::Update()
 		light->Update();
 	}
 	
-	for (auto& mesh : objects)
+	for (auto& mesh : meshes)
 	{
 		mesh->shader.Activate();
 		glUniformMatrix4fv(glGetUniformLocation(mesh->shader.programID, "model"), 1, GL_FALSE, glm::value_ptr(mesh->transform.GetMatrix()));
