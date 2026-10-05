@@ -22,12 +22,11 @@ void Engine::Engine::Update()
 	while (!app.window->ShouldClose())
 	{
 		ui->BeginFrame();
-		ui->Update();
-
-		scene->Update();
-
 		ui->coordinate = scene->GetCamera().GetPosition();
+		
+		ui->Update();
 		//ui->ViewportWindow(scene->GetViewportTexture(), scene->GetViewportSize());
+		scene->Update();
 
 		ui->EndFrame();
 		app.Update();
@@ -60,13 +59,9 @@ void Engine::Engine::InitializeScene(SceneType sceneType)
 {
 	activeSceneType = sceneType;
 	scene = CreateScene(sceneType);
+	ui = std::make_unique<UserInterface::Default>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), scene->skyColor);
 
 	sample = dynamic_cast<Sample*>(scene.get());
 	world = dynamic_cast<World*>(scene.get());
 	space = dynamic_cast<Space*>(scene.get());
-
-	if (!ui)
-	{
-		ui = std::make_unique<Core::UserInterface>(app.window.get(), app.title, app.version, app.GetGraphicsAPI(), scene->skyColor);
-	}
 }

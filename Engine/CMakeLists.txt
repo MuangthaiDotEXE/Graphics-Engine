@@ -36,6 +36,8 @@ set(SOURCES
 	"Source/Graphics/Object/Camera/Camera.cpp"
 	"Source/Graphics/Object/Light/Light.h"
 	"Source/Graphics/Object/Light/Light.cpp"
+	"Source/UserInterface/Default.h"
+	"Source/UserInterface/Default.cpp"
 )
 
 add_executable(Engine)

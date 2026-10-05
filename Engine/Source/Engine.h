@@ -13,6 +13,7 @@
 #include "Graphics/Scene/Sample.h"
 #include "Graphics/Scene/World.h"
 #include "Graphics/Scene/Space.h"
+#include "UserInterface/Default.h"
 
 namespace Engine
 {
@@ -29,11 +30,13 @@ namespace Engine
 		Core::App app;
 
 		std::unique_ptr<Scene> scene;
-		std::unique_ptr<Core::UserInterface> ui;
+		std::unique_ptr<Core::UserInterface::UserInterface> ui;
 
 		Sample* sample;
 		World* world;
 		Space* space;
+
+		UserInterface::Default* defaultUI;
 
 		SceneType activeSceneType;
 

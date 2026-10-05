@@ -23,35 +23,36 @@
 
 namespace Core
 {
-	class UserInterface
+	namespace UserInterface
 	{
-	private:
-		std::string title, version, graphicsAPI;
-		Window* window;
+		class UserInterface
+		{
+		protected:
+			std::string title, version, graphicsAPI;
+			Window* window;
 
-		glm::vec3 skyColor;
+			glm::vec3 skyColor;
 
-		bool vSync;
+			bool vSync;
 
-	public:
-		glm::vec3 coordinate;
+		public:
+			glm::vec3 coordinate;
 
-	public:
-		UserInterface(Window* window, const std::string& title, const std::string& version, const std::string& graphicsAPI, const glm::vec3& skyColor);
-		virtual ~UserInterface();
+		public:
+			UserInterface(Window* window, 
+				const std::string& title, 
+				const std::string& version, 
+				const std::string& graphicsAPI, 
+				const glm::vec3& skyColor
+			);
+			virtual ~UserInterface();
 
-		void Render();
-		void BeginFrame();
-		void Update();
-		void EndFrame();
-
-		void DebugWindow();
-		void ViewportWindow(GLuint textureID, glm::vec2 size);
-
-	private:
-		void DockSpace();
-		void DeveloperWindow();
-	};
+			virtual void Render();
+			virtual void BeginFrame();
+			virtual void Update();
+			virtual void EndFrame();
+		};
+	}
 }
 
 #endif
