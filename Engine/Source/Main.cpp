@@ -28,6 +28,7 @@ int main(int argc, char** argv)
 	engineData.appName = "Graphics Engine";
 	engineData.engineName = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
+	engineData.subVersion = "";
 	engineData.developmentStage = Core::AppData::DevelopmentStage::ALPHA;
 	engineData.buildNumber = 1;
 	engineData.windowData.width = 854u;
@@ -57,6 +58,16 @@ int main(int argc, char** argv)
 			if (std::string(argv[i]) == "--console")
 			{
 				// Add console window controlling
+			}
+
+			if (std::string(argv[i]) == "--print")
+			{
+				std::println(stdout, "{}\n", std::string(argv[i + 1]));
+			}
+
+			if (std::string(argv[i]) == "--version")
+			{
+				std::println(stdout, "{}\n", engineData.GetVersion());
 			}
 		}
 

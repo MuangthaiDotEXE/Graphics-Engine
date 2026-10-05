@@ -42,6 +42,8 @@ namespace Core
 			RELEASE
 		};
 		DevelopmentStage developmentStage = DevelopmentStage::ALPHA;
+
+		std::string GetVersion() const;
 	};
 	
 	class App

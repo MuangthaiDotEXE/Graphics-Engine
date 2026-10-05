@@ -16,6 +16,29 @@ std::string operatingSystem = "Unknown";
 
 static Core::App* app = nullptr;
 
+std::string Core::AppData::GetVersion() const
+{
+	auto appStage = [](DevelopmentStage developmentStage) -> std::string
+		{
+			switch (developmentStage)
+			{
+			case DevelopmentStage::ALPHA: return "Alpha";
+			case DevelopmentStage::BETA: return "Beta";
+			case DevelopmentStage::RELEASE_CANDIDATE: return "Release candidate";
+			case DevelopmentStage::RELEASE: return "Release";
+			default: return "Unknown";
+			}
+		};
+
+	std::string appTitle;
+	if (!appName.empty() || !version.empty())
+	{
+		appTitle = appName;
+	}
+
+	return std::format("{} v{}.{}.{}{} {} Build {}", appTitle, version[0], version[1], version[2], subVersion, appStage(developmentStage), buildNumber);
+}
+
 Core::App::App(const AppData& appData)
 	: appData(appData), running(true)
 {
@@ -155,7 +178,7 @@ std::string Core::App::GetDevelopmentStage() const
 	case AppData::DevelopmentStage::BETA: return "Beta";
 	case AppData::DevelopmentStage::RELEASE_CANDIDATE: return "Release candidate";
 	case AppData::DevelopmentStage::RELEASE: return "Release";
-	default: return "";
+	default: return "Unknown";
 	}
 }
 
