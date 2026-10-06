@@ -16,6 +16,8 @@ set(SOURCES
 	"Source/Graphics/Scene/World.cpp"
 	"Source/Graphics/Scene/Space.h"
 	"Source/Graphics/Scene/Space.cpp"
+	"Source/Graphics/Object/Object.h"
+	"Source/Graphics/Object/Object.cpp"
 	"Source/Graphics/Object/Mesh/Mesh.h"
 	"Source/Graphics/Object/Mesh/Mesh.cpp"
 	"Source/Graphics/Object/Mesh/Cube.h"

@@ -45,12 +45,12 @@ namespace Core
 				const std::string& graphicsAPI, 
 				const glm::vec3& skyColor
 			);
-			virtual ~UserInterface();
+			virtual ~UserInterface() = default;
 
-			virtual void Render();
-			virtual void BeginFrame();
-			virtual void Update();
-			virtual void EndFrame();
+			virtual void Render() = 0;
+			virtual void BeginFrame() = 0;
+			virtual void Update() = 0;
+			virtual void EndFrame() = 0;
 		};
 	}
 }
