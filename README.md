@@ -14,11 +14,11 @@
 - Multi-platform windowing system
 - 3 dimensional OpenGL graphics API rendering system with simple lighting (Directional light, spot light and point light)
 - Simple mesh rendering (Cube, sphere, pyramid, plane, quad and triangle)
-- Simple image texture support (PNG/JPG file format, Nearest filter, 4 color channels)
+- Simple image texture support (PNG/JPG file format and nearest filter with support up to 4 color channels)
 - Basic 3 dimensional camera system with projections (Perspective and orthographic) and rotations (Euler and quaternion)
 - Simple scenes system with basic skybox support using cubemaps
 - Basic input system for controlling window and graphics rendering
-- Simple user interface rendering with functional texts and buttons
+- Simple user interface rendering with texts and buttons
 - Automate libraries package searching and installation
 
 ### Future Plans
