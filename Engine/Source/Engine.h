@@ -4,9 +4,12 @@
 #define ENGINE_H
 
 #include <optional>
+#include <vector>
 
 #include <glad/gl.h>
 
+#include "UserInterface/UserInterface.h"
+#include "UserInterface/Layer.h"
 #include "App.h"
 
 #include "Graphics/Scene/Scene.h"
@@ -14,6 +17,7 @@
 #include "Graphics/Scene/World.h"
 #include "Graphics/Scene/Space.h"
 #include "UserInterface/Default.h"
+#include "UserInterface/Hierarchy.h"
 
 namespace Engine
 {
@@ -28,15 +32,15 @@ namespace Engine
 	{
 	private:
 		Core::App app;
+		Core::UserInterface::Layer uiLayer;
 
 		std::unique_ptr<Scene> scene;
-		std::unique_ptr<Core::UserInterface::UserInterface> ui;
+		std::vector<std::unique_ptr<Core::UserInterface::UserInterface>> uis;
+		UserInterface::Default* defaultUI = nullptr;
 
 		Sample* sample;
 		World* world;
 		Space* space;
-
-		UserInterface::Default* defaultUI;
 
 		SceneType activeSceneType;
 
@@ -48,6 +52,7 @@ namespace Engine
 		void Update();
 
 		void SwitchScene(SceneType sceneType);
+		void CreateUIs();
 
 	private:
 		std::unique_ptr<Scene> CreateScene(SceneType sceneType);

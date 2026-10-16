@@ -43,16 +43,16 @@ namespace Core
 		};
 		DevelopmentStage developmentStage = DevelopmentStage::ALPHA;
 
+		std::string GetTitle() const;
 		std::string GetVersion() const;
 	};
 	
 	class App
 	{
-	private:
+	public:
 		AppData appData;
 		bool running;
-		
-	public:
+
 		std::string title = "";
 		std::string version = "";
 		std::string api = "";

@@ -8,7 +8,7 @@
 #endif
 
 #include "Engine.h"
-#include "Timer/Timer.h"
+#include "Clock/Clock.h"
 
 int main(int argc, char** argv)
 {
@@ -22,7 +22,7 @@ int main(int argc, char** argv)
 	SetConsoleMode(handleOut, dwordMode);
 #endif
 
-	Engine::Timer initializeTime, appTime;
+	Engine::Clock initializeTime, appTime;
 
 	Core::AppData engineData{};
 	engineData.appName = "Graphics Engine";
@@ -67,7 +67,7 @@ int main(int argc, char** argv)
 
 			if (std::string(argv[i]) == "--version")
 			{
-				std::println(stdout, "{}\n", engineData.GetVersion());
+				std::println(stdout, "{} {}\n", engineData.GetTitle(), engineData.GetVersion());
 			}
 		}
 

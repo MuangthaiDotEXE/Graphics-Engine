@@ -23,34 +23,39 @@
 #include "Window/Window.h"
 #include "UserInterface/UserInterface.h"
 
-namespace Engine
+namespace Engine::UserInterface
 {
-	namespace UserInterface
+	class Default : public Core::UserInterface::UserInterface
 	{
-		class Default : public Core::UserInterface::UserInterface
-		{
-		public:
-			Default(Core::Window* window, 
-				const std::string& title, 
-				const std::string& version, 
-				const std::string& graphicsAPI, 
-				const glm::vec3& skyColor
-			);
-			virtual ~Default();
+	protected:
+		std::string title, graphicsAPI;
+		std::string version;
+		glm::vec3 skyColor;
 
-			void Render() override;
-			void BeginFrame() override;
-			void Update() override;
-			void EndFrame() override;
+		bool vSync;
+		glm::vec3 cameraPosition;
 
-		private:
-			void DebugWindow();
-			void ViewportWindow(GLuint textureID, glm::vec2 size);
+	public:
+		Default(Core::Window* window, 
+			const std::string& title, 
+			const std::string& version,
+			const std::string& graphicsAPI, 
+			const glm::vec3& skyColor
+		);
+		virtual ~Default();
 
-			void DockSpace();
-			void DeveloperWindow();
-		};
-	}
+		void Render() override;
+		void Update() override;
+
+		void SetCameraPosition(glm::vec3 position);
+
+	private:
+		void DefaultWindow();
+		void ViewportWindow(GLuint textureID, glm::vec2 size);
+
+		void DockSpace();
+		void DeveloperWindow();
+	};
 }
 
 #endif

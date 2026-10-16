@@ -26,6 +26,8 @@ set(SOURCES
 	 "Source/Graphics/Texture/stb.cpp"
 	 "Source/UserInterface/UserInterface.h"
 	 "Source/UserInterface/UserInterface.cpp"
+	 "Source/UserInterface/Layer.h"
+	 "Source/UserInterface/Layer.cpp"
 	 "Source/Utility/Utility.h"
 	 "Source/Utility/Utility.cpp"
 )

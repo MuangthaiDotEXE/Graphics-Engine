@@ -1,24 +1,26 @@
 #pragma once
 
-#ifndef ENGINE_TIMER_H
-#define ENGINE_TIMER_H
+#ifndef ENGINE_CLOCK_H
+#define ENGINE_CLOCK_H
 
 #include <chrono>
+#include <ctime>
 
 namespace Engine
 {
-	class Timer
+	class Clock
 	{
 	private:
 		std::chrono::steady_clock::time_point start, finish;
 		bool stop;
 		
 	public:
-		Timer();
-		~Timer() = default;
+		Clock();
+		~Clock() = default;
 
 		void Stop();
 
+		char* GetTime();
 		std::chrono::milliseconds GetDurationInMilliseconds();
 		std::chrono::seconds GetDurationInSeconds();
 	};

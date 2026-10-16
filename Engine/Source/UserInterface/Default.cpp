@@ -1,77 +1,45 @@
 #include "Default.h"
 
-Engine::UserInterface::Default::Default(Core::Window* window, 
+Engine::UserInterface::Default::Default(
+	Core::Window* window, 
 	const std::string& title, 
 	const std::string& version, 
 	const std::string& graphicsAPI,
 	const glm::vec3& skyColor
 )
-	: UserInterface(window, title, version, graphicsAPI, skyColor)
+	: UserInterface(window, "Default"),
+	title(title),
+	version(version),
+	skyColor(skyColor),
+	graphicsAPI(graphicsAPI),
+	vSync(window->GetMonitorSync())
 {
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-
-	ImGui::StyleColorsDark();
-
-	float mainScale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor());
-	ImGuiStyle& style = ImGui::GetStyle();
-	style.ScaleAllSizes(mainScale);
-	style.FontScaleDpi = mainScale;
-
-	ImGui_ImplGlfw_InitForOpenGL(window->GetWindow(), true);
-	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 Engine::UserInterface::Default::~Default()
 {
-	ImGui_ImplOpenGL3_Shutdown();
-	ImGui_ImplGlfw_Shutdown();
-	ImGui::DestroyContext();
 }
 
 void Engine::UserInterface::Default::Render()
 {
 }
 
-void Engine::UserInterface::Default::BeginFrame()
-{
-	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplGlfw_NewFrame();
-	ImGui::NewFrame();
-}
-
 void Engine::UserInterface::Default::Update()
 {
 	//DockSpace();
-	DebugWindow();
+	DefaultWindow();
 }
 
-void Engine::UserInterface::Default::EndFrame()
+void Engine::UserInterface::Default::SetCameraPosition(glm::vec3 position)
 {
-	ImGui::Render();
-	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-	ImGuiIO& io = ImGui::GetIO();
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
-	{
-		GLFWwindow* context = glfwGetCurrentContext();
-
-		ImGui::UpdatePlatformWindows();
-		ImGui::RenderPlatformWindowsDefault();
-		glfwMakeContextCurrent(context);
-	}
+	cameraPosition = position;
 }
 
-void Engine::UserInterface::Default::DebugWindow()
+void Engine::UserInterface::Default::DefaultWindow()
 {
 	ImGuiIO& io = ImGui::GetIO();
-	ImGui::Begin("Debug", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+
+	ImGui::Begin("Default", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text("%s %s", title.c_str(), version.c_str());
 	ImGui::Text("Graphics API: %s API", graphicsAPI.c_str());
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
@@ -88,10 +56,10 @@ void Engine::UserInterface::Default::DebugWindow()
 	{
 		ImGui::Text(" -- Miscellaneous -- ");
 
-		ImGui::Text("Position: %.3f, %.3f, %.3f", coordinate.x, coordinate.y, coordinate.z);
+		//ImGui::Text("Position: %.3f, %.3f, %.3f", cameraPosition.x, cameraPosition.y, cameraPosition.z);
 
 		ImGui::Text("Sky color");
-		ImGui::ColorEdit3("", glm::value_ptr(skyColor));
+		ImGui::ColorEdit3("##skyColor", glm::value_ptr(skyColor));
 		glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
 
 		ImGui::Text("Monitor sync");

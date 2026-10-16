@@ -21,38 +21,21 @@
 
 #include "../Window/Window.h"
 
-namespace Core
+namespace Core::UserInterface
 {
-	namespace UserInterface
+	class UserInterface
 	{
-		class UserInterface
-		{
-		protected:
-			std::string title, version, graphicsAPI;
-			Window* window;
+	public:
+		Window* window;
+		std::string name;
 
-			glm::vec3 skyColor;
+	public:
+		UserInterface(Window* window, const std::string& name);
+		virtual ~UserInterface() = default;
 
-			bool vSync;
-
-		public:
-			glm::vec3 coordinate;
-
-		public:
-			UserInterface(Window* window, 
-				const std::string& title, 
-				const std::string& version, 
-				const std::string& graphicsAPI, 
-				const glm::vec3& skyColor
-			);
-			virtual ~UserInterface() = default;
-
-			virtual void Render() = 0;
-			virtual void BeginFrame() = 0;
-			virtual void Update() = 0;
-			virtual void EndFrame() = 0;
-		};
-	}
+		virtual void Render() = 0;
+		virtual void Update() = 0;
+	};
 }
 
 #endif

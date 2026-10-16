@@ -2,8 +2,10 @@ set(SOURCES
 	"Source/Main.cpp"
 	"Source/Engine.h"
 	"Source/Engine.cpp"
-	"Source/Timer/Timer.h"
-	"Source/Timer/Timer.cpp"
+	"Source/Clock/Clock.h"
+	"Source/Clock/Clock.cpp"
+	"Source/Time/Time.h"
+	"Source/Time/Time.cpp"
 	"Source/Graphics/Sky/Sky.h"
 	"Source/Graphics/Sky/Sky.cpp"
 	"Source/Graphics/Grid/Grid.h"
@@ -40,6 +42,8 @@ set(SOURCES
 	"Source/Graphics/Object/Light/Light.cpp"
 	"Source/UserInterface/Default.h"
 	"Source/UserInterface/Default.cpp"
+	"Source/UserInterface/Hierarchy.h"
+	"Source/UserInterface/Hierarchy.cpp"
 )
 
 add_executable(Engine)

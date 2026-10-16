@@ -16,6 +16,17 @@ std::string operatingSystem = "Unknown";
 
 static Core::App* app = nullptr;
 
+std::string Core::AppData::GetTitle() const
+{
+	std::string appTitle;
+	if (!appName.empty() || !version.empty())
+	{
+		appTitle = appName;
+	}
+
+	return appTitle;
+}
+
 std::string Core::AppData::GetVersion() const
 {
 	auto appStage = [](DevelopmentStage developmentStage) -> std::string
@@ -30,13 +41,7 @@ std::string Core::AppData::GetVersion() const
 			}
 		};
 
-	std::string appTitle;
-	if (!appName.empty() || !version.empty())
-	{
-		appTitle = appName;
-	}
-
-	return std::format("{} v{}.{}.{}{} {} Build {}", appTitle, version[0], version[1], version[2], subVersion, appStage(developmentStage), buildNumber);
+	return std::format("v{}.{}.{}{} {} Build {}", version[0], version[1], version[2], subVersion, appStage(developmentStage), buildNumber);
 }
 
 Core::App::App(const AppData& appData)
