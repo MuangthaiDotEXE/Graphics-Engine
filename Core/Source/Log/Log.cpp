@@ -16,7 +16,7 @@ namespace
         case Core::LogLevel::INFO: return "INFO";
         case Core::LogLevel::WARN: return "WARN";
         case Core::LogLevel::ERR: return "ERROR";
-        case Core::LogLevel::CRITICAL: return "CRITICAL";
+        case Core::LogLevel::CRIT: return "CRIT";
         default: return "UNKNOWN";
         }
     }
@@ -71,11 +71,11 @@ namespace
         switch (level)
         {
         case Core::LogLevel::TRACE: return "\033[90m";
-        case Core::LogLevel::DEBUG: return "\033[36m";
-        case Core::LogLevel::INFO: return "\033[32m";
+        case Core::LogLevel::DEBUG: return "\033[32m";
+        case Core::LogLevel::INFO: return "\033[0m";
         case Core::LogLevel::WARN: return "\033[33m";
         case Core::LogLevel::ERR: return "\033[31m";
-        case Core::LogLevel::CRITICAL: return "\033[1;31m";
+        case Core::LogLevel::CRIT: return "\033[1;31m";
         default: return "\033[0m";
         }
     }
@@ -166,7 +166,7 @@ void Core::Log::Error(std::string_view category, std::string_view message)
 
 void Core::Log::Critical(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::CRITICAL, category, message);
+    Write(LogLevel::CRIT, category, message);
 }
 
 void Core::Log::Test(std::string_view category, std::string_view message)

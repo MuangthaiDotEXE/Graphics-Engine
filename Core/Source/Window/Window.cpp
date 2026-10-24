@@ -45,7 +45,7 @@ static LRESULT CALLBACK ThemeSubclassProcess(HWND hwnd, UINT msg, WPARAM wParam,
 
 static void ErrorCallback(int error, const char* description)
 {
-	std::print(stderr, "\033[31m[Error] GLFW error {}: {} (GLFW windowing API)\033[0m\n", error, description);
+	Core::Log::Error("Window", std::format("GLFW error {}: {}", error, description));
 }
 
 Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
@@ -55,6 +55,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 
 	if (!glfwInit())
 	{
+		Log::Critical("Window", "Failed to initialize window library");
 		throw std::runtime_error("Failed to initialize window (GLFW windowing API)\n");
 	}
 
@@ -73,6 +74,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 		if (!glfwVulkanSupported())
 		{
 			glfwTerminate();
+			Log::Critical("GRAPHICS", "Vulkan graphics API is not supported");
 			throw std::runtime_error("Vulkan graphics API is not supported (GLFW windowing API)\n");
 		}
 
@@ -87,6 +89,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 	if (window == nullptr || !window)
 	{
 		glfwTerminate();
+		Log::Critical("Window", "Failed to create window");
 		throw std::runtime_error("Failed to create window (GLFW windowing API)\n");
 	}
 
@@ -124,7 +127,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 	}
 	else if (windowData.icon.has_value() && !std::filesystem::exists(*windowData.icon))
 	{
-		std::print(stdout, "\033[33mFailed to load icon with path: '{}'. Application will use operating system's default icon instead (GLFW windowing API, Input/Output)\033[33m\n", *windowData.icon);
+		Log::Warn("Window", std::format("Failed to load icon with path: '{}'. Application will use operating system's default icon instead", *windowData.icon));
 	}
 
 	restoredWidth = windowData.width;
@@ -247,6 +250,7 @@ GLFWwindow* Core::Window::GetWindow() const
 {
 	if (window == nullptr || !window)
 	{
+		Log::Critical("Window", "Failed to return window because window does not exist");
 		throw std::runtime_error("Failed to return window because window does not exist (GLFW windowing API)");
 	}
 
@@ -319,7 +323,7 @@ void Core::Window::SetIcon(const std::string& path)
 	}
 	else if (!path.empty() && !std::filesystem::exists(path))
 	{
-		std::print(stdout, "\033[33mFailed to load icon with path: '{}' (GLFW windowing API, Input/Output)\033[33m\n", *windowData.icon);
+		Log::Warn("Window", std::format("Failed to load icon with path: '{}'", *windowData.icon));
 	}
 }
 
@@ -445,7 +449,7 @@ void Core::Window::SaveState()
 	}
 
 #ifndef NDEBUG
-	std::print(stdout, "\033[33m[Debug] Save window state setting file in path: {}\033[0m\n", std::filesystem::absolute("Window.state").generic_string());
+	Log::Debug("Window", std::format("Save window state setting file in path: '{}'", std::filesystem::absolute("Window.state").generic_string()));
 #endif
 }
 
@@ -481,6 +485,6 @@ void Core::Window::ResetState()
 	glfwGetWindowPos(window, &restoredX, &restoredY);
 
 #ifndef NDEBUG
-	std::print(stdout, "\033[33m[Debug] Window state reset to defaults\033[0m\n");
+	Log::Debug("Window", "Window state reset to default value");
 #endif
 }

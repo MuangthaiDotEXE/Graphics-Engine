@@ -20,6 +20,7 @@
 #include "Graphics/OpenGL.h"
 #include "Graphics/Vulkan.h"
 #include "UserInterface/UserInterface.h"
+#include "Log/Log.h"
 
 namespace Core
 {

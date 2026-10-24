@@ -5,6 +5,7 @@ Core::OpenGL::OpenGL(GLFWwindow* window)
 {
 	if (version == 0)
 	{
+		Log::Critical("Graphics", "Failed to load OpenGL contexts");
 		throw std::runtime_error("Failed to load OpenGL contexts (OpenGL graphics API)\n");
 	}
 

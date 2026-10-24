@@ -4,6 +4,7 @@
 #define CORE_VULKAN_API_H
 
 #include <print>
+#include <format>
 #include <iostream>
 #include <cstdio>
 #include <cstring>
@@ -20,6 +21,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Graphics.h"
+#include "../Log/Log.h"
 
 namespace Core
 {

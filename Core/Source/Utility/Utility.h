@@ -13,6 +13,8 @@
 #include <print>
 #include <stdexcept>
 
+#include "Log/Log.h"
+
 std::string ReadFile(const char* path);
 std::string ReadFile(const std::string& path);
 

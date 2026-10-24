@@ -4,6 +4,7 @@
 #define ENGINE_USERINTERFACE_DEFAULT_H
 
 #include <print>
+#include <format>
 #include <cstdio>
 #include <print>
 #include <string>
@@ -30,7 +31,7 @@ namespace Engine::UserInterface
 	protected:
 		std::string title, graphicsAPI;
 		std::string version;
-		glm::vec3 skyColor;
+		glm::vec3 skyColor, defaultSkyColor;
 
 		bool vSync;
 		glm::vec3 cameraPosition;

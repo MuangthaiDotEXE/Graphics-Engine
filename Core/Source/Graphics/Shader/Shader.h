@@ -11,11 +11,13 @@
 #include <concepts>
 #include <string>
 #include <print>
+#include <format>
 #include <stdexcept>
 
 #include <glad/gl.h>
 
 #include "Utility/Utility.h"
+#include "Log/Log.h"
 
 namespace Core
 {

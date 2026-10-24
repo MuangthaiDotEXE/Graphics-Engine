@@ -118,10 +118,8 @@ void Engine::Model::LoadModel(const std::string& path)
 	const aiScene* scene = importer.ReadFile(path, flags);
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		throw std::runtime_error(std::format(R"(Failed to load model with path: {} 
-With error: {} (Assimp model import library))",
-path,
-importer.GetErrorString()));
+		Core::Log::Error("Input/Output", std::format(R"(Failed to load model from path: '{}' 
+With error: {})", path, importer.GetErrorString()));
 	}
 
 	std::filesystem::path modelPath(path);
@@ -136,7 +134,7 @@ importer.GetErrorString()));
 #ifndef NDEBUG
 	if (subMeshes.empty())
 	{
-		std::println(stdout, "\033[33m[Warn] Model loaded from path: '{}' contains no usable meshes (Assimp model import library)\033[0m\n", path);
+		Core::Log::Warn("Graphics", std::format("Model loaded from path: '{}' contains no usable meshes", path));
 	}
 #endif
 }
@@ -272,7 +270,7 @@ std::optional<std::vector<std::string>> Engine::Model::LoadMaterialTextures(aiMa
 		if (texturePath.empty() || texturePath[0] == '*')
 		{
 #ifndef NDEBUG
-			//std::println(stdout, "\033[33m[Warn] Skipping embedded texture \'{}\'. Embedded textures are not supported, please export/extract the texture (Assimp model import library)\033[0m\n", texturePath);
+			//Core::Log::Warn("Graphics", std::format("Skipping embedded texture \'{}\'. Embedded textures are not supported, please export/extract the texture", texturePath));
 #endif
 			continue;
 		}
@@ -303,7 +301,7 @@ std::optional<std::vector<std::string>> Engine::Model::LoadMaterialTextures(aiMa
 #ifndef NDEBUG
 		else
 		{
-			std::println(stdout, "\033[33m[Warn] Texture referenced in material does not exist: '{}'. Falling back to untextured rendering.\033[0m\n", resolvedPath.string());
+			Core::Log::Warn("Graphics", std::format("Texture referenced in material does not exist: '{}'. Falling back to untextured rendering", resolvedPath.string()));
 		}
 #endif
 

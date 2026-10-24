@@ -12,7 +12,7 @@ Core::Shader::Shader(const std::string& vertexPath, const std::string& fragmentP
     else
     {
 #ifndef NDEBUG
-        std::println(stdout, "\033[33m[Warn] Trying to read the string directly because the given string could not be found as shader file path\033[0m\n");
+        Log::Warn("Shader", "Trying to read the string directly because the given string could not be found as shader file path");
 #endif
 
         vertexCode = vertexPath;
@@ -69,7 +69,7 @@ void Core::Shader::Error(GLuint shader, const std::string& type)
         if (completed == GL_FALSE)
         {
             glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            std::print(stdout, "{} linking failed: {}\n", shader, infoLog);
+            Log::Error("Shader", std::format("{} linking failed : {}", shader, infoLog));
         }
     }
     else
@@ -79,7 +79,7 @@ void Core::Shader::Error(GLuint shader, const std::string& type)
         if (completed == GL_FALSE)
         {
             glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            std::print(stdout, "{} compilation failed: {}\n", shader, infoLog);
+            Log::Error("Shader", std::format("{} compilation failed: {}", shader, infoLog));
         }
     }
 }

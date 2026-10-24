@@ -75,7 +75,7 @@ int main(int argc, char** argv)
 
 		initializeTime.Stop();
 #ifndef NDEBUG
-		std::print(stdout, "\n\033[0m[Debug] Application finished initialization in {} ({})\033[0m\n\n", initializeTime.GetDurationInMilliseconds(), std::chrono::duration<double>(initializeTime.GetDurationInMilliseconds()));
+		Core::Log::Debug("Application", std::format("Application finished initialization in {} ({})", initializeTime.GetDurationInMilliseconds(), std::chrono::duration<double>(initializeTime.GetDurationInMilliseconds())));
 #endif
 
 		engine.Render();
@@ -90,7 +90,7 @@ int main(int argc, char** argv)
 
 	appTime.Stop();
 #ifndef NDEBUG
-	std::print(stdout, "\n\033[0m[Debug] Application finished running in {} ({})\033[0m\n", appTime.GetDurationInMilliseconds(), std::chrono::duration<double>(appTime.GetDurationInMilliseconds()));
+	Core::Log::Debug("Application", std::format("Application finished running in {} ({})", appTime.GetDurationInMilliseconds(), std::chrono::duration<double>(appTime.GetDurationInMilliseconds())));
 #endif
 
 	return 0;

@@ -3,11 +3,6 @@
 Engine::Engine::Engine(const Core::AppData& appData, SceneType initialSceneType)
 	: app(appData), uiLayer(app.window.get())
 {
-	if (!Core::Log::Initialize())
-	{
-		std::println(stderr, "\033[31m[Error] Failed to initialize application logger. Logging is unavailable\033[0m\n");
-	}
-
 	Core::Log::Info("Engine", "Initialize engine...");
 
 	InitializeScene(initialSceneType);
@@ -16,6 +11,8 @@ Engine::Engine::Engine(const Core::AppData& appData, SceneType initialSceneType)
 
 Engine::Engine::~Engine()
 {
+	Core::Log::Info("Engine", "Terminate engine...");
+	Core::Log::Info("Engine", "Done");
 	Core::Log::Shutdown();
 }
 

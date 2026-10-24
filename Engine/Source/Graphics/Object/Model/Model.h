@@ -4,6 +4,7 @@
 #define ENGINE_MODEL_H
 
 #include <print>
+#include <format>
 #include <string>
 #include <format>
 #include <cstddef>

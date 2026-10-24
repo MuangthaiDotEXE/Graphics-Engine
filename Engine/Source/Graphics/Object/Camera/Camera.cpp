@@ -14,7 +14,7 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 
 	if (GetRotationMode() == RotationMode::QUATERNION)
 	{
-		std::print(stdout, "\033[33m[Warn] Quaternion rotation is currently not working properly. Please use Euler rotation if possible (GLM math library)\033[0m\n");
+		Core::Log::Warn("Math", "Quaternion rotation is currently not working properly. Please use Euler rotation if possible");
 	}
 
 	if (glm::length(position) < 0.0001f)

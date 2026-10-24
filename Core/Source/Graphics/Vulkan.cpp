@@ -84,6 +84,7 @@ void Core::Vulkan::CreateInstance()
 {
 	if (enableValidationLayers && !CheckValidationLayerSupport())
 	{
+		Log::Critical("Graphics", "Vulkan graphics API validation layers requested, but not available");
 		throw std::runtime_error("Vulkan graphics API validation layers requested, but not available (Vulkan graphics API)");
 	}
 
@@ -121,6 +122,7 @@ void Core::Vulkan::CreateInstance()
 
 	if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS)
 	{
+		Log::Critical("Graphics", "Failed to create Vulkan graphics API instances");
 		throw std::runtime_error("Failed to create Vulkan graphics API instance (Vulkan graphics API)");
 	}
 }
@@ -137,6 +139,7 @@ void Core::Vulkan::SetupDebugMessenger()
 
 	if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS)
 	{
+		Log::Critical("Graphics", "Failed to setup Vulkan graphics API debug messenger");
 		throw std::runtime_error("Failed to setup Vulkan graphics API debug messenger (Vulkan graphics API)");
 	}
 }
@@ -145,6 +148,7 @@ void Core::Vulkan::CreateSurface()
 {
 	if (glfwCreateWindowSurface(instance, window, nullptr, &surface) != VK_SUCCESS)
 	{
+		Log::Critical("Window", "Failed to create window surface");
 		throw std::runtime_error("Failed to create window surface (GLFW windowing API)");
 	}
 }
@@ -156,6 +160,7 @@ void Core::Vulkan::PickPhysicalDevice()
 
 	if (deviceCount == 0)
 	{
+		Log::Critical("Graphics", "Failed to find GPUs with Vulkan graphics API support");
 		throw std::runtime_error("Failed to find GPUs with Vulkan graphics API support (Vulkan graphics API)");
 	}
 
@@ -173,6 +178,7 @@ void Core::Vulkan::PickPhysicalDevice()
 
 	if (physicalDevice == VK_NULL_HANDLE)
 	{
+		Log::Critical("Graphics", "Failed to find a suitable GPU");
 		throw std::runtime_error("Failed to find a suitable GPU (Vulkan graphics API)");
 	}
 }
@@ -224,6 +230,7 @@ void Core::Vulkan::CreateLogicalDevice()
 
 	if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &device) != VK_SUCCESS)
 	{
+		Log::Critical("Graphics", "Failed to create logical device");
 		throw std::runtime_error("Failed to create logical device (Vulkan graphics API)");
 	}
 
@@ -279,6 +286,7 @@ void Core::Vulkan::CreateSwapChain()
 
 	if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &swapChain) != VK_SUCCESS)
 	{
+		Log::Critical("Graphics", "Failed to create Vulkan graphics API swap chain");
 		throw std::runtime_error("Failed to create Vulkan graphics API swap chain (Vulkan graphics API)");
 	}
 
@@ -313,6 +321,7 @@ void Core::Vulkan::CreateImageViews()
 
 		if (vkCreateImageView(device, &createInfo, nullptr, &swapChainImageViews[i]) != VK_SUCCESS)
 		{
+			Log::Critical("Graphics", "Failed to create Vulkan graphics API image views");
 			throw std::runtime_error("Failed to create Vulkan graphics API image views (Vulkan graphics API)");
 		}
 	}
@@ -542,7 +551,7 @@ Core::QueueFamilyIndices Core::Vulkan::FindQueueFamilies(VkPhysicalDevice device
 
 VKAPI_ATTR VkBool32 VKAPI_CALL Core::Vulkan::DebugCallback(VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity, VkDebugUtilsMessageTypeFlagsEXT messageType, const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData, void* pUserData)
 {
-	std::print(stderr, "Validation layer: {} (Vulkan graphics API)\n", pCallbackData->pMessage);
+	Log::Debug("Graphics", std::format("Validation layer: {}", pCallbackData->pMessage));
 
 	return VK_FALSE;
 }

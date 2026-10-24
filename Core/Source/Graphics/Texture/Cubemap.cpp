@@ -24,7 +24,7 @@ Core::Cubemap::Cubemap(std::optional<std::vector<std::string>> cubemaps, std::st
 			unsigned char* image = stbi_load((*cubemaps)[i].c_str(), &width, &height, &colorChannels, 0);
 			if (!image)
 			{
-				throw std::runtime_error(std::format("Failed to load cubemap with path: {} (STB image library)\n", (*cubemaps)[i]));
+				Log::Error("Graphics", std::format("Failed to load cubemap from path: '{}'", (*cubemaps)[i]));
 			}
 
 			stbi_set_flip_vertically_on_load(false);

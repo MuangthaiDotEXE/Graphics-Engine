@@ -25,7 +25,7 @@ namespace Core
 		INFO,
 		WARN,
 		ERR,
-		CRITICAL
+		CRIT
 	};
 
 	class Log

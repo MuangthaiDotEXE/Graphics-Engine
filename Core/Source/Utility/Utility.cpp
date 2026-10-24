@@ -6,7 +6,7 @@ std::string ReadFile(const char* path)
 
     if (!file)
     {
-        throw std::runtime_error(std::format("Failed to open/read the file: '{}'. No such file or directory (Input/Output)", path));
+        Core::Log::Error("Input/Output", std::format("Failed to open/read the file: '{}'. No such file or directory", path));
     }
 
     std::string content;
@@ -25,7 +25,7 @@ std::string ReadFile(const std::string& path)
 
     if (!file)
     {
-        throw std::runtime_error(std::format("Failed to open/read the file: '{}'. No such file or directory (Input/Output)", path));
+        Core::Log::Error("Input/Output", std::format("Failed to open/read the file: '{}'. No such file or directory", path));
     }
 
     std::string content;

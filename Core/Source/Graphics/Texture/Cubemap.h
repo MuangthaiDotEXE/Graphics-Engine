@@ -13,6 +13,7 @@
 #include <stb_image.h>
 
 #include "Graphics/Shader/Shader.h"
+#include "../../Log/Log.h"
 
 namespace Core
 {

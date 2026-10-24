@@ -73,7 +73,7 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	unsigned char* image = stbi_load(path.c_str(), &width, &height, &colorChannels, 0);
 	if (!image)
 	{
-		throw std::runtime_error(std::format("Failed to load texture with path: {} (STB image library)\n", path));
+		Log::Error("Graphics", std::format("Failed to load texture from path: '{}'", path));
 	}
 
 	GLuint id;
@@ -100,7 +100,7 @@ GLuint Core::Texture::LoadTexture(const std::string& path, GLuint slot)
 	}
 	else
 	{
-		throw std::invalid_argument(std::format(R"(Failed to recognize texture type (OpenGL graphics API)
+		Log::Error("Graphics", std::format(R"(Failed to recognize texture type
 	path: {}
 	width: {}
 	height: {}

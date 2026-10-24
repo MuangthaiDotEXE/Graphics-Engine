@@ -11,6 +11,7 @@ Engine::UserInterface::Default::Default(
 	title(title),
 	version(version),
 	skyColor(skyColor),
+	defaultSkyColor(skyColor),
 	graphicsAPI(graphicsAPI),
 	vSync(window->GetMonitorSync())
 {
@@ -61,6 +62,11 @@ void Engine::UserInterface::Default::DefaultWindow()
 		ImGui::Text("Sky color");
 		ImGui::ColorEdit3("##skyColor", glm::value_ptr(skyColor));
 		glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
+		if (defaultSkyColor != skyColor)
+		{
+			Core::Log::Debug("User interface", std::format("Sky color (RGB): {}, {}, {} ({}, {}, {})", skyColor.r, skyColor.g, skyColor.b, skyColor.r * 255, skyColor.g * 255, skyColor.b * 255));
+			defaultSkyColor = skyColor;
+		}
 
 		ImGui::Text("Monitor sync");
 		ImGui::SameLine(0, 10);
@@ -77,7 +83,7 @@ void Engine::UserInterface::Default::DefaultWindow()
 				glfwSwapInterval(false);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Monitor sync (V-Sync): {}\033[0m\n", vSync ? "Enable" : "Disable");
+			Core::Log::Debug("User interface", std::format("Monitor sync (V-Sync): {}", vSync ? "Enable" : "Disable"));
 		}
 
 		static bool wireframe = false;
@@ -96,14 +102,14 @@ void Engine::UserInterface::Default::DefaultWindow()
 				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			}
 
-			std::print(stdout, "\033[32m[Debug] Wireframe: {}\033[0m\n", wireframe ? "Enabled" : "Disabled");
+			Core::Log::Debug("User interface", std::format("Wireframe: {}", wireframe ? "Enabled" : "Disabled"));
 		}
 
 		ImGui::Text("Text");
 		ImGui::SameLine(0, 10);
 		if (ImGui::Button("Button"))
 		{
-			std::print(stdout, "\033[32m[Debug] Button pressed!\033[0m\n");
+			Core::Log::Debug("User interface", "Button pressed!");
 		}
 	}
 

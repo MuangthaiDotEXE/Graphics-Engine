@@ -9,6 +9,7 @@
 #include <GLFW/glfw3.h>
 
 #include "Graphics.h"
+#include "../Log/Log.h"
 
 namespace Core
 {

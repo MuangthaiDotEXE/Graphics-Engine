@@ -62,17 +62,22 @@ Core::App::App(const AppData& data)
 	}
 
 	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
-
 	api = GetGraphicsAPI();
 
-	std::print(stdout, "[Info] {} {}\n", title, version);
-	std::print(stdout, "[Info] Operating system: {}\n", operatingSystem);
-	std::print(stdout, "[Info] Graphics API: {} API\n", api);
+	Log::Initialize();
+	if (!Log::Initialize())
+	{
+		std::println(stderr, "\033[31m[Error] Failed to initialize application logger. Logging is unavailable\033[0m\n");
+	}
+
+	Log::Info("Application", std::format("{} {}", title, version));
+	Log::Info("Application", std::format("Operating system: {}", operatingSystem));
+	Log::Info("Application", std::format("Graphics API: {} API", api));
 	if (api == "Vulkan") 
 	{
-		std::print(stdout, "\033[33m[Warn] Vulkan graphics API is currently in an unstable state (Expect crashes). If possible, please avoid using it (System)\033[0m\n");
+		Log::Warn("Graphics", "Vulkan graphics API is currently in an unstable state (Expect crashes). If possible, please avoid using it");
 	}
-	std::println(stdout, "[Info] Build: {}\n", GetConfigurations());
+	Log::Info("Application", std::format("Build: {}", GetConfigurations()));
 	PrintGraphicsInformation();
 
 	running = true;
@@ -100,17 +105,17 @@ void Core::App::Update()
 
 void Core::App::PrintGraphicsInformation()
 {
-	std::println(stdout, R"([Info] Graphics device information:
+	Log::Info("Graphics", std::format(R"(Graphics device information:
 	> Vendor:           {}
 	> Renderer:         {}
 	> Version:          {}
 	> Shading language: {}
-)",
-	graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage);
+)", graphicsVendor, graphicsRenderer, graphicsVersion, graphicsShadingLanguage));
 }
 
 void Core::App::Quit()
 {
+	Log::Info("Application", "Shutdown application...");
 	window->Close();
 }
 

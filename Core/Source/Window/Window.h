@@ -19,6 +19,7 @@
 #include <stb_image.h>
 
 #include "../Graphics/Graphics.h"
+#include "../Log/Log.h"
 
 #ifdef _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
