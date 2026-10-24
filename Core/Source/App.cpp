@@ -44,21 +44,21 @@ std::string Core::AppData::GetVersion() const
 	return std::format("v{}.{}.{}{} {} Build {}", version[0], version[1], version[2], subVersion, appStage(developmentStage), buildNumber);
 }
 
-Core::App::App(const AppData& appData)
-	: appData(appData), running(true)
+Core::App::App(const AppData& data)
+	: appData(data), running(true)
 {
 	app = this;
 
 	// version system: major, minor, patch (Semantic versioning)
-	if (!appData.version.empty())
+	if (!data.version.empty())
 	{
-		version = std::format("v{}.{}.{}{} {} Build {}", appData.version[0], appData.version[1], appData.version[2], appData.subVersion, GetDevelopmentStage(), appData.buildNumber);
+		version = std::format("v{}.{}.{}{} {} Build {}", data.version[0], data.version[1], data.version[2], data.subVersion, GetDevelopmentStage(), data.buildNumber);
 	}
 
-	if (!appData.appName.empty() || !appData.version.empty())
+	if (!data.appName.empty() || !data.version.empty())
 	{
-		this->appData.windowData.title = appData.appName;
-		title = appData.appName;
+		appData.windowData.title = data.appName;
+		title = data.appName;
 	}
 
 	window = std::make_unique<Window>(this->appData.windowData, appData.graphicsAPI);
@@ -100,7 +100,7 @@ void Core::App::Update()
 
 void Core::App::PrintGraphicsInformation()
 {
-	std::print(stdout, R"([Info] Graphics device information:
+	std::println(stdout, R"([Info] Graphics device information:
 	> Vendor:           {}
 	> Renderer:         {}
 	> Version:          {}

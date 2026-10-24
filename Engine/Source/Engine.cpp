@@ -3,12 +3,20 @@
 Engine::Engine::Engine(const Core::AppData& appData, SceneType initialSceneType)
 	: app(appData), uiLayer(app.window.get())
 {
+	if (!Core::Log::Initialize())
+	{
+		std::println(stderr, "\033[31m[Error] Failed to initialize application logger. Logging is unavailable\033[0m\n");
+	}
+
+	Core::Log::Info("Engine", "Initialize engine...");
+
 	InitializeScene(initialSceneType);
 	CreateUIs();
 }
 
 Engine::Engine::~Engine()
 {
+	Core::Log::Shutdown();
 }
 
 void Engine::Engine::Render()
@@ -57,6 +65,8 @@ void Engine::Engine::SwitchScene(SceneType sceneType)
 
 void Engine::Engine::CreateUIs()
 {
+	Core::Log::Info("User interface", "Create user interface...");
+
 	auto uiDefault = std::make_unique<UserInterface::Default>(
 		app.window.get(),
 		app.appData.GetTitle(),
@@ -84,6 +94,8 @@ std::unique_ptr<Engine::Scene> Engine::Engine::CreateScene(SceneType sceneType)
 
 void Engine::Engine::InitializeScene(SceneType sceneType)
 {
+	Core::Log::Info("Scene", "Load scene");
+
 	activeSceneType = sceneType;
 	scene = CreateScene(sceneType);
 

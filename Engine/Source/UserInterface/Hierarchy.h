@@ -16,6 +16,9 @@ namespace Engine::UserInterface
 		
 		void Render() override;
 		void Update() override;
+
+	private:
+		void HierarchyWindow();
 	};
 }
 

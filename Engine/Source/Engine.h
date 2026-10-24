@@ -3,6 +3,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include <print>
 #include <optional>
 #include <vector>
 
@@ -10,6 +11,7 @@
 
 #include "UserInterface/UserInterface.h"
 #include "UserInterface/Layer.h"
+#include "Log/Log.h"
 #include "App.h"
 
 #include "Graphics/Scene/Scene.h"

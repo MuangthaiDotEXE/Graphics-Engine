@@ -28,6 +28,8 @@ set(SOURCES
 	 "Source/UserInterface/UserInterface.cpp"
 	 "Source/UserInterface/Layer.h"
 	 "Source/UserInterface/Layer.cpp"
+	 "Source/Log/Log.h"
+	 "Source/Log/Log.cpp"
 	 "Source/Utility/Utility.h"
 	 "Source/Utility/Utility.cpp"
 )
