@@ -20,6 +20,7 @@
 - Basic input system for controlling window and graphics rendering
 - Simple user interface rendering with texts and buttons
 - Automate libraries package searching and installation
+- Tiny logging system with logs saving into log file
 
 ### Future Plans
 - Add advanced OpenGL graphics API rendering
@@ -39,7 +40,7 @@
 <div align="center">
 	<img src="Asset/Image/Engine.png" alt="Graphics Engine">
 </div>
-Screenshot taken: 2026-08-28 15:40:48 UTC (2026-08-28T15:40:48Z)
+Screenshot taken: 2026-10-25 12:00:26 UTC (2026-10-25T12:00:26Z)
 
 ### How to use
 - Clone the repository using `git clone` command

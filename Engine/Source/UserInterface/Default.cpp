@@ -11,7 +11,7 @@ Engine::UserInterface::Default::Default(
 	title(title),
 	version(version),
 	skyColor(skyColor),
-	defaultSkyColor(skyColor),
+	currentSkyColor(skyColor),
 	graphicsAPI(graphicsAPI),
 	vSync(window->GetMonitorSync())
 {
@@ -62,10 +62,10 @@ void Engine::UserInterface::Default::DefaultWindow()
 		ImGui::Text("Sky color");
 		ImGui::ColorEdit3("##skyColor", glm::value_ptr(skyColor));
 		glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
-		if (defaultSkyColor != skyColor)
+		if (currentSkyColor != skyColor)
 		{
-			Core::Log::Debug("User interface", std::format("Sky color (RGB): {}, {}, {} ({}, {}, {})", skyColor.r, skyColor.g, skyColor.b, skyColor.r * 255, skyColor.g * 255, skyColor.b * 255));
-			defaultSkyColor = skyColor;
+			Core::Log::Debug("User interface", std::format("Sky color (RGB): {}, {}, {}", skyColor.r * 255, skyColor.g * 255, skyColor.b * 255));
+			currentSkyColor = skyColor;
 		}
 
 		ImGui::Text("Monitor sync");

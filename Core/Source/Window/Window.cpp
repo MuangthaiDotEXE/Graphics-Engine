@@ -449,7 +449,7 @@ void Core::Window::SaveState()
 	}
 
 #ifndef NDEBUG
-	Log::Debug("Window", std::format("Save window state setting file in path: '{}'", std::filesystem::absolute("Window.state").generic_string()));
+	Log::Info("Window", std::format("Save window state setting file in path: '{}'", std::filesystem::absolute("Window.state").generic_string()));
 #endif
 }
 

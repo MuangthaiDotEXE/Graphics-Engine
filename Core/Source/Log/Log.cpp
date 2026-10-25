@@ -5,6 +5,8 @@ namespace
     std::ofstream logFile;
     std::mutex logMutex;
 
+    std::filesystem::path path;
+
     Core::LogLevel minLevel = Core::LogLevel::TRACE;
 
     std::string LevelName(Core::LogLevel level)
@@ -75,7 +77,7 @@ namespace
         case Core::LogLevel::INFO: return "\033[0m";
         case Core::LogLevel::WARN: return "\033[33m";
         case Core::LogLevel::ERR: return "\033[31m";
-        case Core::LogLevel::CRIT: return "\033[1;31m";
+        case Core::LogLevel::CRIT: return "\033[2;31m";
         default: return "\033[0m";
         }
     }
@@ -90,7 +92,7 @@ bool Core::Log::Initialize()
         const std::filesystem::path directory("Logs");
         std::filesystem::create_directories(directory);
 
-        const std::filesystem::path path = directory / GenerateLogFilename();
+        path = directory / GenerateLogFilename();
 
         logFile.open(path, std::ios::out | std::ios::app);
         return logFile.is_open();
@@ -130,6 +132,7 @@ void Core::Log::Write(LogLevel level, std::string_view category, std::string_vie
 
 void Core::Log::Shutdown()
 {
+    Info("Log", std::format("Log file saved to: '{}'", std::filesystem::absolute(path).generic_string()));
     std::scoped_lock lock(logMutex);
 
     if (logFile.is_open())

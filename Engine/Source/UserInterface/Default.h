@@ -31,7 +31,7 @@ namespace Engine::UserInterface
 	protected:
 		std::string title, graphicsAPI;
 		std::string version;
-		glm::vec3 skyColor, defaultSkyColor;
+		glm::vec3 skyColor, currentSkyColor;
 
 		bool vSync;
 		glm::vec3 cameraPosition;
