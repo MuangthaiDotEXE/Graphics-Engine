@@ -1,51 +1,102 @@
 #include "Window.h"
 
-#ifdef _WIN32
-static void ApplyTitleBarTheme(HWND hwnd)
+namespace
 {
-	bool systemDarkMode = false;
-	HKEY hKey;
-	if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
-	{
-		DWORD value = 0;
-		DWORD size = sizeof(value);
+	const std::filesystem::path windowStatePath = std::filesystem::path("Config") / "Window.state";
 
-		if (RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, reinterpret_cast<LPBYTE>(&value), &size) == ERROR_SUCCESS)
+	std::string TrimWhiteSpace(const std::string& value)
+	{
+		const auto first = value.find_first_not_of(" \t\r\n");
+		if (first == std::string::npos)
 		{
-			systemDarkMode = (value == 0);
+			return {};
 		}
 
-		RegCloseKey(hKey);
+		const auto last = value.find_last_not_of(" \t\r\n");
+		return value.substr(first, last - first + 1);
 	}
 
-	BOOL useDarkMode = systemDarkMode ? TRUE : FALSE;
-	DwmSetWindowAttribute(hwnd, 20, &useDarkMode, sizeof(useDarkMode));
+	bool ParseInteger(const std::string& value, int& result)
+	{
+		if (value.empty())
+		{
+			return false;
+		}
+
+		int parsedValue{};
+		const auto [pointer, error] = std::from_chars(value.data(), value.data() + value.size(), parsedValue);
+		if (error != std::errc{} || pointer != value.data() + value.size())
+		{
+			return false;
+		}
+
+		result = parsedValue;
+		return true;
+	}
+
+	bool ParseBoolean(const std::string& value, bool& result)
+	{
+		if (value == "true" || value == "1")
+		{
+			result = true;
+			return true;
+		}
+		else if (value == "false" || value == "0")
+		{
+			result = false;
+			return true;
+		}
+
+		return false;
+	}
+
+#ifdef _WIN32
+	static void ApplyTitleBarTheme(HWND hwnd)
+	{
+		bool systemDarkMode = false;
+		HKEY hKey;
+		if (RegOpenKeyExW(HKEY_CURRENT_USER, L"Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", 0, KEY_READ, &hKey) == ERROR_SUCCESS)
+		{
+			DWORD value = 0;
+			DWORD size = sizeof(value);
+
+			if (RegQueryValueExW(hKey, L"AppsUseLightTheme", nullptr, nullptr, reinterpret_cast<LPBYTE>(&value), &size) == ERROR_SUCCESS)
+			{
+				systemDarkMode = (value == 0);
+			}
+
+			RegCloseKey(hKey);
+		}
+
+		BOOL useDarkMode = systemDarkMode ? TRUE : FALSE;
+		DwmSetWindowAttribute(hwnd, 20, &useDarkMode, sizeof(useDarkMode));
 
 #if 0	// for Windows 11 only (For custom titlebar color), currently disabled
-	COLORREF titleBarColor = systemDarkMode ? RGB(16, 16, 16) : RGB(240, 240, 240);
-	DwmSetWindowAttribute(hwnd, 35, &titleBarColor, sizeof(titleBarColor));
+		COLORREF titleBarColor = systemDarkMode ? RGB(16, 16, 16) : RGB(240, 240, 240);
+		DwmSetWindowAttribute(hwnd, 35, &titleBarColor, sizeof(titleBarColor));
 #endif
 
-	SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE);
-}
-
-static LRESULT CALLBACK ThemeSubclassProcess(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
-{
-	if (msg == WM_SETTINGCHANGE && lParam != 0)
-	{
-		if (wcscmp(reinterpret_cast<LPCWSTR>(lParam), L"ImmersiveColorSet") == 0)
-		{
-			ApplyTitleBarTheme(hwnd);
-		}
+		SetWindowPos(hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED | SWP_NOACTIVATE);
 	}
 
-	return DefSubclassProc(hwnd, msg, wParam, lParam);
-}
+	static LRESULT CALLBACK ThemeSubclassProcess(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam, UINT_PTR uIdSubclass, DWORD_PTR dwRefData)
+	{
+		if (msg == WM_SETTINGCHANGE && lParam != 0)
+		{
+			if (wcscmp(reinterpret_cast<LPCWSTR>(lParam), L"ImmersiveColorSet") == 0)
+			{
+				ApplyTitleBarTheme(hwnd);
+			}
+		}
+
+		return DefSubclassProc(hwnd, msg, wParam, lParam);
+	}
 #endif
 
-static void ErrorCallback(int error, const char* description)
-{
-	Core::Log::Error("Window", std::format("GLFW error {}: {}", error, description));
+	static void ErrorCallback(int error, const char* description)
+	{
+		Core::Log::Error("Window", std::format("GLFW error {}: {}", error, description));
+	}
 }
 
 Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
@@ -95,7 +146,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 
 #ifdef _WIN32
 	hwnd = glfwGetWin32Window(window);
-	
+
 	ApplyTitleBarTheme(hwnd);
 	SetWindowSubclass(hwnd, ThemeSubclassProcess, 1, 0);
 #endif
@@ -298,6 +349,7 @@ bool Core::Window::GetFullscreenMode() const
 
 void Core::Window::SetTitle(const std::string& title)
 {
+	windowData.title = title;
 	glfwSetWindowTitle(window, title.c_str());
 }
 
@@ -323,7 +375,7 @@ void Core::Window::SetIcon(const std::string& path)
 	}
 	else if (!path.empty() && !std::filesystem::exists(path))
 	{
-		Log::Warn("Window", std::format("Failed to load icon with path: '{}'", *windowData.icon));
+		Log::Warn("Window", std::format("Failed to load icon with path: '{}'", path));
 	}
 }
 
@@ -413,16 +465,12 @@ void Core::Window::Fullscreen()
 		GLFWmonitor* monitor = glfwGetPrimaryMonitor();
 		const GLFWvidmode* videoMode = (GLFWvidmode*)glfwGetVideoMode(monitor);
 		glfwSetWindowMonitor(window, monitor, 0, 0, videoMode->width, videoMode->height, videoMode->refreshRate);
-
-		glfwSwapBuffers(window);
 	}
 	else
 	{
 		glfwSetWindowMonitor(window, nullptr, 0, 0, width, height, 0);
 		glfwSetWindowSize(window, width, height);
 		glfwSetWindowPos(window, x, y);
-
-		glfwSwapBuffers(window);
 	}
 }
 
@@ -442,32 +490,186 @@ void Core::Window::SaveState()
 	windowState.x = restoredX;
 	windowState.y = restoredY;
 
-	std::ofstream file("Window.state", std::ios::binary);
-	if (file)
+	std::error_code error;
+	std::filesystem::create_directories(windowStatePath.parent_path(), error);
+	if (error)
 	{
-		file.write(reinterpret_cast<char*>(&windowState), sizeof(windowState));
+		Log::Error("Window", std::format("Failed to create configuration directory: {}", error.message()));
+		return;
+	}
+
+	std::ofstream file(windowStatePath, std::ios::out | std::ios::trunc);
+	if (!file)
+	{
+		Log::Error("Window", std::format("Failed to open window state file: '{}'", windowStatePath.generic_string()));
+		return;
+	}
+
+	file << "# Window state configurations\n\n"
+		<< "width=" << windowState.width << "\n"
+		<< "height=" << windowState.height << "\n"
+		<< "x=" << windowState.x << "\n"
+		<< "y=" << windowState.y << "\n"
+		<< "maximized=" << (windowState.maximized ? "true" : "false") << "\n"
+		<< "fullscreen=" << (windowState.fullscreen ? "true" : "false") << "\n";
+
+	file.flush();
+
+	if (!file)
+	{
+		Log::Error("Window", std::format("Failed to write window state file: '{}'", windowStatePath.generic_string()));
+		return;
 	}
 
 #ifndef NDEBUG
-	Log::Info("Window", std::format("Save window state setting file in path: '{}'", std::filesystem::absolute("Window.state").generic_string()));
+	Log::Info("Window", std::format("Save window state setting to: '{}'", std::filesystem::absolute(windowStatePath).generic_string()));
 #endif
 }
 
 bool Core::Window::LoadState(WindowState& windowState)
 {
-	std::ifstream file("Window.state", std::ios::binary);
+	std::ifstream file(windowStatePath);
 	if (!file)
 	{
 		return false;
 	}
 
-	file.read(reinterpret_cast<char*>(&windowState), sizeof(windowState));
-	return file.good();
+	WindowState loadedWindowState{};
+
+	bool hasWidth = false;
+	bool hasHeight = false;
+	bool hasX = false;
+	bool hasY = false;
+	bool hasMaximized = false;
+	bool hasFullscreen = false;
+
+	auto WarnInvalid = [&](const std::string& reason) -> void
+		{
+			Log::Warn("Window", std::format("Invalid window state file: '{}': {}", windowStatePath.generic_string(), reason));
+		};
+
+	auto ParseIntegerField = [&](const std::string& key, const std::string& value, int& destination, bool& found) -> bool
+		{
+			if (!ParseInteger(value, destination))
+			{
+				WarnInvalid(std::format("invalid integer value for '{}'", key));
+				return false;
+			}
+
+			found = true;
+			return true;
+		};
+
+	auto ParseBooleanField = [&](const std::string& key, const std::string& value, bool& destination, bool& found) -> bool
+		{
+			if (!ParseBoolean(value, destination))
+			{
+				WarnInvalid(std::format("invalid boolean value for '{}'", key));
+				return false;
+			}
+
+			found = true;
+			return true;
+		};
+
+	std::string line;
+	size_t lineNumber = 0;
+
+	while (std::getline(file, line))
+	{
+		++lineNumber;
+		line = TrimWhiteSpace(line);
+
+		if (line.empty() || line[0] == '#' || line[0] == ';')
+		{
+			continue;
+		}
+
+		const auto separator = line.find("=");
+
+		if (separator == std::string::npos)
+		{
+			WarnInvalid(std::format("line {} is missing '='", lineNumber));
+			return false;
+		}
+
+		const std::string key = TrimWhiteSpace(line.substr(0, separator));
+		const std::string value = TrimWhiteSpace(line.substr(separator + 1));
+
+		if (key == "width")
+		{
+			if (!ParseIntegerField(key, value, loadedWindowState.width, hasWidth))
+			{
+				return false;
+			}
+		}
+		else if (key == "height")
+		{
+			if (!ParseIntegerField(key, value, loadedWindowState.height, hasHeight))
+			{
+				return false;
+			}
+		}
+		else if (key == "x")
+		{
+			if (!ParseIntegerField(key, value, loadedWindowState.x, hasX))
+			{
+				return false;
+			}
+		}
+		else if (key == "y")
+		{
+			if (!ParseIntegerField(key, value, loadedWindowState.y, hasY))
+			{
+				return false;
+			}
+		}
+		else if (key == "maximized")
+		{
+			if (!ParseBooleanField(key, value, loadedWindowState.maximized, hasMaximized))
+			{
+				return false;
+			}
+		}
+		else if (key == "fullscreen")
+		{
+			if (!ParseBooleanField(key, value, loadedWindowState.fullscreen, hasFullscreen))
+			{
+				return false;
+			}
+		}
+	}
+
+	if (file.bad())
+	{
+		WarnInvalid("an input/output error occurred while reading the file");
+		return false;
+	}
+
+	if (!hasWidth || !hasHeight || !hasX || !hasY || !hasMaximized || !hasFullscreen)
+	{
+		WarnInvalid("one or more required settings are missing");
+		return false;
+	}
+
+	if (loadedWindowState.width <= 0 || loadedWindowState.height <= 0)
+	{
+		WarnInvalid("window size (width and height) must be greater than zero");
+		return false;
+	}
+
+	windowState = loadedWindowState;
+	return true;
 }
 
 void Core::Window::ResetState()
 {
-	std::filesystem::remove("Window.state");
+	std::error_code error;
+
+	if (!std::filesystem::remove(windowStatePath, error) && error)
+	{
+		Log::Warn("Window", std::format("Faile to remove window state file: {}", error.message()));
+	}
 
 	if (fullscreenMode)
 	{
@@ -485,6 +687,6 @@ void Core::Window::ResetState()
 	glfwGetWindowPos(window, &restoredX, &restoredY);
 
 #ifndef NDEBUG
-	Log::Debug("Window", "Window state reset to default value");
+	Log::Debug("Window", "Reset window state to default value");
 #endif
 }

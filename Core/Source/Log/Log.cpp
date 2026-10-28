@@ -125,7 +125,10 @@ void Core::Log::Write(LogLevel level, std::string_view category, std::string_vie
 
     if (logFile.is_open())
     {
-        logFile << GenerateLogFilename() << "\n\n" << line << "\n";
+        logFile << "#" << GenerateLogFilename()
+            << "\n\n"
+            << line 
+            << "\n";
         logFile.flush();
     }
 }

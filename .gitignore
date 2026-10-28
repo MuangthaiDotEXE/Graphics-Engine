@@ -30,6 +30,7 @@ imgui.ini
 imgui*.ini
 
 # Graphics Engine
-**/Window.state
-**/*.state
-**/Logs
+[Ee]ngine/Window.state
+[Ee]ngine/*.state
+[Cc]onfig/
+[Ll]ogs/

@@ -11,6 +11,8 @@
 #include <filesystem>
 #include <fstream>
 #include <optional>
+#include <charconv>
+#include <system_error>
 #include <stdexcept>
 
 #include <glad/gl.h>
