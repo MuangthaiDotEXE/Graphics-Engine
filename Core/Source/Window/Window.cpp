@@ -501,7 +501,7 @@ void Core::Window::SaveState()
 	std::ofstream file(windowStatePath, std::ios::out | std::ios::trunc);
 	if (!file)
 	{
-		Log::Error("Window", std::format("Failed to open window state file: '{}'", windowStatePath.generic_string()));
+		Log::Error("Window", std::format("Failed to open window state settings file: '{}'", windowStatePath.generic_string()));
 		return;
 	}
 
@@ -517,12 +517,12 @@ void Core::Window::SaveState()
 
 	if (!file)
 	{
-		Log::Error("Window", std::format("Failed to write window state file: '{}'", windowStatePath.generic_string()));
+		Log::Error("Window", std::format("Failed to write window state settings file: '{}'", windowStatePath.generic_string()));
 		return;
 	}
 
 #ifndef NDEBUG
-	Log::Info("Window", std::format("Save window state setting to: '{}'", std::filesystem::absolute(windowStatePath).generic_string()));
+	Log::Info("Window", std::format("Save window state settings to: '{}'", std::filesystem::absolute(windowStatePath).generic_string()));
 #endif
 }
 
@@ -545,7 +545,7 @@ bool Core::Window::LoadState(WindowState& windowState)
 
 	auto WarnInvalid = [&](const std::string& reason) -> void
 		{
-			Log::Warn("Window", std::format("Invalid window state file: '{}': {}", windowStatePath.generic_string(), reason));
+			Log::Warn("Window", std::format("Invalid window state settings file: '{}': {}", windowStatePath.generic_string(), reason));
 		};
 
 	auto ParseIntegerField = [&](const std::string& key, const std::string& value, int& destination, bool& found) -> bool
@@ -668,7 +668,7 @@ void Core::Window::ResetState()
 
 	if (!std::filesystem::remove(windowStatePath, error) && error)
 	{
-		Log::Warn("Window", std::format("Faile to remove window state file: {}", error.message()));
+		Log::Warn("Window", std::format("Failed to remove window state settings file: {}", error.message()));
 	}
 
 	if (fullscreenMode)
@@ -687,6 +687,6 @@ void Core::Window::ResetState()
 	glfwGetWindowPos(window, &restoredX, &restoredY);
 
 #ifndef NDEBUG
-	Log::Debug("Window", "Reset window state to default value");
+	Log::Debug("Window", "Reset window state settings to default value");
 #endif
 }

@@ -14,12 +14,13 @@ namespace Engine
 	{
 	public:
 		glm::vec3 skyColor = glm::vec3(0.529f, 0.808f, 0.922f);
+		std::string name;
 
 	protected:
 		Core::App& app;
 
 	public:
-		Scene(Core::App& app);
+		Scene(Core::App& app, const std::string& name);
 		virtual ~Scene() = default;
 
 		virtual void Render() = 0;

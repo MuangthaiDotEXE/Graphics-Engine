@@ -20,6 +20,7 @@
 #include "Graphics/Scene/Space.h"
 #include "UserInterface/Default.h"
 #include "UserInterface/Hierarchy.h"
+#include "Time/Time.h"
 
 namespace Engine
 {

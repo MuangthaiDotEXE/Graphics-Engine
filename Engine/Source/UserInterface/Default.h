@@ -24,6 +24,8 @@
 #include "Window/Window.h"
 #include "UserInterface/UserInterface.h"
 
+#include "../Time/Time.h"
+
 namespace Engine::UserInterface
 {
 	class Default : public Core::UserInterface::UserInterface

@@ -1,5 +1,35 @@
 #include "Default.h"
 
+namespace
+{
+	constexpr float FPS_GREAT_TRESHOLD = 36.0f;
+	constexpr float FPS_OK_TRESHOLD = 24.0f;
+
+	constexpr ImVec4 FPS_COLOR_GREAT = ImVec4(0.20f, 0.90f, 0.20f, 1.00f);
+	constexpr ImVec4 FPS_COLOR_OK = ImVec4(1.00f, 0.85f, 0.10f, 1.00f);
+	constexpr ImVec4 FPS_COLOR_BAD = ImVec4(0.95f, 0.20f, 0.20f, 1.00f);
+	constexpr ImVec4 FPS_COLOR_FALLBACK = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
+
+	ImVec4 GetFPSColor(float fps)
+	{
+		if (!(fps > 0.0f))
+		{
+			return FPS_COLOR_FALLBACK;
+		}
+		
+		if (fps >= FPS_GREAT_TRESHOLD)
+		{
+			return FPS_COLOR_GREAT;
+		}
+		if (fps >= FPS_OK_TRESHOLD)
+		{
+			return FPS_COLOR_OK;
+		}
+
+		return FPS_COLOR_BAD;
+	}
+}
+
 Engine::UserInterface::Default::Default(
 	Core::Window* window, 
 	const std::string& title, 
@@ -49,7 +79,12 @@ void Engine::UserInterface::Default::DefaultWindow()
 	ImGui::Text("Framebuffer size: %.0fx%.0f", window->GetFramebufferSize().x, window->GetFramebufferSize().y);
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
-	ImGui::Text("FPS: %.2f", io.Framerate);
+	const float fps = Engine::Time::FPS();
+	ImGui::TextUnformatted("FPS: ");
+	ImGui::SameLine(0, 0);
+	ImGui::TextColored(GetFPSColor(fps), "%.1f", fps);
+	ImGui::SameLine(0, 0);
+	ImGui::Text(" (%.2f ms)", Time::FrameTimeMilliseconds());
 	ImGui::Text("Monitor sync (V-Sync): %s", vSync ? "Enabled" : "Disabled");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 

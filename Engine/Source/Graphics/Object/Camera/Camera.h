@@ -18,6 +18,8 @@
 #include "Graphics/Graphics.h"
 #include "Graphics/Shader/Shader.h"
 
+#include "../../../Time/Time.h"
+
 namespace Engine
 {
 	class Camera
@@ -52,10 +54,6 @@ namespace Engine
 		const float speedMultiplier = 2.5f;
 		const float slowMultiplier = 0.4f;
 		float sensitivity = 100.0f;
-
-		double previousFrame;
-		double deltaTime = 0.0f;
-		double fps;
 
 	public:
 		enum struct VectorAxis { ORIENTATION, FRONT, RIGHT, UP };
@@ -92,9 +90,6 @@ namespace Engine
 		ProjectionMode GetProjectionMode() const;
 		RotationMode GetRotationMode() const;
 		float GetOrthographicZoomSize() const;
-		
-	private:
-		void Framerate();
 	};
 }
 

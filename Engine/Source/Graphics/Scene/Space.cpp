@@ -14,7 +14,7 @@ static const std::array<std::string, 6> spaceCubemap
 };
 
 Engine::Space::Space(Core::App& app)
-	: Scene(app),
+	: Scene(app, "Space"),
 	spaceShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
 	space(spaceShader, std::vector<std::string>(spaceCubemap.begin(), spaceCubemap.end())),
 	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),

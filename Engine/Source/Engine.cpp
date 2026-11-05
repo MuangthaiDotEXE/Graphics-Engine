@@ -32,6 +32,8 @@ void Engine::Engine::Update()
 {
 	while (!app.window->ShouldClose())
 	{
+		Time::Update();
+
 		uiLayer.Start();
 		scene->Update();
 
@@ -91,10 +93,12 @@ std::unique_ptr<Engine::Scene> Engine::Engine::CreateScene(SceneType sceneType)
 
 void Engine::Engine::InitializeScene(SceneType sceneType)
 {
-	Core::Log::Info("Scene", "Load scene");
+	Core::Log::Info("Scene", "Loading scene...");
 
 	activeSceneType = sceneType;
 	scene = CreateScene(sceneType);
+
+	Core::Log::Info("Scene", std::format("Loaded scene: {}", scene.get()->name));
 
 	sample = dynamic_cast<Sample*>(scene.get());
 	world = dynamic_cast<World*>(scene.get());

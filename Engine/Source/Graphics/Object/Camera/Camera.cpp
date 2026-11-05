@@ -104,18 +104,21 @@ void Engine::Camera::Matrix(const Core::Shader& shader, const std::string& unifo
 
 void Engine::Camera::Input()
 {
-	Framerate();
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	const float deltaTime = Time::UnscaledDeltaTime();
+
 	{
-		speed = walkSpeed * deltaTime * speedMultiplier;
-	}
-	else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-	{
-		speed = walkSpeed * deltaTime * slowMultiplier;
-	}
-	else
-	{
-		speed = walkSpeed * deltaTime;
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			speed = walkSpeed * deltaTime * speedMultiplier;
+		}
+		else if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
+		{
+			speed = walkSpeed * deltaTime * slowMultiplier;
+		}
+		else
+		{
+			speed = walkSpeed * deltaTime;
+		}
 	}
 
 	
@@ -270,14 +273,4 @@ Engine::Camera::RotationMode Engine::Camera::GetRotationMode() const
 float Engine::Camera::GetOrthographicZoomSize() const
 {
 	return orthographicZoomSize;
-}
-
-void Engine::Camera::Framerate()
-{
-	double currentFrame = glfwGetTime();
-
-	deltaTime = currentFrame - previousFrame;
-	previousFrame = currentFrame;
-
-	fps = 1.0f / deltaTime;
 }
