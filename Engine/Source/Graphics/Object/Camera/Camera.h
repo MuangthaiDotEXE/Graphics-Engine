@@ -73,7 +73,7 @@ namespace Engine
 			float farPlane,
 			float orthographicZoomSize = 10.0f
 		);
-		virtual ~Camera();
+		virtual ~Camera() = default;
 
 		void UpdateMatrix(float fov, float nearPlane, float farPlane, float orthographicZoomSize = 10.0f);
 		void Matrix(const Core::Shader& shader, const std::string& uniform);

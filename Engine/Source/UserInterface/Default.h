@@ -6,7 +6,6 @@
 #include <print>
 #include <format>
 #include <cstdio>
-#include <print>
 #include <string>
 #include <memory>
 #include <array>
@@ -36,6 +35,7 @@ namespace Engine::UserInterface
 		glm::vec3 skyColor, currentSkyColor;
 
 		bool vSync;
+		bool wireframe = false;
 		glm::vec3 cameraPosition;
 
 	public:

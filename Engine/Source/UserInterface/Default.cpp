@@ -28,6 +28,16 @@ namespace
 
 		return FPS_COLOR_BAD;
 	}
+
+	ImVec4 GetMonitorSyncColor(bool vSync)
+	{
+		if (vSync)
+		{
+			return ImVec4(0.20f, 0.90f, 0.20f, 1.00f);
+		}
+
+		return ImVec4(0.95f, 0.20f, 0.20f, 1.00f);
+	}
 }
 
 Engine::UserInterface::Default::Default(
@@ -82,10 +92,12 @@ void Engine::UserInterface::Default::DefaultWindow()
 	const float fps = Engine::Time::FPS();
 	ImGui::TextUnformatted("FPS: ");
 	ImGui::SameLine(0, 0);
-	ImGui::TextColored(GetFPSColor(fps), "%.1f", fps);
+	ImGui::TextColored(GetFPSColor(fps), "%.2f", fps);
 	ImGui::SameLine(0, 0);
 	ImGui::Text(" (%.2f ms)", Time::FrameTimeMilliseconds());
-	ImGui::Text("Monitor sync (V-Sync): %s", vSync ? "Enabled" : "Disabled");
+	ImGui::TextUnformatted("Monitor sync (V-Sync): ");
+	ImGui::SameLine(0, 0);
+	ImGui::TextColored(GetMonitorSyncColor(vSync), "%s", vSync ? "Enabled" : "Disabled");
 	ImGui::Dummy(ImVec2(0.0f, 10.0f));
 
 	/* Miscellaneous */
@@ -121,7 +133,6 @@ void Engine::UserInterface::Default::DefaultWindow()
 			Core::Log::Debug("User interface", std::format("Monitor sync (V-Sync): {}", vSync ? "Enable" : "Disable"));
 		}
 
-		static bool wireframe = false;
 		ImGui::Text("Wireframe");
 		ImGui::SameLine(0, 10);
 		if (ImGui::Button(wireframe ? "Disable##wireframe" : "Enable##wireframe"))

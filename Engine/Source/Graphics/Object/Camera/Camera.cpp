@@ -52,10 +52,6 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 	}
 }
 
-Engine::Camera::~Camera()
-{
-}
-
 void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, float orthographicZoomSize)
 {
 	this->fov = fov;
@@ -164,18 +160,28 @@ void Engine::Camera::Input()
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
+			int windowWidth = 0, windowHeight = 0;
+			glfwGetWindowSize(window, &windowWidth, &windowHeight);
+			if (windowWidth <= 0 || windowHeight <= 0)
+			{
+				return;
+			}
+
 			if (clicked)
 			{
 				glfwSetCursorPos(window, (width / 2), (height / 2));
 				clicked = false;
 			}
 
+			const double centerX = windowWidth * 0.5;
+			const double centerY = windowHeight * 0.5;
+
 			double mouseX;
 			double mouseY;
 			glfwGetCursorPos(window, &mouseX, &mouseY);
 
-			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
-			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
+			float rotateX = sensitivity * (float)(mouseY - centerY) / windowHeight;
+			float rotateY = sensitivity * (float)(mouseX - centerX) / windowWidth;
 
 			if (GetRotationMode() == RotationMode::EULER)
 			{
