@@ -1,10 +1,10 @@
 #include "Camera.h"
 
 Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, RotationMode rotationMode, glm::vec3 position, float fov, float nearPlane, float farPlane, float orthographicZoomSize)
-	: window(window), 
-	projectionMode(projectionMode), 
-	rotationMode(rotationMode), 
-	position(position), 
+	: window(window),
+	projectionMode(projectionMode),
+	rotationMode(rotationMode),
+	position(position),
 	fov(fov),
 	nearPlane(nearPlane),
 	farPlane(farPlane),
@@ -117,7 +117,7 @@ void Engine::Camera::Input()
 		}
 	}
 
-	
+
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS)
 	{
 		/* Keyboard */
@@ -155,17 +155,10 @@ void Engine::Camera::Input()
 				position += speed * glm::normalize(moveDirection);
 			}
 		}
-	
+
 		/* Mouse cursor */
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-			int windowWidth = 0, windowHeight = 0;
-			glfwGetWindowSize(window, &windowWidth, &windowHeight);
-			if (windowWidth <= 0 || windowHeight <= 0)
-			{
-				return;
-			}
 
 			if (clicked)
 			{
@@ -173,15 +166,12 @@ void Engine::Camera::Input()
 				clicked = false;
 			}
 
-			const double centerX = windowWidth * 0.5;
-			const double centerY = windowHeight * 0.5;
-
 			double mouseX;
 			double mouseY;
 			glfwGetCursorPos(window, &mouseX, &mouseY);
 
-			float rotateX = sensitivity * (float)(mouseY - centerY) / windowHeight;
-			float rotateY = sensitivity * (float)(mouseX - centerX) / windowWidth;
+			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
+			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
 			if (GetRotationMode() == RotationMode::EULER)
 			{
