@@ -40,6 +40,8 @@ set(SOURCES
 	"Source/Graphics/Object/Camera/Camera.cpp"
 	"Source/Graphics/Object/Light/Light.h"
 	"Source/Graphics/Object/Light/Light.cpp"
+	"Source/Graphics/Object/Selection/Selection.h"
+	"Source/Graphics/Object/Selection/Selection.cpp"
 	"Source/UserInterface/Default.h"
 	"Source/UserInterface/Default.cpp"
 	"Source/UserInterface/Hierarchy.h"

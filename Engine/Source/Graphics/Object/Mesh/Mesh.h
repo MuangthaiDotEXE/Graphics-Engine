@@ -5,6 +5,7 @@
 
 #include <string>
 #include <optional>
+#include <vector>
 
 #include <glad/gl.h>
 #include <glm/glm.hpp>
@@ -29,6 +30,9 @@ namespace Engine
 		Core::Texture specular;
 
 		std::string name = "Mesh";
+
+		glm::vec3 boundsMin = glm::vec3(0.0f); // Local-space AABB
+		glm::vec3 boundsMax = glm::vec3(0.0f);
 
 	protected:
 		bool diffusePath, specularPath;
@@ -63,6 +67,9 @@ namespace Engine
 
 		virtual void Render() = 0;
 		virtual void Update() = 0;
+
+	protected:
+		void ComputeBounds(const std::vector<Vertex>& vertices);
 	};
 }
 

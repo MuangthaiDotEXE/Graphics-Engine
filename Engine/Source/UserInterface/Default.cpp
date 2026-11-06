@@ -94,7 +94,7 @@ void Engine::UserInterface::Default::DefaultWindow()
 	ImGui::SameLine(0, 0);
 	ImGui::TextColored(GetFPSColor(fps), "%.2f", fps);
 	ImGui::SameLine(0, 0);
-	ImGui::Text(" (%.2f ms)", Time::FrameTimeMilliseconds());
+	ImGui::Text(" (%.2f ms per frame)", Time::FrameTimeMilliseconds());
 	ImGui::TextUnformatted("Monitor sync (V-Sync): ");
 	ImGui::SameLine(0, 0);
 	ImGui::TextColored(GetMonitorSyncColor(vSync), "%s", vSync ? "Enabled" : "Disabled");

@@ -29,6 +29,7 @@ Engine::Mesh::Mesh(const std::string& vertexShader,
 	diffusePath(diffuse.has_value()),
 	specularPath(specular.has_value())
 {
+	ComputeBounds(vertices);
 }
 
 Engine::Mesh::Mesh(const Core::Shader& shader, 
@@ -46,4 +47,20 @@ Engine::Mesh::Mesh(const Core::Shader& shader,
 	diffusePath(diffuse.has_value()),
 	specularPath(specular.has_value())
 {
+	ComputeBounds(vertices);
+}
+
+void Engine::Mesh::ComputeBounds(const std::vector<Vertex>& vertices)
+{
+	if (vertices.empty())
+	{
+		return;
+	}
+
+	boundsMin = boundsMax = vertices[0].position;
+	for (const Vertex& vertex : vertices)
+	{
+		boundsMin = glm::min(boundsMin, vertex.position);
+		boundsMax = glm::max(boundsMax, vertex.position);
+	}
 }

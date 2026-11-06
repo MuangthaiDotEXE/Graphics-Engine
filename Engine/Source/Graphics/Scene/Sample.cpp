@@ -233,6 +233,10 @@ void Engine::Sample::Update()
 	camera.Input();
 	camera.UpdateMatrix(70.0f, 0.001f, 1000.0f, 2.5f);
 
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(app.window->GetWindow(), &windowWidth, &windowHeight);
+	selection.Update(app.window->GetWindow(), camera.GetView(), camera.GetProjection(), glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight), meshes, true);
+
 	for (auto& light : lights)
 	{
 		light->shader.Activate();
@@ -251,6 +255,8 @@ void Engine::Sample::Update()
 
 		mesh->Update();
 	}
+
+	selection.DrawOutline(camera);
 
 	//fbo.Unbind();
 }
