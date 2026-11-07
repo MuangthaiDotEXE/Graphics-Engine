@@ -31,6 +31,7 @@ namespace Engine
 
 		ReclickMode reclickMode = ReclickMode::SELECTBEHIND;
 		glm::vec4 outlineColor = glm::vec4(1.00f, 0.55f, 0.00f, 1.00f);
+		float dragTreshold = 4.0f;
 
 	private:
 		struct Ray
@@ -44,6 +45,14 @@ namespace Engine
 
 		Mesh* selected = nullptr;
 		bool wasMouseDown = false;
+
+		bool dragPending = false;
+		bool dragging = false;
+		Mesh* behindCandidate = nullptr;
+		glm::vec2 dragStartMouse = glm::vec2(0.0f);
+		glm::vec3 dragPlaneNormal = glm::vec3(0.0f);
+		glm::vec3 dragPlanePoint = glm::vec3(0.0f);
+		glm::vec3 dragOffset = glm::vec3(0.0f);
 
 	public:
 		Selection();
@@ -65,6 +74,8 @@ namespace Engine
 		void Clear();
 
 	private:
+		static Ray CreateRay(const glm::vec2& local, const glm::vec2& viewportSize, const glm::mat4& view, const glm::mat4& projection);
+		static bool IntersectPlane(const Ray& ray, const glm::vec3& planePoint, const glm::vec3& planeNormal, glm::vec3& outPoint);
 		static bool IntersectLocalBox(const Mesh& mesh, const Ray& worldRay, float& outT);
 	};
 }

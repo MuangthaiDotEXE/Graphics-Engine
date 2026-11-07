@@ -29,6 +29,7 @@
 #include "../Object/Model/Model.h"
 #include "../Object/Light/Light.h"
 #include "../Object/Selection/Selection.h"
+#include "../Object/Gizmo/Gizmo.h"
 
 namespace Engine
 {
@@ -41,7 +42,6 @@ namespace Engine
 
 		Sky sky;
 		Camera camera;
-		Selection selection;
 		Grid grid;
 
 		std::vector<std::unique_ptr<Mesh>> meshes;

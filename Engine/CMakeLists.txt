@@ -42,6 +42,8 @@ set(SOURCES
 	"Source/Graphics/Object/Light/Light.cpp"
 	"Source/Graphics/Object/Selection/Selection.h"
 	"Source/Graphics/Object/Selection/Selection.cpp"
+	"Source/Graphics/Object/Gizmo/Gizmo.h"
+	"Source/Graphics/Object/Gizmo/Gizmo.cpp"
 	"Source/UserInterface/Default.h"
 	"Source/UserInterface/Default.cpp"
 	"Source/UserInterface/Hierarchy.h"

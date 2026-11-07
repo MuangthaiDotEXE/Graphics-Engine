@@ -72,14 +72,14 @@ void Engine::World::Update()
 
 	glDepthFunc(GL_LESS);
 
-	camera.Input();
-	camera.UpdateMatrix(70.0f, 0.001f, 1000.0f, 2.5f);
-
 	grid.view = camera.GetView();
 	grid.projection = camera.GetProjection();
 	grid.nearPlane = camera.GetNearPlane();
 	grid.farPlane = camera.GetFarPlane();
 	grid.Update();
+
+	camera.Input();
+	camera.UpdateMatrix(70.0f, 0.001f, 1000.0f, 2.5f);
 }
 
 Engine::Camera Engine::World::GetCamera() const

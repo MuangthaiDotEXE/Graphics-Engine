@@ -6,7 +6,10 @@
 #include <GLFW/glfw3.h>
 
 #include "App.h"
+
 #include "../Object/Camera/Camera.h"
+#include "../Object/Selection/Selection.h"
+#include "../Object/Gizmo/Gizmo.h"
 
 namespace Engine
 {
@@ -18,6 +21,9 @@ namespace Engine
 
 	protected:
 		Core::App& app;
+
+		Selection selection;
+		Gizmo gizmo;
 
 	public:
 		Scene(Core::App& app, const std::string& name);

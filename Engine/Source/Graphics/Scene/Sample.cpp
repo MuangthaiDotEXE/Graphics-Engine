@@ -235,7 +235,7 @@ void Engine::Sample::Update()
 
 	int windowWidth, windowHeight;
 	glfwGetWindowSize(app.window->GetWindow(), &windowWidth, &windowHeight);
-	selection.Update(app.window->GetWindow(), camera.GetView(), camera.GetProjection(), glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight), meshes, true);
+	selection.Update(app.window->GetWindow(), camera.GetView(), camera.GetProjection(), glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight), meshes, !ImGui::GetIO().WantCaptureMouse && !gizmo.IsInteracting());
 
 	for (auto& light : lights)
 	{
@@ -257,6 +257,7 @@ void Engine::Sample::Update()
 	}
 
 	selection.DrawOutline(camera);
+	gizmo.Draw(selection.Get(), camera, glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight));
 
 	//fbo.Unbind();
 }

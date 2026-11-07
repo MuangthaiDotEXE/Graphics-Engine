@@ -18,8 +18,8 @@ namespace Engine
 	private:
 		Core::FBO fbo;
 
-		Grid grid;
 		Sky sky;
+		Grid grid;
 
 	public:
 		Camera camera;

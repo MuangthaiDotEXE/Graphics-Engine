@@ -123,6 +123,10 @@ void Engine::Space::Update()
 	camera.Input();
 	camera.UpdateMatrix(70.0f, 0.001f, 1000.0f, 2.5f);
 
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(app.window->GetWindow(), &windowWidth, &windowHeight);
+	selection.Update(app.window->GetWindow(), camera.GetView(), camera.GetProjection(), glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight), planets, !ImGui::GetIO().WantCaptureMouse && !gizmo.IsInteracting());
+
 	for (auto& star : stars)
 	{
 		star->shader.Activate();
@@ -141,6 +145,9 @@ void Engine::Space::Update()
 
 		planet->Update();
 	}
+
+	selection.DrawOutline(camera);
+	gizmo.Draw(selection.Get(), camera, glm::vec2(0.0f), glm::vec2((float)windowWidth, (float)windowHeight));
 
 	//fbo.Unbind();
 }

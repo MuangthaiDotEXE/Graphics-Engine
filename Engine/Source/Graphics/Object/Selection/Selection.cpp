@@ -67,32 +67,69 @@ void Engine::Selection::Update(GLFWwindow* window, const glm::mat4& view, const 
 {
     const bool mouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
     const bool clicked = mouseDown && !wasMouseDown;
+    const bool released = !mouseDown && wasMouseDown;
     wasMouseDown = mouseDown;
+
+    double mouseX, mouseY;
+    glfwGetCursorPos(window, &mouseX, &mouseY);
+    const glm::vec2 local = glm::vec2((float)mouseX, (float)mouseY) - viewportPosition;
+
+    if (released)
+    {
+        if (dragPending && !dragging && behindCandidate)
+        {
+            selected = behindCandidate;
+        }
+
+        dragPending = false;
+        dragging = false;
+        behindCandidate = nullptr;
+        
+        return;
+    }
+
+    if (mouseDown && dragPending && !clicked)
+    {
+        if (!selected || viewportSize.x <= 0.0f || viewportSize.y <= 0.0f)
+        {
+            dragPending = false;
+
+            return;
+        }
+
+        if (!dragging)
+        {
+            if (glm::distance(local, dragStartMouse) < dragTreshold)
+            {
+                return;
+            }
+
+            dragging = true;
+            behindCandidate = nullptr;
+        }
+
+        const Ray ray = CreateRay(local, viewportSize, view, projection);
+
+        glm::vec3 point;
+        if (IntersectPlane(ray, dragPlanePoint, dragPlaneNormal, point))
+        {
+            selected->transform.position = point + dragOffset;
+        }
+
+        return;
+    }
 
     if (!clicked || !inputAllowed || viewportSize.x <= 0.0f || viewportSize.y <= 0.0f)
     {
         return;
     }
 
-    double mouseX, mouseY;
-    glfwGetCursorPos(window, &mouseX, &mouseY);
-
-    const glm::vec2 local = glm::vec2((float)mouseX, (float)mouseY) - viewportPosition;
     if (local.x < 0.0f || local.y < 0.0f || local.x > viewportSize.x || local.y > viewportSize.y)
     {
         return;
     }
 
-    const float ndcX = 2.0f * local.x / viewportSize.x - 1.0f;
-    const float ndcY = 1.0f - 2.0f * local.y / viewportSize.y;
-
-    const glm::mat4 inverseViewProjection = glm::inverse(projection * view);
-    glm::vec4 nearPoint = inverseViewProjection * glm::vec4(ndcX, ndcY, -1.0f, 1.0f);
-    glm::vec4 farPoint = inverseViewProjection * glm::vec4(ndcX, ndcY, 1.0f, 1.0f);
-    nearPoint /= nearPoint.w;
-    farPoint /= farPoint.w;
-
-    Ray ray{ glm::vec3(nearPoint), glm::normalize(glm::vec3(farPoint - nearPoint)) };
+    const Ray ray = CreateRay(local, viewportSize, view, projection);
 
     struct Hit
     {
@@ -122,13 +159,33 @@ void Engine::Selection::Update(GLFWwindow* window, const glm::mat4& view, const 
         return;
     }
 
-    if (reclickMode == ReclickMode::SELECTBEHIND && hits[0].mesh == selected && hits.size() > 1)
+    behindCandidate = nullptr;
+
+    if (hits[0].mesh == selected)
     {
-        selected = hits[1].mesh;
-        return;
+        if (reclickMode == ReclickMode::SELECTBEHIND && hits.size() > 1)
+        {
+            behindCandidate = hits[1].mesh;
+        }
+    }
+    else
+    {
+        selected = hits[0].mesh;
     }
 
-    selected = hits[0].mesh;
+    const glm::vec3 planeNormal = glm::vec3(view[0][2], view[1][2], view[2][2]);
+    const glm::vec3 planePoint = selected->transform.position;
+
+    glm::vec3 hitPoint;
+    if (IntersectPlane(ray, planePoint, planeNormal, hitPoint))
+    {
+        dragPlaneNormal = planeNormal;
+        dragPlanePoint = planePoint;
+        dragOffset = planePoint - hitPoint;
+        dragStartMouse = local;
+        dragPending = true;
+        dragging = false;
+    }
 }
 
 void Engine::Selection::DrawOutline(Camera& camera)
@@ -166,6 +223,43 @@ Engine::Mesh* Engine::Selection::Get() const
 void Engine::Selection::Clear()
 {
     selected = nullptr;
+
+    dragPending = false;
+    dragging = false;
+
+    behindCandidate = nullptr;
+}
+
+Engine::Selection::Ray Engine::Selection::CreateRay(const glm::vec2& local, const glm::vec2& viewportSize, const glm::mat4& view, const glm::mat4& projection)
+{
+    const float ndcX = 2.0f * local.x / viewportSize.x - 1.0f;
+    const float ndcY = 1.0f - 2.0f * local.y / viewportSize.y;
+
+    const glm::mat4 inverseViewProjection = glm::inverse(projection * view);
+    glm::vec4 nearPoint = inverseViewProjection * glm::vec4(ndcX, ndcY, -1.0f, 1.0f);
+    glm::vec4 farPoint = inverseViewProjection * glm::vec4(ndcX, ndcY, 1.0f, 1.0f);
+    nearPoint /= nearPoint.w;
+    farPoint /= farPoint.w;
+
+    return Ray{ glm::vec3(nearPoint), glm::normalize(glm::vec3(farPoint - nearPoint)) };
+}
+
+bool Engine::Selection::IntersectPlane(const Ray& ray, const glm::vec3& planePoint, const glm::vec3& planeNormal, glm::vec3& outPoint)
+{
+    const float denominator = glm::dot(planeNormal, ray.direction);
+    if (std::abs(denominator) < 1e-6f)
+    {
+        return false;
+    }
+
+    const float t = glm::dot(planeNormal, planePoint - ray.origin) / denominator;
+    if (t < 0.0f)
+    {
+        return false;
+    }
+
+    outPoint = ray.origin + ray.direction * t;
+    return true;
 }
 
 bool Engine::Selection::IntersectLocalBox(const Mesh& mesh, const Ray& worldRay, float& outT)
@@ -212,6 +306,6 @@ bool Engine::Selection::IntersectLocalBox(const Mesh& mesh, const Ray& worldRay,
         return false;
     }
 
-    outT = tMin >= 0.0 ? tMin : tMax;
+    outT = tMin >= 0.0f ? tMin : tMax;
     return true;
 }
