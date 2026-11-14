@@ -7,12 +7,12 @@ void Engine::Gizmo::Draw(Mesh* mesh, Camera& camera, const glm::vec2& viewportPo
 
 	interacting = false;
 
-	if (!mesh || mode == Mode::NONE || viewportSize.x <= 0.0f || viewportSize.y <= 0.0f)
+	if (!mesh || mode == Mode::None || viewportSize.x <= 0.0f || viewportSize.y <= 0.0f)
 	{
 		return;
 	}
 
-	ImGuizmo::SetOrthographic(camera.GetProjectionMode() != Camera::ProjectionMode::PERSPECTIVE);
+	ImGuizmo::SetOrthographic(camera.GetProjectionMode() != Camera::ProjectionMode::Perspective);
 	ImGuizmo::SetDrawlist(ImGui::GetBackgroundDrawList());
 
 	const ImGuiViewport* mainViewport = ImGui::GetMainViewport();
@@ -25,17 +25,17 @@ void Engine::Gizmo::Draw(Mesh* mesh, Camera& camera, const glm::vec2& viewportPo
 	float snapValue = snapTranslate;
 	switch (mode)
 	{
-		case Mode::ROTATE:
+		case Mode::Rotate:
 			operation = ImGuizmo::ROTATE;
 			snapValue = snapRotate;
 			break;
 
-		case Mode::SCALE:
+		case Mode::Scale:
 			operation = ImGuizmo::SCALE;
 			snapValue = snapScale;
 			break;
 
-		case Mode::TRANSFORM:
+		case Mode::Transform:
 			operation = static_cast<ImGuizmo::OPERATION>(ImGuizmo::TRANSLATE | ImGuizmo::ROTATE | ImGuizmo::SCALEU);
 			break;
 
@@ -43,7 +43,7 @@ void Engine::Gizmo::Draw(Mesh* mesh, Camera& camera, const glm::vec2& viewportPo
 			break;
 	}
 
-	const ImGuizmo::MODE space_ = space == Space::LOCAL || mode == Mode::SCALE ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
+	const ImGuizmo::MODE space_ = space == Space::Local || mode == Mode::Scale ? ImGuizmo::LOCAL : ImGuizmo::WORLD;
 
 	const bool snap = ImGui::GetIO().KeyCtrl;
 	const float snapValues[3] = { snapValue, snapValue, snapValue };
@@ -52,7 +52,7 @@ void Engine::Gizmo::Draw(Mesh* mesh, Camera& camera, const glm::vec2& viewportPo
 	glm::mat4 projection = camera.GetProjection();
 	glm::mat4 model = mesh->transform.GetMatrix();
 
-	const bool changed = ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection), operation, space_, glm::value_ptr(model), nullptr, snap && mode != Mode::TRANSFORM ? snapValues : nullptr);
+	const bool changed = ImGuizmo::Manipulate(glm::value_ptr(view), glm::value_ptr(projection), operation, space_, glm::value_ptr(model), nullptr, snap && mode != Mode::Transform ? snapValues : nullptr);
 
 	interacting = ImGuizmo::IsOver() || ImGuizmo::IsUsing();
 
@@ -64,11 +64,11 @@ void Engine::Gizmo::Draw(Mesh* mesh, Camera& camera, const glm::vec2& viewportPo
 	const glm::vec3 newPosition = glm::vec3(model[3]);
 	const glm::vec3 newScale = glm::vec3(glm::length(glm::vec3(model[0])), glm::length(glm::vec3(model[1])), glm::length(glm::vec3(model[2])));
 
-	bool applyPosition = mode == Mode::TRANSLATE;
-	bool applyRotation = mode == Mode::ROTATE;
-	bool applyScale = mode == Mode::SCALE;
+	bool applyPosition = mode == Mode::Translate;
+	bool applyRotation = mode == Mode::Rotate;
+	bool applyScale = mode == Mode::Scale;
 
-	if (mode == Mode::TRANSFORM)
+	if (mode == Mode::Transform)
 	{
 		const float epsilon = 1e-4f;
 
@@ -135,26 +135,26 @@ void Engine::Gizmo::Keybinds()
 
 	if (ImGui::IsKeyPressed(ImGuiKey_Q, false)) 
 	{
-		mode = Mode::NONE;
+		mode = Mode::None;
 	}
 	if (ImGui::IsKeyPressed(ImGuiKey_W, false))
 	{
-		mode = Mode::TRANSLATE;
+		mode = Mode::Translate;
 	}
 	if (ImGui::IsKeyPressed(ImGuiKey_E, false))
 	{
-		mode = Mode::ROTATE;
+		mode = Mode::Rotate;
 	}
 	if (ImGui::IsKeyPressed(ImGuiKey_R, false))
 	{
-		mode = Mode::SCALE;
+		mode = Mode::Scale;
 	}
 	if (ImGui::IsKeyPressed(ImGuiKey_T, false))
 	{
-		mode = Mode::TRANSFORM;
+		mode = Mode::Transform;
 	}
 	if (ImGui::IsKeyPressed(ImGuiKey_Y, false))
 	{
-		space = space == Space::GLOBAL ? Space::LOCAL : Space::GLOBAL;
+		space = space == Space::Global ? Space::Local : Space::Global;
 	}
 }

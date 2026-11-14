@@ -20,12 +20,12 @@ namespace Core
 {
 	enum struct LogLevel
 	{
-		TRACE,
-		DEBUG,
-		INFO,
-		WARN,
-		ERR,
-		CRIT
+		Trace,
+		Debug,
+		Info,
+		Warn,
+		Error,
+		Critical
 	};
 
 	class Log

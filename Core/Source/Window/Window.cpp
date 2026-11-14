@@ -110,7 +110,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 		throw std::runtime_error("Failed to initialize window (GLFW windowing API)\n");
 	}
 
-	if (graphicsAPI == GraphicsAPI::OPENGL)
+	if (graphicsAPI == GraphicsAPI::OpenGL)
 	{
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -120,7 +120,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
 #endif
 	}
-	else if (graphicsAPI == GraphicsAPI::VULKAN)
+	else if (graphicsAPI == GraphicsAPI::Vulkan)
 	{
 		if (!glfwVulkanSupported())
 		{
@@ -151,7 +151,7 @@ Core::Window::Window(const WindowData& windowData, GraphicsAPI graphicsAPI)
 	SetWindowSubclass(hwnd, ThemeSubclassProcess, 1, 0);
 #endif
 
-	if (graphicsAPI == GraphicsAPI::OPENGL)
+	if (graphicsAPI == GraphicsAPI::OpenGL)
 	{
 		glfwMakeContextCurrent(window);
 
@@ -279,7 +279,7 @@ void Core::Window::Update()
 		glfwGetWindowPos(window, &restoredX, &restoredY);
 	}
 
-	if (graphicsAPI == GraphicsAPI::OPENGL)
+	if (graphicsAPI == GraphicsAPI::OpenGL)
 	{
 		glfwSwapBuffers(window);
 	}

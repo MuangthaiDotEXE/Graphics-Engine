@@ -22,21 +22,21 @@ namespace Engine
 	public:
 		enum struct Mode
 		{
-			NONE,
-			TRANSLATE,
-			ROTATE,
-			SCALE,
-			TRANSFORM
+			None,
+			Translate,
+			Rotate,
+			Scale,
+			Transform
 		};
 
 		enum struct Space
 		{
-			GLOBAL,
-			LOCAL
+			Global,
+			Local
 		};
 
-		Mode mode = Mode::TRANSLATE;
-		Space space = Space::GLOBAL;
+		Mode mode = Mode::Translate;
+		Space space = Space::Global;
 
 		float snapTranslate = 1.0f;
 		float snapRotate = 15.0f;

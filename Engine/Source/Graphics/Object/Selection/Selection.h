@@ -25,11 +25,11 @@ namespace Engine
 	public:
 		enum struct ReclickMode
 		{
-			SELECTBEHIND,
-			KEEPSELECTED
+			SelectBehind,
+			KeepSelected
 		};
 
-		ReclickMode reclickMode = ReclickMode::SELECTBEHIND;
+		ReclickMode reclickMode = ReclickMode::SelectBehind;
 		glm::vec4 outlineColor = glm::vec4(1.00f, 0.55f, 0.00f, 1.00f);
 		float dragTreshold = 4.0f;
 

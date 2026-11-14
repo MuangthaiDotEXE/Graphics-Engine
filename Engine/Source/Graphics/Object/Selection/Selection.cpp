@@ -163,7 +163,7 @@ void Engine::Selection::Update(GLFWwindow* window, const glm::mat4& view, const 
 
     if (hits[0].mesh == selected)
     {
-        if (reclickMode == ReclickMode::SELECTBEHIND && hits.size() > 1)
+        if (reclickMode == ReclickMode::SelectBehind && hits.size() > 1)
         {
             behindCandidate = hits[1].mesh;
         }

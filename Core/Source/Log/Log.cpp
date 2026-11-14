@@ -7,18 +7,18 @@ namespace
 
     std::filesystem::path path;
 
-    Core::LogLevel minLevel = Core::LogLevel::TRACE;
+    Core::LogLevel minLevel = Core::LogLevel::Trace;
 
     std::string LevelName(Core::LogLevel level)
     {
         switch (level)
         {
-        case Core::LogLevel::TRACE: return "TRACE";
-        case Core::LogLevel::DEBUG: return "DEBUG";
-        case Core::LogLevel::INFO: return "INFO";
-        case Core::LogLevel::WARN: return "WARN";
-        case Core::LogLevel::ERR: return "ERROR";
-        case Core::LogLevel::CRIT: return "CRIT";
+        case Core::LogLevel::Trace: return "TRACE";
+        case Core::LogLevel::Debug: return "DEBUG";
+        case Core::LogLevel::Info: return "INFO";
+        case Core::LogLevel::Warn: return "WARN";
+        case Core::LogLevel::Error: return "ERROR";
+        case Core::LogLevel::Critical: return "CRITICAL";
         default: return "UNKNOWN";
         }
     }
@@ -72,12 +72,11 @@ namespace
     {
         switch (level)
         {
-        case Core::LogLevel::TRACE: return "\033[90m";
-        case Core::LogLevel::DEBUG: return "\033[32m";
-        case Core::LogLevel::INFO: return "\033[0m";
-        case Core::LogLevel::WARN: return "\033[33m";
-        case Core::LogLevel::ERR: return "\033[31m";
-        case Core::LogLevel::CRIT: return "\033[2;31m";
+        case Core::LogLevel::Debug: return "\033[32m";
+        case Core::LogLevel::Info: return "\033[0m";
+        case Core::LogLevel::Warn: return "\033[33m";
+        case Core::LogLevel::Error: return "\033[31m";
+        case Core::LogLevel::Critical: return "\033[2;31m";
         default: return "\033[0m";
         }
     }
@@ -147,32 +146,32 @@ void Core::Log::Shutdown()
 
 void Core::Log::Trace(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::TRACE, category, message);
+    Write(LogLevel::Trace, category, message);
 }
 
 void Core::Log::Debug(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::DEBUG, category, message);
+    Write(LogLevel::Debug, category, message);
 }
 
 void Core::Log::Info(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::INFO, category, message);
+    Write(LogLevel::Info, category, message);
 }
 
 void Core::Log::Warn(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::WARN, category, message);
+    Write(LogLevel::Warn, category, message);
 }
 
 void Core::Log::Error(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::ERR, category, message);
+    Write(LogLevel::Error, category, message);
 }
 
 void Core::Log::Critical(std::string_view category, std::string_view message)
 {
-    Write(LogLevel::CRIT, category, message);
+    Write(LogLevel::Critical, category, message);
 }
 
 void Core::Log::Test(std::string_view category, std::string_view message)

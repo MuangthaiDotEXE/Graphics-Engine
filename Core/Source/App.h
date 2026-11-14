@@ -27,7 +27,7 @@ namespace Core
 	struct AppData
 	{
 		WindowData windowData;
-		GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL;
+		GraphicsAPI graphicsAPI = GraphicsAPI::OpenGL;
 
 		int buildNumber = 1;
 		std::string appName = "App";
@@ -37,12 +37,12 @@ namespace Core
 
 		enum struct DevelopmentStage
 		{
-			ALPHA,
-			BETA,
-			RELEASE_CANDIDATE,
-			RELEASE
+			Alpha,
+			Beta,
+			ReleaseCandidate,
+			Release
 		};
-		DevelopmentStage developmentStage = DevelopmentStage::ALPHA;
+		DevelopmentStage developmentStage = DevelopmentStage::Alpha;
 
 		std::string GetTitle() const;
 		std::string GetVersion() const;

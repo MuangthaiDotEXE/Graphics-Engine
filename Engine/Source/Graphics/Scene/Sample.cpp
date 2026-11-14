@@ -83,7 +83,7 @@ Engine::Sample::Sample(Core::App& app)
 	: Scene(app, "Sample"),
 	skyShader(ProjectDirectory "/Resource/Shader/Sky/Sky.vert", ProjectDirectory "/Resource/Shader/Sky/Sky.frag"),
 	sky(skyShader, std::vector<std::string>(skyCubemap.begin(), skyCubemap.end())),
-	camera(app.window->GetWindow(), Camera::ProjectionMode::PERSPECTIVE, Camera::RotationMode::EULER, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
+	camera(app.window->GetWindow(), Camera::ProjectionMode::Perspective, Camera::RotationMode::Euler, glm::vec3(8.75f, 8.75f, 8.75f), 70.0f, 0.001f, 1000.0f),
 	grid(camera.GetNearPlane(), camera.GetFarPlane()), 
 	meshShader(ProjectDirectory "/Resource/Shader/Mesh/Mesh.vert", ProjectDirectory "/Resource/Shader/Mesh/Mesh.frag"),
 	meshes(), 
@@ -190,16 +190,16 @@ void Engine::Sample::Update()
 	{
 		float aspect = (float)width / height;
 
-		if (camera.GetRotationMode() == Camera::RotationMode::EULER)
+		if (camera.GetRotationMode() == Camera::RotationMode::Euler)
 		{
-			view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.GetVectorAxis(Camera::VectorAxis::FRONT), camera.GetVectorAxis(Camera::VectorAxis::UP))));
+			view = glm::mat4(glm::mat3(glm::lookAt(camera.GetPosition(), camera.GetPosition() + camera.GetVectorAxis(Camera::VectorAxis::Front), camera.GetVectorAxis(Camera::VectorAxis::Up))));
 		}
 		else
 		{
 			view = glm::mat4_cast(glm::conjugate(camera.GetQuaternionRotation())) * glm::translate(glm::mat4(1.0f), -camera.GetPosition());
 		}
 
-		if (camera.GetProjectionMode() == Camera::ProjectionMode::PERSPECTIVE)
+		if (camera.GetProjectionMode() == Camera::ProjectionMode::Perspective)
 		{
 			projection = glm::perspective(glm::radians(camera.GetFieldOfView()), aspect, camera.GetNearPlane(), camera.GetFarPlane());
 		}

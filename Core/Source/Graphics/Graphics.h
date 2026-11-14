@@ -9,8 +9,8 @@ namespace Core
 {
 	enum class GraphicsAPI
 	{
-		OPENGL,
-		VULKAN
+		OpenGL,
+		Vulkan
 	};
 
 	class Graphics

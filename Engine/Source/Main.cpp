@@ -29,13 +29,13 @@ int main(int argc, char** argv)
 	engineData.engineName = "Graphics Engine";
 	engineData.version = { 1, 0, 0 };
 	engineData.subVersion = "";
-	engineData.developmentStage = Core::AppData::DevelopmentStage::ALPHA;
+	engineData.developmentStage = Core::AppData::DevelopmentStage::Alpha;
 	engineData.buildNumber = 1;
 	engineData.windowData.width = 854u;
 	engineData.windowData.height = 480u;
 	engineData.windowData.fullscreen = false;
 	engineData.windowData.icon = ProjectDirectory "/Asset/Icon/Icon.png";
-	engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
+	engineData.graphicsAPI = Core::GraphicsAPI::OpenGL;
 
 	try
 	{
@@ -43,11 +43,11 @@ int main(int argc, char** argv)
 		{
 			if (std::string(argv[i]) == "-opengl")
 			{
-				engineData.graphicsAPI = Core::GraphicsAPI::OPENGL;
+				engineData.graphicsAPI = Core::GraphicsAPI::OpenGL;
 			}
 			else if (std::string(argv[i]) == "-vulkan")
 			{
-				engineData.graphicsAPI = Core::GraphicsAPI::VULKAN;
+				engineData.graphicsAPI = Core::GraphicsAPI::Vulkan;
 			}
 
 			if (std::string(argv[i]) == "--reset-window" && std::filesystem::exists("Window.state"))
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 			}
 		}
 
-		Engine::Engine engine(engineData, Engine::SceneType::SAMPLE);
+		Engine::Engine engine(engineData, Engine::SceneType::Sample);
 
 		initializeTime.Stop();
 #ifndef NDEBUG

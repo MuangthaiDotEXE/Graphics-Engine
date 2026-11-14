@@ -26,9 +26,9 @@ namespace Engine
 {
 	enum class SceneType
 	{
-		SAMPLE,
-		WORLD,
-		SPACE
+		Sample,
+		World,
+		Space
 	};
 
 	class Engine
@@ -48,7 +48,7 @@ namespace Engine
 		SceneType activeSceneType;
 
 	public:
-		Engine(const Core::AppData& appData, SceneType initialSceneType = SceneType::SAMPLE);
+		Engine(const Core::AppData& appData, SceneType initialSceneType = SceneType::Sample);
 		virtual ~Engine();
 
 		void Render();

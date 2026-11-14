@@ -56,9 +56,9 @@ namespace Engine
 		float sensitivity = 100.0f;
 
 	public:
-		enum struct VectorAxis { ORIENTATION, FRONT, RIGHT, UP };
-		enum struct ProjectionMode { PERSPECTIVE, ORTHOGRAPHIC };
-		enum struct RotationMode { EULER, QUATERNION };
+		enum struct VectorAxis { Orientation, Front, Right, Up };
+		enum struct ProjectionMode { Perspective, Orthographic };
+		enum struct RotationMode { Euler, Quaternion };
 
 		ProjectionMode projectionMode;
 		RotationMode rotationMode;

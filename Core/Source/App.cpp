@@ -33,10 +33,10 @@ std::string Core::AppData::GetVersion() const
 		{
 			switch (developmentStage)
 			{
-			case DevelopmentStage::ALPHA: return "Alpha";
-			case DevelopmentStage::BETA: return "Beta";
-			case DevelopmentStage::RELEASE_CANDIDATE: return "Release candidate";
-			case DevelopmentStage::RELEASE: return "Release";
+			case DevelopmentStage::Alpha: return "Alpha";
+			case DevelopmentStage::Beta: return "Beta";
+			case DevelopmentStage::ReleaseCandidate: return "Release candidate";
+			case DevelopmentStage::Release: return "Release";
 			default: return "Unknown";
 			}
 		};
@@ -132,7 +132,7 @@ std::string Core::App::GetGraphicsAPI()
 {
 	switch (appData.graphicsAPI)
 	{
-	case GraphicsAPI::OPENGL:
+	case GraphicsAPI::OpenGL:
 		graphics = std::make_unique<OpenGL>(window->GetWindow());
 
 		graphicsVendor = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
@@ -144,7 +144,7 @@ std::string Core::App::GetGraphicsAPI()
 
 		break;
 
-	case GraphicsAPI::VULKAN:
+	case GraphicsAPI::Vulkan:
 		graphics = std::make_unique<Vulkan>(window->GetWindow(), appData.appName, appData.engineName);
 
 		graphicsVendor = "NOT_AVAILABLE";
@@ -184,10 +184,10 @@ std::string Core::App::GetDevelopmentStage() const
 {
 	switch (appData.developmentStage)
 	{
-	case AppData::DevelopmentStage::ALPHA: return "Alpha";
-	case AppData::DevelopmentStage::BETA: return "Beta";
-	case AppData::DevelopmentStage::RELEASE_CANDIDATE: return "Release candidate";
-	case AppData::DevelopmentStage::RELEASE: return "Release";
+	case AppData::DevelopmentStage::Alpha: return "Alpha";
+	case AppData::DevelopmentStage::Beta: return "Beta";
+	case AppData::DevelopmentStage::ReleaseCandidate: return "Release candidate";
+	case AppData::DevelopmentStage::Release: return "Release";
 	default: return "Unknown";
 	}
 }

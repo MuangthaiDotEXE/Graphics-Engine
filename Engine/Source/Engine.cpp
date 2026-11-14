@@ -83,9 +83,9 @@ std::unique_ptr<Engine::Scene> Engine::Engine::CreateScene(SceneType sceneType)
 {
 	switch (sceneType)
 	{
-	case SceneType::SAMPLE: return std::make_unique<Sample>(app);
-	case SceneType::WORLD: return std::make_unique<World>(app);
-	case SceneType::SPACE: return std::make_unique<Space>(app);
+	case SceneType::Sample: return std::make_unique<Sample>(app);
+	case SceneType::World: return std::make_unique<World>(app);
+	case SceneType::Space: return std::make_unique<Space>(app);
 	}
 
 	return nullptr;

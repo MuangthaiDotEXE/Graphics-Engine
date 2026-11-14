@@ -12,7 +12,7 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 {
 	glfwGetFramebufferSize(window, &width, &height);
 
-	if (GetRotationMode() == RotationMode::QUATERNION)
+	if (GetRotationMode() == RotationMode::Quaternion)
 	{
 		Core::Log::Warn("Math", "Quaternion rotation is currently not working properly. Please use Euler rotation if possible");
 	}
@@ -24,7 +24,7 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		pitch = 0.0f;
 		yaw = -90.0f;
 
-		if (GetRotationMode() == RotationMode::QUATERNION)
+		if (GetRotationMode() == RotationMode::Quaternion)
 		{
 			rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
 			yaw = 0.0f;
@@ -35,11 +35,11 @@ Engine::Camera::Camera(GLFWwindow* window, ProjectionMode projectionMode, Rotati
 		front = glm::normalize(-position);
 		pitch = glm::degrees(glm::asin(front.y));
 
-		if (GetRotationMode() == RotationMode::EULER)
+		if (GetRotationMode() == RotationMode::Euler)
 		{
 			yaw = glm::degrees(glm::atan(front.z, front.x));
 		}
-		else if (GetRotationMode() == RotationMode::QUATERNION)
+		else if (GetRotationMode() == RotationMode::Quaternion)
 		{
 			yaw = glm::degrees(glm::atan(-front.x, -front.z));
 
@@ -70,7 +70,7 @@ void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, fl
 
 	float aspect = (float)width / (float)height;
 
-	if (GetRotationMode() == RotationMode::EULER)
+	if (GetRotationMode() == RotationMode::Euler)
 	{
 		view = glm::lookAt(position, position + front, up);
 	}
@@ -78,7 +78,7 @@ void Engine::Camera::UpdateMatrix(float fov, float nearPlane, float farPlane, fl
 	{
 		view = glm::mat4_cast(glm::conjugate(rotation)) * glm::translate(glm::mat4(1.0f), -position);
 	}
-	if (GetProjectionMode() == ProjectionMode::PERSPECTIVE)
+	if (GetProjectionMode() == ProjectionMode::Perspective)
 	{
 		projection = glm::perspective(glm::radians(fov), aspect, nearPlane, farPlane);
 	}
@@ -173,7 +173,7 @@ void Engine::Camera::Input()
 			float rotateX = sensitivity * (float)(mouseY - (height / 2)) / height;
 			float rotateY = sensitivity * (float)(mouseX - (width / 2)) / width;
 
-			if (GetRotationMode() == RotationMode::EULER)
+			if (GetRotationMode() == RotationMode::Euler)
 			{
 				pitch -= rotateX;
 				yaw += rotateY;
@@ -228,10 +228,10 @@ glm::vec3 Engine::Camera::GetVectorAxis(VectorAxis vectorAxis) const
 {
 	switch (vectorAxis)
 	{
-	case VectorAxis::ORIENTATION: return orientation;
-	case VectorAxis::FRONT: return front;
-	case VectorAxis::RIGHT: return right;
-	case VectorAxis::UP: return up;
+	case VectorAxis::Orientation: return orientation;
+	case VectorAxis::Front: return front;
+	case VectorAxis::Right: return right;
+	case VectorAxis::Up: return up;
 	default: return glm::vec3(0.0f, 0.0f, 0.0f);
 	}
 }

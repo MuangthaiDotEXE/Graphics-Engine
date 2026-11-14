@@ -78,7 +78,7 @@ namespace Core
 #endif
 
 	public:
-		Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OPENGL);
+		Window(const WindowData& windowData = WindowData(), GraphicsAPI graphicsAPI = GraphicsAPI::OpenGL);
 		virtual ~Window();
 
 		void Input();
