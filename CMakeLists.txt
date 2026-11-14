@@ -16,3 +16,4 @@ include("Library.cmake")
 
 add_subdirectory(Core)
 add_subdirectory(Engine)
+add_subdirectory(Manager)

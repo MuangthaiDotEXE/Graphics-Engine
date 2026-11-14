@@ -39,8 +39,9 @@ namespace Core
 	struct WindowData
 	{
 		std::string title = "App";
-		std::optional<std::string> icon = std::nullopt; // pass std::nullopt instead of nullptr
 		uint32_t width = 640u, height = 480u;
+		std::optional<std::string> icon = std::nullopt; // pass std::nullopt instead of nullptr
+
 		bool vSync = true;
 		bool resizable = true;
 		bool decorated = true;

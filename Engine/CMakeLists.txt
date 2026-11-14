@@ -55,12 +55,12 @@ target_sources(Engine PRIVATE ${SOURCES})
 
 source_group(TREE ${CMAKE_CURRENT_SOURCE_DIR} FILES ${SOURCES})
 
-target_compile_definitions(Engine PRIVATE
+target_compile_definitions(Engine 
+	PRIVATE
 	ProjectDirectory=\"${PROJECT_SOURCE_DIR}\"
 	EngineDirectory=\"${PROJECT_SOURCE_DIR}/Engine\"
-)
-
-target_compile_definitions(Engine PRIVATE
+	
+	PRIVATE
 	GLFW_INCLUDE_NONE
 	GLM_ENABLE_EXPERIMENTAL
 )
