@@ -1,51 +1,54 @@
 #include "Pyramid.h"
 
-static Vertex pyramidVertices[] =
+namespace
 {
+	static Vertex pyramidVertices[] =
+	{
 		// positions                        // colors                    // textures            // normals
-	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face bottom left vertex
-	Vertex{ glm::vec3( 1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face bottom right vertex
-	Vertex{ glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 1.0f), glm::vec3( 0.0f,  0.5f,  1.0f) },    // Front face top vertex
-	
-	Vertex{ glm::vec3( 1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3( 0.0f,  0.5f, -1.0f) },    // Back face bottom left vertex
-	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3( 0.0f,  0.5f, -1.0f) },    // Back face bottom right vertex
-	Vertex{ glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3( 0.0f,  0.5f, -1.0f) },    // Back face top right vertex
-	
-	Vertex{ glm::vec3( 1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3( 1.0f,  0.5f,  0.0f) },    // Left face bottom left vertex
-	Vertex{ glm::vec3( 1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3( 1.0f,  0.5f,  0.0f) },    // Left face bottom right vertex
-	Vertex{ glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3( 1.0f,  0.5f,  0.0f) },    // Left face top right vertex
-	
+	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f,  0.5f,  1.0f) },    // Front face bottom left vertex
+	Vertex{ glm::vec3(1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f,  0.5f,  1.0f) },    // Front face bottom right vertex
+	Vertex{ glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.5f, 1.0f), glm::vec3(0.0f,  0.5f,  1.0f) },    // Front face top vertex
+
+	Vertex{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f,  0.5f, -1.0f) },    // Back face bottom left vertex
+	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f,  0.5f, -1.0f) },    // Back face bottom right vertex
+	Vertex{ glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3(0.0f,  0.5f, -1.0f) },    // Back face top right vertex
+
+	Vertex{ glm::vec3(1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(1.0f,  0.5f,  0.0f) },    // Left face bottom left vertex
+	Vertex{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(1.0f,  0.5f,  0.0f) },    // Left face bottom right vertex
+	Vertex{ glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3(1.0f,  0.5f,  0.0f) },    // Left face top right vertex
+
 	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3(-1.0f,  0.5f,  0.0f) },    // Right face bottom left vertex
 	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(1.0f, 0.0f), glm::vec3(-1.0f,  0.5f,  0.0f) },    // Right face bottom right vertex
-	Vertex{ glm::vec3( 0.0f,  1.0f,  0.0f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.5f, 1.0f), glm::vec3(-1.0f,  0.5f,  0.0f) },    // Right face top right vertex
-	
-	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3( 0.0f, -1.0f,  0.0f) },    // Bottom face bottom left vertex
-	Vertex{ glm::vec3( 1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3( 0.0f, -1.0f,  0.0f) },    // Bottom face bottom right vertex
-	Vertex{ glm::vec3( 1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f), glm::vec3( 0.0f, -1.0f,  0.0f) },    // Bottom face top right vertex
-	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f), glm::vec3( 0.0f, -1.0f,  0.0f) }     // Bottom face top left vertex
-};
+	Vertex{ glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(0.0f, 1.0f, 1.0f), glm::vec2(0.5f, 1.0f), glm::vec3(-1.0f,  0.5f,  0.0f) },    // Right face top right vertex
 
-static GLuint pyramidIndices[] =
-{
-	// Front face
-	 0,  1,  2,
+	Vertex{ glm::vec3(-1.0f, -1.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, -1.0f,  0.0f) },    // Bottom face bottom left vertex
+	Vertex{ glm::vec3(1.0f, -1.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, -1.0f,  0.0f) },    // Bottom face bottom right vertex
+	Vertex{ glm::vec3(1.0f, -1.0f,  1.0f), glm::vec3(1.0f, 0.0f, 1.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, -1.0f,  0.0f) },    // Bottom face top right vertex
+	Vertex{ glm::vec3(-1.0f, -1.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, -1.0f,  0.0f) }     // Bottom face top left vertex
+	};
 
-	// Back face
-	 3,  4,  5,
+	static GLuint pyramidIndices[] =
+	{
+		// Front face
+		 0,  1,  2,
 
-	// Left face
-	 6,  7,  8,
+		 // Back face
+		  3,  4,  5,
 
-	// Right face
-	 9, 10, 11,
+		  // Left face
+		   6,  7,  8,
 
-	// Bottom face
-	12, 13, 14,
-	14, 15, 12
-};
+		   // Right face
+			9, 10, 11,
 
-std::vector<Vertex> pyramidVerts(pyramidVertices, pyramidVertices + sizeof(pyramidVertices) / sizeof(Vertex));
-std::vector<GLuint> pyramidInds(pyramidIndices, pyramidIndices + sizeof(pyramidIndices) / sizeof(GLuint));
+			// Bottom face
+			12, 13, 14,
+			14, 15, 12
+	};
+
+	std::vector<Vertex> pyramidVerts(pyramidVertices, pyramidVertices + sizeof(pyramidVertices) / sizeof(Vertex));
+	std::vector<GLuint> pyramidInds(pyramidIndices, pyramidIndices + sizeof(pyramidIndices) / sizeof(GLuint));
+}
 
 Engine::Pyramid::Pyramid(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
@@ -81,15 +84,21 @@ void Engine::Pyramid::Update()
 
 	for (size_t i = 0; i < 5; ++i)
 	{
-		if (diffusePath)
+		if (diffuse.GetSize() == 5)
 		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
+			if (diffusePath)
+			{
+				glActiveTexture(GL_TEXTURE0);
+				glBindTexture(GL_TEXTURE_2D, diffuse.GetID(i));
+			}
 		}
-		if (specularPath)
+		if (specular.GetSize() == 5)
 		{
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
+			if (specularPath)
+			{
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, specular.GetID(i));
+			}
 		}
 
 		if (i < 4)

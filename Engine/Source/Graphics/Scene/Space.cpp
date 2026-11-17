@@ -1,17 +1,20 @@
 #include "Space.h"
 
-static const std::string earthTexture = ProjectDirectory "/Asset/Texture/Earth_Color_Map.png";
-static const std::string earthSpecular = ProjectDirectory "/Asset/Specular/Earth_Bump_Map.png";
-
-static const std::array<std::string, 6> spaceCubemap
+namespace
 {
-	ProjectDirectory "/Asset/Cubemap/Space/Right.png",     // Right face
-	ProjectDirectory "/Asset/Cubemap/Space/Left.png",      // Left face
-	ProjectDirectory "/Asset/Cubemap/Space/Top.png",       // Top face
-	ProjectDirectory "/Asset/Cubemap/Space/Bottom.png",    // Bottom face
-	ProjectDirectory "/Asset/Cubemap/Space/Front.png",     // Front face
-	ProjectDirectory "/Asset/Cubemap/Space/Back.png"       // Back face
-};
+	static const std::string earthTexture = ProjectDirectory "/Asset/Texture/Earth_Color_Map.png";
+	static const std::string earthSpecular = ProjectDirectory "/Asset/Specular/Earth_Bump_Map.png";
+
+	static const std::array<std::string, 6> spaceCubemap
+	{
+		ProjectDirectory "/Asset/Cubemap/Space/Right.png",     // Right face
+		ProjectDirectory "/Asset/Cubemap/Space/Left.png",      // Left face
+		ProjectDirectory "/Asset/Cubemap/Space/Top.png",       // Top face
+		ProjectDirectory "/Asset/Cubemap/Space/Bottom.png",    // Bottom face
+		ProjectDirectory "/Asset/Cubemap/Space/Front.png",     // Front face
+		ProjectDirectory "/Asset/Cubemap/Space/Back.png"       // Back face
+	};
+}
 
 Engine::Space::Space(Core::App& app)
 	: Scene(app, "Space"),

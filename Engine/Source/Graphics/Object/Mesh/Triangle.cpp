@@ -1,21 +1,24 @@
 #include "Triangle.h"
 
-static Vertex triangleVertices[] =
+namespace
 {
-            // positions                   // colors                    // textures            // normals
-	Vertex{ glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 0.5f, 1.0f) },    // Bottom left vertex
-	Vertex{ glm::vec3( 1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 0.5f, 1.0f) },    // Bottom right vertex
-	Vertex{ glm::vec3( 0.0f,  1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3(0.0f, 0.5f, 1.0f) }     // Top right vertex
-};
+	static Vertex triangleVertices[] =
+	{
+		// positions                   // colors                    // textures            // normals
+Vertex{ glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 0.5f, 1.0f) },    // Bottom left vertex
+Vertex{ glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 0.5f, 1.0f) },    // Bottom right vertex
+Vertex{ glm::vec3(0.0f,  1.0f, 0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.5f, 1.0f), glm::vec3(0.0f, 0.5f, 1.0f) }     // Top right vertex
+	};
 
-static GLuint triangleIndices[] =
-{
-	// Triangle
-	0, 1, 2,
-};
+	static GLuint triangleIndices[] =
+	{
+		// Triangle
+		0, 1, 2,
+	};
 
-std::vector<Vertex> triangleVerts(triangleVertices, triangleVertices + sizeof(triangleVertices) / sizeof(Vertex));
-std::vector<GLuint> triangleInds(triangleIndices, triangleIndices + sizeof(triangleIndices) / sizeof(GLuint));
+	std::vector<Vertex> triangleVerts(triangleVertices, triangleVertices + sizeof(triangleVertices) / sizeof(Vertex));
+	std::vector<GLuint> triangleInds(triangleIndices, triangleIndices + sizeof(triangleIndices) / sizeof(GLuint));
+}
 
 Engine::Triangle::Triangle(std::optional<std::vector<std::string>> diffuse, 
 	std::optional<std::vector<std::string>> specular
@@ -49,15 +52,21 @@ void Engine::Triangle::Update()
 	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath ? GL_TRUE : GL_FALSE);
 	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath ? GL_TRUE : GL_FALSE);
 
-	if (diffusePath)
+	if (specular.GetSize() == 1)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+		if (diffusePath)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+		}
 	}
-	if (specularPath)
+	if (specular.GetSize() == 1)
 	{
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+		if (specularPath)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+		}
 	}
 
 	glDrawElements(GL_TRIANGLES, triangleInds.size(), GL_UNSIGNED_INT, 0);

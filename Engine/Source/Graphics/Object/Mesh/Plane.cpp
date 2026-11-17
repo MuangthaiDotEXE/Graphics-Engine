@@ -1,23 +1,26 @@
 #include "Plane.h"
 
-static Vertex planeVertices[] =
+namespace
 {
-	        // positions                   // colors                    // textures            // normals
-	Vertex{ glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom left vertex
-	Vertex{ glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom right vertex
-	Vertex{ glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Top right vertex
-	Vertex{ glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) }     // Top left vertex
-};
+	static Vertex planeVertices[] =
+	{
+		// positions                   // colors                    // textures            // normals
+Vertex{ glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom left vertex
+Vertex{ glm::vec3(1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(1.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Bottom right vertex
+Vertex{ glm::vec3(1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 1.0f, 0.0f), glm::vec2(1.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) },    // Top right vertex
+Vertex{ glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec2(0.0f, 1.0f), glm::vec3(0.0f, 1.0f, 0.0f) }     // Top left vertex
+	};
 
-static GLuint planeIndices[] =
-{
-	// Plane
-	0, 1, 2,
-	2, 3, 0
-};
+	static GLuint planeIndices[] =
+	{
+		// Plane
+		0, 1, 2,
+		2, 3, 0
+	};
 
-std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(Vertex));
-std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
+	std::vector<Vertex> planeVerts(planeVertices, planeVertices + sizeof(planeVertices) / sizeof(Vertex));
+	std::vector<GLuint> planeInds(planeIndices, planeIndices + sizeof(planeIndices) / sizeof(GLuint));
+}
 
 Engine::Plane::Plane(std::optional<std::vector<std::string>> diffuse,
 	std::optional<std::vector<std::string>> specular
@@ -51,16 +54,21 @@ void Engine::Plane::Update()
 	glUniform1i(glGetUniformLocation(shader.programID, "hasDiffuse"), diffusePath ? GL_TRUE : GL_FALSE);
 	glUniform1i(glGetUniformLocation(shader.programID, "hasSpecular"), specularPath ? GL_TRUE : GL_FALSE);
 
-	if (diffusePath)
+	if (diffuse.GetSize() == 1)
 	{
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+		if (diffusePath)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, diffuse.GetID(0));
+		}
 	}
-
-	if (specularPath)
+	if (specular.GetSize() == 1)
 	{
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+		if (specularPath)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, specular.GetID(0));
+		}
 	}
 
 	glDrawElements(GL_TRIANGLES, planeInds.size(), GL_UNSIGNED_INT, 0);
