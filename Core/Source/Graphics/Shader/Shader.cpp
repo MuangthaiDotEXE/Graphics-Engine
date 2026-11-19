@@ -55,6 +55,7 @@ void Core::Shader::Activate()
 void Core::Shader::Delete()
 {
     glDeleteProgram(programID);
+    programID = 0;
 }
 
 void Core::Shader::Error(GLuint shader, const std::string& type)
@@ -69,7 +70,7 @@ void Core::Shader::Error(GLuint shader, const std::string& type)
         if (completed == GL_FALSE)
         {
             glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-            Log::Error("Shader", std::format("{} linking failed : {}", shader, infoLog));
+            Log::Error("Shader", std::format("{}", infoLog));
         }
     }
     else
@@ -79,7 +80,7 @@ void Core::Shader::Error(GLuint shader, const std::string& type)
         if (completed == GL_FALSE)
         {
             glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-            Log::Error("Shader", std::format("{} compilation failed: {}", shader, infoLog));
+            Log::Error("Shader", std::format("{}", infoLog));
         }
     }
 }

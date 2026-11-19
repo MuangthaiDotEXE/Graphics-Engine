@@ -24,7 +24,6 @@ namespace Core
 		GLuint vboID;
 
 	public:
-		VBO(GLfloat* vertices);
 		VBO(GLfloat* vertices, GLsizeiptr size);
 		VBO(std::vector<Vertex>& vertices);
 		virtual ~VBO();
