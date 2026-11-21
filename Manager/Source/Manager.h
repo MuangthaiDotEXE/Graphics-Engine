@@ -10,8 +10,11 @@ namespace Manager
 {
 	class Manager
 	{
+	private:
+		Core::App app;
+
 	public:
-		Manager();
+		Manager(const Core::AppData& appData);
 		virtual ~Manager();
 
 		void Render();
